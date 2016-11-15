@@ -3,7 +3,7 @@
 module Transform.KMTransform (tranformQuestionnaire) where
 
 import FormEngine.FormItem
-import Transform.KModel
+import Transform.KModel as Model
 
 import Data.Maybe
 import Data.Text hiding (map)
@@ -14,18 +14,18 @@ tranformText :: Maybe Text -> Text
 tranformText = fromMaybe ""
 
 -- TODO: transform to something better (HTML?)
-transformExpert   :: Expert -> Text
+transformExpert   :: Model.Expert -> Text
 transformExpert e = concatt [expertName e, " ", tranformText . expertEmail $ e]
 
 -- TODO: transform to something better (HTML?)
-transformReference   :: Reference -> Text
+transformReference   :: Model.Reference -> Text
 transformReference r = case refType r of
     "dmpbook" -> concatt ["DMP Book chapter ", tranformText . dmpChapter $ r]
     "xref" -> "Reference to other question (not implemented yet)" -- TODO: <a href...>
     "url" -> concatt [tranformText . urlrefText $ r, ": ", tranformText . urlrefLink $ r] -- TODO: create <a href...>
     _ -> "Unrecognized references"
 
-transformAnswer   :: Answer -> Option
+transformAnswer   :: Model.Answer -> Option
 transformAnswer a = case answerFollow a of
     Just follows -> DetailedOption NoNumbering (answerLabel a) [followGroup follows]
     _ -> SimpleOption (answerLabel a)
@@ -47,13 +47,13 @@ transformAnswer a = case answerFollow a of
           }
 
 -- TODO: references, experts, follows on question
-transformQuestion   :: Question -> FormItem
+transformQuestion   :: Model.Question -> FormItem
 transformQuestion q = case questType q of
     "option" -> transformOptionQuestion q
     "list" -> transformListQuestion q
     _ -> transformFieldQuestion q
 
-transformOptionQuestion   :: Question -> FormItem
+transformOptionQuestion   :: Model.Question -> FormItem
 transformOptionQuestion q = ChoiceFI
   { chfiDescriptor = FIDescriptor
     { iLabel = Just (questTitle q)
@@ -69,7 +69,7 @@ transformOptionQuestion q = ChoiceFI
   , chfiAvailableOptions = map transformAnswer (fromMaybe [] . questAnswers $ q)
   }
 
-transformListQuestion   :: Question -> FormItem -- NO LIST POSSIBLE NOW
+transformListQuestion   :: Model.Question -> FormItem -- NO LIST POSSIBLE NOW
 transformListQuestion q = SimpleGroup
   { sgDescriptor = FIDescriptor
     { iLabel = Just (questTitle q)
@@ -99,7 +99,7 @@ transformListQuestion q = SimpleGroup
               ]
   }
 
-transformFieldQuestion   :: Question -> FormItem
+transformFieldQuestion   :: Model.Question -> FormItem
 transformFieldQuestion q = case questType q of
     "text" -> TextFI {tfiDescriptor = qFI}
     "number" -> NumberFI {nfiDescriptor = qFI, nfiUnit = NoUnit}
@@ -117,9 +117,9 @@ transformFieldQuestion q = case questType q of
                 , iRules = []
                 }
 
-tranformChapter    :: Chapter -> FormItem
-tranformChapter ch = SimpleGroup
-  { sgDescriptor = FIDescriptor
+tranformChapter    :: Model.Chapter -> FormItem
+tranformChapter ch = FormEngine.FormItem.Chapter
+  { chDescriptor = FIDescriptor
     { iLabel = Just (chapTitle ch)
     , iTags = []
     , iShortDescription = Just "chapter"
@@ -130,9 +130,8 @@ tranformChapter ch = SimpleGroup
     , iIdent = Nothing
     , iRules = []
     }
-  , sgLevel = 0
-  , sgItems = map transformQuestion (chapQuests ch)
+  , chItems = map transformQuestion (chapQuests ch)
   }
 
-tranformQuestionnaire :: [Chapter] -> [FormItem]
+tranformQuestionnaire :: [Model.Chapter] -> [FormItem]
 tranformQuestionnaire = map tranformChapter

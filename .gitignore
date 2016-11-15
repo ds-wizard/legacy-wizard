@@ -19,3 +19,5 @@ cabal.sandbox.config
 .stack-work/
 cabal.project.local
 Transform/Questionnaire.hs
+Transform/Main
+Page/js/main.js

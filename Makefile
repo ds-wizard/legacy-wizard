@@ -7,4 +7,4 @@ clean:
 	find . -name "*.o" -exec rm -rf {} \;
 	find . -name "*.hi" -exec rm -rf {} \;
 	find . -name "*.jsmod" -exec rm -rf {} \;
-	rm Transform/Main
+	rm -f Transform/Main Page/js/main.js
