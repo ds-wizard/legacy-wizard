@@ -1,0 +1,940 @@
+[
+    {
+        "chapterid": 1,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "advice": "You know that this is very unlikely? This question is not only about data sets that are similar to what you want to determine yourself, but also reference data or data that should be mined from the existing literature. Further, it is very likely that you will refer to related data, e.g. other databases where you usually \"quickly look something up\", but that could maybe be properly integrated, especially if you need to do such lookups multiple times.",
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "advice": "Did you research all the data that exists? You may not be aware of all existing data that could be available. Although using and/or integrating existing data sets may pose a challenge, it will normally be cheaper than collecting everything yourself. Even if you decide not to use an existing data set, it is better to do this as a conscious decision.",
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "followups": [
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "advice": "Figure this out quickly!",
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            }
+                                                        ],
+                                                        "questionid": 4,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.4",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "Do you know where the reference data is available, what the conditions for use are, and how to reference it?",
+                                                        "title": "Where is it available?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "I can directly use it"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "I need to convert it before using"
+                                                            }
+                                                        ],
+                                                        "questionid": 5,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.5",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "Do you know the data format of the reference data? Is this suitable for your work? Does it need to be converted?",
+                                                        "title": "In what format is the reference data available?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "followups": [
+                                                                    {
+                                                                        "questionid": 7,
+                                                                        "text": "If there are different versions available, you have to decide with all project partners together which version you will be using. Probably you will go for the latest release as of the date of the start of your research project. However, if you have other data from older projects that need to be merged, you may need to consider using the same release you used for a previous project.",
+                                                                        "title": "Which version will you use?",
+                                                                        "type": "text"
+                                                                    },
+                                                                    {
+                                                                        "answers": [
+                                                                            {
+                                                                                "id": 0,
+                                                                                "label": "Will stay with the old version"
+                                                                            },
+                                                                            {
+                                                                                "id": 1,
+                                                                                "label": "New analyses will be done with the new version"
+                                                                            },
+                                                                            {
+                                                                                "id": 2,
+                                                                                "label": "All analyses will be redone with the new version"
+                                                                            }
+                                                                        ],
+                                                                        "questionid": 8,
+                                                                        "text": "If the reference changes while you are working on your research project, you need to decide whether you will follow these changes. Most likely that will mean that you have to do some analyses again, so you will need to make sure enough resources are available to do so. You can decide to stay with the version that you started with; this can have the disadvantage that you will not benefit from added information or added consistency.",
+                                                                        "title": "Will you change version if it updates?",
+                                                                        "type": "option"
+                                                                    }
+                                                                ],
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            }
+                                                        ],
+                                                        "questionid": 6,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.6",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "Many reference data sets evolve over time. If the reference data set changes, this may affect your results. If different versions of a reference data set exist, you need to establish your \"version policy\".",
+                                                        "title": "Is the reference data resource versioned?",
+                                                        "type": "option"
+                                                    }
+                                                ],
+                                                "questionid": 3,
+                                                "references": [
+                                                    {
+                                                        "chapter": "1.3",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "text": "Much of todays data is used in comparison with reference data. A genome for instance is compared with a reference genome to identify genomic variants. If you use reference data, there are several other issues that you should consider. What are the reference data sets that you will use?",
+                                                "title": "What reference data will you use?",
+                                                "type": "list"
+                                            },
+                                            {
+                                                "followups": [
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            },
+                                                            {
+                                                                "id": 2,
+                                                                "label": "We are the owners"
+                                                            }
+                                                        ],
+                                                        "questionid": 11,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.8",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "title": "Will the owners of this data set work with you on this study",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "Not applicable"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Existing consent applies"
+                                                            },
+                                                            {
+                                                                "id": 2,
+                                                                "label": "New consent needed"
+                                                            }
+                                                        ],
+                                                        "questionid": 12,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.9",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "If the data that you will re-use is coupled to people, is the informed consent that was originally obtained from those people covering your current research?",
+                                                        "title": "Is extenstion of any consent for privacy sensitive data be needed?",
+                                                        "type": "option"
+                                                    }
+                                                ],
+                                                "questionid": 9,
+                                                "references": [
+                                                    {
+                                                        "chapter": "1.7",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "text": "Even if you will be producing your own data, you often will also be relying on existing data sets. You may need to integrate your new data with an existing data set or retrieve additional information from related data bases. Will you be doing such things?",
+                                                "title": "What existing non-reference data sets will you use?",
+                                                "type": "list"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "followups": [
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 43,
+                                                                "text": "Data sets that have exactly identical fields that are well filled can be coupled using deterministic methods. Will you be using such methods?",
+                                                                "title": "Will you use deterministic couplings?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "questionid": 44,
+                                                                "text": "What will be the procedure that is followed? Where will what data be sent? Did a legal advisor look at the procedures?",
+                                                                "title": "Will you be using a trusted third party for coupling?",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 45,
+                                                                "title": "Is consent available for the couplings?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "questionid": 46,
+                                                                "text": "Sometimes, through the nature of the data sets that are coupled, the coupled set is no longer representative for the whole population (e.g. some fields may only have been filled for people with high blood pressure). This can disturb your research if undetected. How will you make sure this is not happening?",
+                                                                "title": "How will you check whether your coupled data are representative of your goal population?",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "More data about the same subjects (intersection)"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Enlarging the group of subjects (union)"
+                                                                    }
+                                                                ],
+                                                                "questionid": 47,
+                                                                "title": "What is the goal of the coupling?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "questionid": 48,
+                                                                "title": "What variable(s) will you be using for the coupling?",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 49,
+                                                                "text": "Data sets that have similar but not identical fields or with identical fields that are not consistently filled can be coupled using probabilistic methods. Will you be using such methods?",
+                                                                "title": "Will you use probabilistic couplings?",
+                                                                "type": "option"
+                                                            }
+                                                        ],
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 42,
+                                                "title": "Will you couple existing (biobank) data sets?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "followups": [
+                                    {
+                                        "answers": [
+                                            {
+                                                "id": 0,
+                                                "label": "No"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "label": "Yes"
+                                            }
+                                        ],
+                                        "questionid": 16,
+                                        "references": [
+                                            {
+                                                "chapter": "1.10",
+                                                "type": "dmpbook"
+                                            }
+                                        ],
+                                        "text": "If you are combining data from different sources, harmonization may be required. You may need to re-analyse some original data.",
+                                        "title": "Do you need to harmonize different sources of existing data?",
+                                        "type": "option"
+                                    }
+                                ],
+                                "questionid": 2,
+                                "references": [
+                                    {
+                                        "chapter": "1.2",
+                                        "type": "dmpbook"
+                                    }
+                                ],
+                                "text": "Will you be referring to any earlier measured data, reference data, or data that should be mined from existing literature? Your own data as well as data from others?",
+                                "title": "Will you be using any pre-existing data (including other people's data)?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "experts": [
+                    {
+                        "email": "barend.mons@dtls.nl",
+                        "name": "Barend Mons"
+                    }
+                ],
+                "questionid": 1,
+                "references": [
+                    {
+                        "chapter": "1.1",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "Are there any data sets available in the world that are relevant to your planned research?",
+                "title": "Is there any pre-existing data?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 29,
+                "references": [
+                    {
+                        "chapter": "1.12",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Will reference data be created?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 33,
+                "references": [
+                    {
+                        "chapter": "1.13",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Will you be storing samples?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 38,
+                "references": [
+                    {
+                        "chapter": "1.14",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Will you be collecting experimental data?",
+                "type": "option"
+            }
+        ],
+        "text": "Before you decide to embark on any new study, it is nowadays good practice to consider all options to keep the data generation part of your study as limited as possible. It is not because we can generate massive amounts of data that we always need to do so. Creating data with public money is bringing with it the responsibility to treat those data well and (if potentially useful) make them available for re-use by others.",
+        "title": "Design of experiment"
+    },
+    {
+        "chapterid": 2,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 1,
+                "references": [
+                    {
+                        "chapter": "2.1",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Are you using data types used by others too?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "references": [
+                    {
+                        "chapter": "2.2",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Will you be using new types of data?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Explore"
+                    }
+                ],
+                "questionid": 3,
+                "references": [
+                    {
+                        "chapter": "2.3",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "For the re-usability of your data by yourself or others at a later stage, a lot of information about the data, how it was collected and how it can be used should be stored with the data. Such data about the data is called metadata, and this set of questions are about this metadata",
+                "title": "How will you be storing metadata?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 4,
+                "text": "If you collect substantial amounts of data, amounts that do not trivially fit on the storage that you normally have available or that can not be trivially transported between systems, some planning is necessary. Do you think you need to do storage capacity planning? If the expected total data volume is larger than 1 TB, you probably need to answer 'yes' here.",
+                "title": "Do you need to do storage capacity planning?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Yes"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 5,
+                "text": "There are many factors that can contribute to the risk of information loss or information theft. They are often part of the behavior of the people that are involved in the project, but can also be steered by properly planned infrastructure.",
+                "title": "Is the risk of information loss or theft acceptable?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 6,
+                "text": "If you require substantial amounts of compute power, amounts that are not trivially absorbed in what you usually have abailable, some planning is necessary. Do you think you need to do compute capacity planning?",
+                "title": "Do you need to do compute capacity planning?",
+                "type": "option"
+            }
+        ],
+        "text": "In the data design and planning phase, we will make sure that we know what data comes when, that we have enough storage space and compute power to deal with it, and that all the responsibilities have been taken care of.",
+        "title": "Data design and planning"
+    },
+    {
+        "chapterid": 3,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "In the project"
+                    },
+                    {
+                        "advice": "consider making them partner in the project",
+                        "id": 1,
+                        "label": "External party"
+                    }
+                ],
+                "questionid": 1,
+                "text": "Are there easily accessible specialized service providers for data capture?",
+                "title": "Who will do the measurements?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "text": "Where does the data come from? And who will need it? Sometimes the raw data is measured somewhere else than where the primary processing is taking place. In such cases the ingestion of the primary data may take special planning.",
+                "title": "Is special care needed to get the raw data ready for processing?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": "Do you have any non-equipment data capture?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 4,
+                "title": "Is there a data integration tool that can handle and combine all the data types you are dealing with in your project?",
+                "type": "option"
+            }
+        ],
+        "title": "Data Capture (the equipment phase)"
+    },
+    {
+        "chapterid": 4,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 1,
+                "text": "It is likely that you will be developing or modifying the workflow for data processing. There are a lot of aspects of this workflow that can play a role in your data management, such as the use of an existing work flow engine, the use of existing software vs development of new components, and whether every run needs human intervention or whether all data processing can be run in bulk once the work flow has been defined.",
+                "title": "Workflow development",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 2,
+                "title": "How will you make sure to know what exactly has been run?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 3,
+                "title": "How will you validate the integrity of the results?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Wait"
+                    },
+                    {
+                        "id": 1,
+                        "label": "We have an alternative"
+                    }
+                ],
+                "questionid": 4,
+                "text": "What will you do if the compute facility is down?",
+                "title": "Do you have a contingency plan?",
+                "type": "option"
+            }
+        ],
+        "title": "Data processing and curation"
+    },
+    {
+        "chapterid": 5,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 1,
+                "title": "What is the framework you will use for data integration?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "title": "Will you be using common or exchangeable units?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "advice": "Choose the ontologies before you start",
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": "Will you be using common ontologies?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 4,
+                "title": "Will there be potential issues with statistical normalization?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 5,
+                "title": "Do you have all tools to couple the necessary data types?",
+                "type": "option"
+            }
+        ],
+        "title": "Data integration"
+    },
+    {
+        "chapterid": 6,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "advice": "Make sure this has been taken into account in the capacity planning under 'Data design and planning'",
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 1,
+                "title": "Will data interpretation and modeling require significant compute infrastructure capacity?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 1,
+                "title": "Will you do systems biology modeling?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 2,
+                "text": "Data analysis is normally done manually on a step-by-step basis. It is essential to make sure all steps are properly documented, otherwise results will not be reproducible.",
+                "title": "How will you be making sure there is good provenance of the data analysis?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "title": "Will you do structural modeling?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": "Will you be doing (automated) knowledge discovery?",
+                "type": "option"
+            }
+        ],
+        "title": "Data integration"
+    },
+    {
+        "chapterid": 7,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "advice": "You will need to explain!",
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 1,
+                "title": "Will you be working with the philosophy 'as open as possible' for your data?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "title": " Are there legal reasons why (some of your) data can not be completely open?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": " Are there business reasons why (some of your) data can not be completely open?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill Deeper"
+                    }
+                ],
+                "questionid": 4,
+                "title": "Where will you make your data available?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill Deeper"
+                    }
+                ],
+                "questionid": 5,
+                "title": "Did you work out the financial aspects of making the data available?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 6,
+                "title": "Will you be archiving data?",
+                "type": "option"
+            }
+        ],
+        "title": "Information and insight"
+    }
+]
