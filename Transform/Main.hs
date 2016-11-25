@@ -20,4 +20,4 @@ main = do
     let x = (decode contents :: Maybe [Chapter]) in
         case x of
             Nothing   -> putStrLn "Invalid JSON..."
-            _ -> print . tranformQuestionnaire $ fromJust x
+            _ -> print . transformQuestionnaire $ fromJust x

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Transform.KMTransform (tranformQuestionnaire) where
+module Transform.KMTransform (transformQuestionnaire) where
 
 import FormEngine.FormItem
 import Transform.KModel as Model
@@ -10,20 +10,21 @@ import Data.Text hiding (map)
 
 concatt = Data.Text.concat
 
-tranformText :: Maybe Text -> Text
-tranformText = fromMaybe ""
+transformText :: Maybe Text -> Text
+transformText = fromMaybe ""
 
--- TODO: transform to something better (HTML?)
 transformExpert   :: Model.Expert -> Text
-transformExpert e = concatt [expertName e, " ", tranformText . expertEmail $ e]
+transformExpert e = case expertEmail e of
+    Nothing -> expertName e
+    Just address -> concatt ["<a href=\"mailto:", address, "\">", expertName e, "</a>"]
 
 -- TODO: transform to something better (HTML?)
 transformReference   :: Model.Reference -> Text
 transformReference r = case refType r of
-    "dmpbook" -> concatt ["DMP Book chapter ", tranformText . dmpChapter $ r]
+    "dmpbook" -> concatt ["DMP Book chapter ", transformText . dmpChapter $ r]
     "xref" -> "Reference to other question (not implemented yet)" -- TODO: <a href...>
-    "url" -> concatt [tranformText . urlrefText $ r, ": ", tranformText . urlrefLink $ r] -- TODO: create <a href...>
-    _ -> "Unrecognized references"
+    "url" -> concatt [transformText . urlrefText $ r, ": ", transformText . urlrefLink $ r] -- TODO: create <a href...>
+    _ -> "Unrecognized reference"
 
 transformAnswer   :: Model.Answer -> Option
 transformAnswer a = case answerFollow a of
@@ -35,7 +36,7 @@ transformAnswer a = case answerFollow a of
             { iLabel = Nothing
             , iShortDescription = Nothing
             , iTags = []
-            , iLongDescription = Nothing
+            , iLongDescription =  Nothing
             , iLink = Nothing
             , iMandatory = True
             , iNumbering = NoNumbering
@@ -59,7 +60,7 @@ transformOptionQuestion q = ChoiceFI
     { iLabel = Just (questTitle q)
     , iTags = []
     , iShortDescription = Nothing
-    , iLongDescription = questText q
+    , iLongDescription =  Nothing
     , iLink = Nothing
     , iMandatory = True
     , iNumbering = NoNumbering
@@ -69,13 +70,13 @@ transformOptionQuestion q = ChoiceFI
   , chfiAvailableOptions = map transformAnswer (fromMaybe [] . questAnswers $ q)
   }
 
-transformListQuestion   :: Model.Question -> FormItem -- NO LIST POSSIBLE NOW
+transformListQuestion   :: Model.Question -> FormItem
 transformListQuestion q = SimpleGroup
   { sgDescriptor = FIDescriptor
     { iLabel = Just (questTitle q)
     , iTags = []
     , iShortDescription = Nothing
-    , iLongDescription = questText q
+    , iLongDescription = Nothing
     , iLink = Nothing
     , iMandatory = True
     , iNumbering = NoNumbering
@@ -117,8 +118,8 @@ transformFieldQuestion q = case questType q of
                 , iRules = []
                 }
 
-tranformChapter    :: Model.Chapter -> FormItem
-tranformChapter ch = FormEngine.FormItem.Chapter
+transformChapter    :: Model.Chapter -> FormItem
+transformChapter ch = FormEngine.FormItem.Chapter
   { chDescriptor = FIDescriptor
     { iLabel = Just (chapTitle ch)
     , iTags = []
@@ -133,5 +134,5 @@ tranformChapter ch = FormEngine.FormItem.Chapter
   , chItems = map transformQuestion (chapQuests ch)
   }
 
-tranformQuestionnaire :: [Model.Chapter] -> [FormItem]
-tranformQuestionnaire = map tranformChapter
+transformQuestionnaire :: [Model.Chapter] -> [FormItem]
+transformQuestionnaire = map transformChapter
