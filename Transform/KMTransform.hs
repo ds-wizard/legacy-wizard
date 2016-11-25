@@ -6,6 +6,7 @@ import FormEngine.FormItem
 import Transform.KModel as Model
 
 import Data.Maybe
+import Data.Monoid
 import Data.Text hiding (map)
 
 concatt = Data.Text.concat
@@ -13,46 +14,52 @@ concatt = Data.Text.concat
 transformText :: Maybe Text -> Text
 transformText = fromMaybe ""
 
-transformExpert   :: Model.Expert -> Text
-transformExpert e = case expertEmail e of
-    Nothing -> expertName e
-    Just address -> concatt ["<a href=\"mailto:", address, "\">", expertName e, "</a>"]
+makeHtmlLink :: Text -> Text -> Bool -> Text
+makeHtmlLink link anchor newtab = concatt ["<a href=\"", link, "\" target=\"", target,"\">", anchor, "</a>"]
+                                where target = if newtab then "_blank" else "_self"
 
--- TODO: transform to something better (HTML?)
+transformExpert     :: Model.Expert -> Text
+transformExpert e   = case expertEmail e of
+                        Nothing      -> expertName e
+                        Just address -> makeHtmlLink ("mailto:" <> address) (expertName e) True
+
 transformReference   :: Model.Reference -> Text
 transformReference r = case refType r of
-    "dmpbook" -> concatt ["DMP Book chapter ", transformText . dmpChapter $ r]
-    "xref" -> "Reference to other question (not implemented yet)" -- TODO: <a href...>
-    "url" -> concatt [transformText . urlrefText $ r, ": ", transformText . urlrefLink $ r] -- TODO: create <a href...>
-    _ -> "Unrecognized reference"
+                        "dmpbook" -> concatt ["DMP Book chapter ", transformText . dmpChapter $ r]
+                        "xref"    -> "Reference to other question (not implemented yet)"
+                        "url"     -> case urlrefText r of
+                                        Nothing     -> makeHtmlLink url url True
+                                        Just anchor -> makeHtmlLink url anchor True
+                                     where url = transformText . urlrefLink $ r
+                        _         -> "Unrecognized reference"
 
 transformAnswer   :: Model.Answer -> Option
 transformAnswer a = case answerFollow a of
-    Just follows -> DetailedOption NoNumbering (answerLabel a) [followGroup follows]
-    _ -> SimpleOption (answerLabel a)
-    where
-        followGroup fs = SimpleGroup
-          { sgDescriptor = FIDescriptor
-            { iLabel = Nothing
-            , iShortDescription = Nothing
-            , iTags = []
-            , iLongDescription =  Nothing
-            , iLink = Nothing
-            , iMandatory = True
-            , iNumbering = NoNumbering
-            , iIdent = Nothing
-            , iRules = []
-            }
-          , sgLevel = 0
-          , sgItems = map transformQuestion fs
-          }
+                        Just follows -> DetailedOption NoNumbering (answerLabel a) [followGroup follows]
+                        _ -> SimpleOption (answerLabel a)
+                        where
+                            followGroup fs = SimpleGroup
+                              { sgDescriptor = FIDescriptor
+                                { iLabel = Nothing
+                                , iShortDescription = Nothing
+                                , iTags = []
+                                , iLongDescription =  Nothing
+                                , iLink = Nothing
+                                , iMandatory = True
+                                , iNumbering = NoNumbering
+                                , iIdent = Nothing
+                                , iRules = []
+                                }
+                              , sgLevel = 0
+                              , sgItems = map transformQuestion fs
+                              }
 
 -- TODO: references, experts, follows on question
 transformQuestion   :: Model.Question -> FormItem
 transformQuestion q = case questType q of
-    "option" -> transformOptionQuestion q
-    "list" -> transformListQuestion q
-    _ -> transformFieldQuestion q
+                        "option" -> transformOptionQuestion q
+                        "list" -> transformListQuestion q
+                        _ -> transformFieldQuestion q
 
 transformOptionQuestion   :: Model.Question -> FormItem
 transformOptionQuestion q = ChoiceFI
@@ -102,21 +109,21 @@ transformListQuestion q = SimpleGroup
 
 transformFieldQuestion   :: Model.Question -> FormItem
 transformFieldQuestion q = case questType q of
-    "text" -> TextFI {tfiDescriptor = qFI}
-    "number" -> NumberFI {nfiDescriptor = qFI, nfiUnit = NoUnit}
-    "email" -> EmailFI {efiDescriptor = qFI}
-    _ -> StringFI {sfiDescriptor = qFI}
-    where qFI = FIDescriptor
-                { iLabel = Just (questTitle q)
-                , iTags = []
-                , iShortDescription = Nothing
-                , iLongDescription = questText q
-                , iLink = Nothing
-                , iMandatory = True
-                , iNumbering = NoNumbering
-                , iIdent = Nothing
-                , iRules = []
-                }
+                            "text" -> TextFI {tfiDescriptor = qFI}
+                            "number" -> NumberFI {nfiDescriptor = qFI, nfiUnit = NoUnit}
+                            "email" -> EmailFI {efiDescriptor = qFI}
+                            _ -> StringFI {sfiDescriptor = qFI}
+                            where qFI = FIDescriptor
+                                        { iLabel = Just (questTitle q)
+                                        , iTags = []
+                                        , iShortDescription = Nothing
+                                        , iLongDescription = questText q
+                                        , iLink = Nothing
+                                        , iMandatory = True
+                                        , iNumbering = NoNumbering
+                                        , iIdent = Nothing
+                                        , iRules = []
+                                        }
 
 transformChapter    :: Model.Chapter -> FormItem
 transformChapter ch = FormEngine.FormItem.Chapter
