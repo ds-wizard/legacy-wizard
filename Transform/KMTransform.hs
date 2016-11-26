@@ -58,19 +58,13 @@ buildLongDesc   :: Model.Question -> Maybe Text
 buildLongDesc q = if Data.Text.null longDesc then Nothing else Just longDesc
                 where
                     longDesc = Prelude.foldl (<>) "" (catMaybes longDescParts)
-                    longDescParts = [text, experts, references]
-                    text = case questText q of
-                        Nothing  -> Nothing
-                        Just txt -> Just $ concatt ["<p class=\"question-description\">", txt, "</p>"]
-                    experts = case questExps q of
-                        Nothing  -> Nothing
-                        Just exps -> Just $ concatt ["<p class=\"question-experts\">Experts:<ul>", concatt $ expertItems exps, "</ul></p>"]
-                    references = case questRefs q of
-                        Nothing  -> Nothing
-                        Just refs -> Just $ concatt ["<p class=\"question-references\">References:<ul>", concatt $ referenceItems refs, "</ul></p>"]
-                    expertItems = fmap (enlist . transformExpert)
-                    referenceItems = fmap (enlist . transformReference)
-                    enlist item = "<li>" <> item <> "</li>"
+                    longDescParts = [fmap wrapText (questText q), fmap wrapExps (questExps q), fmap wrapRefs (questRefs q)]
+                    wrapText txt  = concatt ["<p class=\"question-description\">", txt, "</p>"]
+                    wrapExps exps = concatt ["<p class=\"question-experts\">Experts:<ul>", concatt $ expertItems exps, "</ul></p>"]
+                    wrapRefs refs = concatt ["<p class=\"question-references\">References:<ul>", concatt $ referItems refs, "</ul></p>"]
+                    expertItems   = fmap (enlist . transformExpert)
+                    referItems    = fmap (enlist . transformReference)
+                    enlist item   = concatt ["<li>", item, "</li>"]
 
 -- TODO: follows on question
 transformQuestion   :: Model.Question -> FormItem
