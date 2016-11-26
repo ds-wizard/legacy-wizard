@@ -66,12 +66,28 @@ buildLongDesc q = if Data.Text.null longDesc then Nothing else Just longDesc
                     referItems    = fmap (enlist . transformReference)
                     enlist item   = concatt ["<li>", item, "</li>"]
 
--- TODO: follows on question
 transformQuestion   :: Model.Question -> FormItem
-transformQuestion q = case questType q of
+transformQuestion q = SimpleGroup
+  { sgDescriptor = FIDescriptor
+    { iLabel = Nothing
+    , iShortDescription = Nothing
+    , iTags = []
+    , iLongDescription =  Nothing
+    , iLink = Nothing
+    , iMandatory = True
+    , iNumbering = NoNumbering
+    , iIdent = Nothing
+    , iRules = []
+    }
+  , sgLevel = 0
+  , sgItems = question : follows
+  }
+  where
+      question = case questType q of
                         "option" -> transformOptionQuestion q
-                        "list" -> transformListQuestion q
-                        _ -> transformFieldQuestion q
+                        "list"   -> transformListQuestion q
+                        _        -> transformFieldQuestion q
+      follows  = map transformQuestion (fromMaybe [] . questFollow $ q)
 
 transformOptionQuestion   :: Model.Question -> FormItem
 transformOptionQuestion q = ChoiceFI
