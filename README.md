@@ -1,2 +1,34 @@
-# ds-wizard
-Data Stewardship Wizard for the questions from DS Knowledge Model
+# DS Wizard
+**Data Stewardship Wizard** for browsing the questions from [DS Knowledge Model](https://github.com/DataStewardshipPortal/ds-km).
+
+* Simple browsing questions of DS KM
+* Loading questions from [ds-km](https://github.com/DataStewardshipPortal/ds-km) precompiled JSON
+
+## Future development
+
+* Displaying DMP book related content
+* Style improvement (look & feel)
+* Comments & feedback
+* User accounts & saving questionnaire
+* Search within questionnaire
+* More functionality as DS KM will develop
+
+## Related projects
+
+* [DS Knowledge Model](https://github.com/DataStewardshipPortal/ds-km)
+* [DS Form Engine](https://github.com/DataStewardshipPortal/ds-form-engine)
+* [DS Form Example](https://github.com/DataStewardshipPortal/ds-form-example)
+
+## Usage
+
+Just simply `make` (you might need to install some dependencies) and open `Page/index.html` in your favorite browser.
+
+## License
+
+This project is licensed under the Apache License v2.0 - see the [LICENSE](LICENSE) file for more details.
+
+----
+
+Project supported by
+
+[![ELIXIR-CZ logo](https://raw.githubusercontent.com/DataStewardshipPortal/ds-elixir-cz/master/static/img/logo.jpg)](https://www.elixir-czech.cz/)
