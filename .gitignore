@@ -17,6 +17,7 @@ cabal.sandbox.config
 *.eventlog
 *.jsmod
 *.swp
+tags
 .stack-work/
 cabal.project.local
 Transform/Questionnaire.hs
