@@ -1,4 +1,4 @@
-module Transform.Questionnaire
+module Questionnaire
     (formItems
     ) where
 

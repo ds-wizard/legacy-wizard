@@ -4,8 +4,8 @@ import Data.Aeson
 import Data.Maybe
 import Data.ByteString.Lazy hiding (putStrLn, unpack, pack, head)
 
-import Transform.KModel
-import Transform.KMTransform
+import KModel
+import KMTransform
 
 
 {- Make hGetContents unambiguous -}

@@ -1,5 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
-module Transform.KModel where
+module KModel where
 
 import Data.Aeson
 import Data.Aeson.Types

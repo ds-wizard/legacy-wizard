@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Transform.KMTransform (transformQuestionnaire) where
+module KMTransform (transformQuestionnaire) where
 
 import FormEngine.FormItem
-import Transform.KModel as Model
+import KModel as Model
 
 import Data.Maybe
 import Data.Monoid

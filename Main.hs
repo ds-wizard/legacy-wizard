@@ -6,7 +6,7 @@ import Prelude
 import Data.Maybe (isNothing, catMaybes)
 
 import FormEngine.JQuery (ready, errorIO)
-import Transform.Questionnaire as Questionnaire
+import Questionnaire
 import FormEngine.FormElement.FormElement as Element
 import Form
 
