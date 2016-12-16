@@ -787,7 +787,7 @@
                         "label": "Yes"
                     }
                 ],
-                "questionid": 1,
+                "questionid": 2,
                 "title": "Will you do systems biology modeling?",
                 "type": "option"
             },
@@ -802,7 +802,7 @@
                         "label": "Drill deeper"
                     }
                 ],
-                "questionid": 2,
+                "questionid": 3,
                 "text": "Data analysis is normally done manually on a step-by-step basis. It is essential to make sure all steps are properly documented, otherwise results will not be reproducible.",
                 "title": "How will you be making sure there is good provenance of the data analysis?",
                 "type": "option"
@@ -818,7 +818,7 @@
                         "label": "Yes"
                     }
                 ],
-                "questionid": 2,
+                "questionid": 4,
                 "title": "Will you do structural modeling?",
                 "type": "option"
             },
@@ -833,7 +833,7 @@
                         "label": "Yes"
                     }
                 ],
-                "questionid": 3,
+                "questionid": 5,
                 "title": "Will you be doing (automated) knowledge discovery?",
                 "type": "option"
             }
