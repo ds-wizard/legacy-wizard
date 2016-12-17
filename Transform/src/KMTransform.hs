@@ -1,79 +1,102 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module KMTransform (transformQuestionnaire) where
+module KMTransform
+  ( transformQuestionnaire
+  , distillQuestionnaire
+  ) where
+
+import Prelude hiding (concat)
+import Data.Monoid ((<>))
+import Data.Maybe
+import Data.List (find)
+import Data.Text (Text, null, concat)
+import qualified Database.PostgreSQL.Simple as PG
 
 import FormEngine.FormItem
 import KModel as Model
 
-import Data.Maybe
-import Data.Monoid
-import Data.Text hiding (map)
-
-concatt = Data.Text.concat
-
+-- Helper routines
 transformText :: Maybe Text -> Text
 transformText = fromMaybe ""
 
 makeHtmlLink :: Text -> Text -> Bool -> Text
-makeHtmlLink link anchor newtab = concatt ["<a href=\"", link, "\" target=\"", target,"\">", anchor, "</a>"]
-                                where target = if newtab then "_blank" else "_self"
+makeHtmlLink link anchor newtab = "<a href=\"" <> link <> "\" target=\"" <> target <> "\">" <> anchor <> "</a>"
+  where
+    target =
+      if newtab
+        then "_blank"
+        else "_self"
 
-transformExpert     :: Model.Expert -> Text
-transformExpert e   = case expertEmail e of
-                        Nothing      -> expertName e
-                        Just address -> makeHtmlLink ("mailto:" <> address) (expertName e) True
+transformExpert :: Model.Expert -> Text
+transformExpert e =
+  case expertEmail e of
+    Nothing -> expertName e
+    Just address -> makeHtmlLink ("mailto:" <> address) (expertName e) True
 
-transformReference   :: Model.Reference -> Text
-transformReference r = case refType r of
-                        "dmpbook" -> concatt ["DMP Book chapter ", transformText . dmpChapter $ r]
-                        "xref"    -> "Reference to other question (not implemented yet)"
-                        "url"     -> case urlrefText r of
-                                        Nothing     -> makeHtmlLink url url True
-                                        Just anchor -> makeHtmlLink url anchor True
-                                     where url = transformText . urlrefLink $ r
-                        _         -> "Unrecognized reference"
+transformReference :: Model.Reference -> Text
+transformReference r =
+  case refType r of
+    "xref" -> "Reference to other question (not implemented yet)"
+    "url" ->
+      case urlrefText r of
+        Nothing -> makeHtmlLink url url True
+        Just anchor -> makeHtmlLink url anchor True
+      where url = transformText . urlrefLink $ r
+    _ -> "Unrecognized reference"
 
-transformAnswer   :: Model.Answer -> Option
-transformAnswer a = case answerFollow a of
-                        Just follows -> DetailedOption NoNumbering (answerLabel a) [followGroup follows]
-                        _ -> SimpleOption (answerLabel a)
-                        where
-                            followGroup fs = SimpleGroup
-                              { sgDescriptor = FIDescriptor
-                                { iLabel = Nothing
-                                , iShortDescription = Nothing
-                                , iTags = []
-                                , iLongDescription =  Nothing
-                                , iLink = Nothing
-                                , iMandatory = True
-                                , iNumbering = NoNumbering
-                                , iIdent = Nothing
-                                , iRules = []
-                                }
-                              , sgLevel = 0
-                              , sgItems = map transformQuestion fs
-                              }
+buildLongDesc :: Model.Question -> Maybe Text
+buildLongDesc q =
+  if Data.Text.null longDesc
+    then Nothing
+    else Just longDesc
+  where
+    longDesc = Prelude.foldl (<>) "" (catMaybes longDescParts)
+    longDescParts = [fmap wrapText (questText q)]
+    wrapText txt = "<p class=\"question-description\">" <> txt <> "</p>"
 
-buildLongDesc   :: Model.Question -> Maybe Text
-buildLongDesc q = if Data.Text.null longDesc then Nothing else Just longDesc
-                where
-                    longDesc = Prelude.foldl (<>) "" (catMaybes longDescParts)
-                    longDescParts = [fmap wrapText (questText q), fmap wrapExps (questExps q), fmap wrapRefs (questRefs q)]
-                    wrapText txt  = concatt ["<p class=\"question-description\">", txt, "</p>"]
-                    wrapExps exps = concatt ["<p class=\"question-experts\">Experts:<ul>", concatt $ expertItems exps, "</ul></p>"]
-                    wrapRefs refs = concatt ["<p class=\"question-references\">References:<ul>", concatt $ referItems refs, "</ul></p>"]
-                    expertItems   = fmap (enlist . transformExpert)
-                    referItems    = fmap (enlist . transformReference)
-                    enlist item   = concatt ["<li>", item, "</li>"]
+getBookRef :: Model.Question -> Maybe Text
+getBookRef q =
+  let maybeRef = find (\r -> refType r == "dmpbook") <$> questRefs q
+  in case maybeRef of
+       Just (Just ref) -> dmpChapter ref
+       _ -> Nothing
 
-transformQuestion   :: Model.Question -> FormItem
-transformQuestion q = SimpleGroup
-  { sgDescriptor = FIDescriptor
+-- Transformation routines
+transformQuestionnaire :: [Model.Chapter] -> [FormItem]
+transformQuestionnaire = map transformChapter
+
+transformChapter :: Model.Chapter -> FormItem
+transformChapter ch =
+  FormEngine.FormItem.Chapter
+  { chDescriptor =
+    FIDescriptor
+    { iLabel = Just (chapTitle ch)
+    , iTags = []
+    , iShortDescription = Just "chapter"
+    , iLongDescription = chapText ch
+    , iLink = Nothing
+    , chapterId = Just $ chapID ch
+    , questionId = Nothing
+    , iMandatory = False
+    , iNumbering = NoNumbering
+    , iIdent = Nothing
+    , iRules = []
+    }
+  , chItems = map (transformQuestion ch) (chapQuests ch)
+  }
+
+transformQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformQuestion ch q =
+  SimpleGroup
+  { sgDescriptor =
+    FIDescriptor
     { iLabel = Nothing
     , iShortDescription = Nothing
     , iTags = []
-    , iLongDescription =  Nothing
+    , iLongDescription = Nothing
     , iLink = Nothing
+    , chapterId = Just $ chapID ch
+    , questionId = Just $ questID q
     , iMandatory = True
     , iNumbering = NoNumbering
     , iIdent = Nothing
@@ -83,20 +106,25 @@ transformQuestion q = SimpleGroup
   , sgItems = question : follows
   }
   where
-      question = case questType q of
-                        "option" -> transformOptionQuestion q
-                        "list"   -> transformListQuestion q
-                        _        -> transformFieldQuestion q
-      follows  = map transformQuestion (fromMaybe [] . questFollow $ q)
+    question =
+      case questType q of
+        "option" -> transformOptionQuestion ch q
+        "list" -> transformListQuestion ch q
+        _ -> transformFieldQuestion ch q
+    follows = map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
 
-transformOptionQuestion   :: Model.Question -> FormItem
-transformOptionQuestion q = ChoiceFI
-  { chfiDescriptor = FIDescriptor
+transformOptionQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformOptionQuestion ch q =
+  ChoiceFI
+  { chfiDescriptor =
+    FIDescriptor
     { iLabel = Just (questTitle q)
     , iTags = []
     , iShortDescription = Nothing
     , iLongDescription = buildLongDesc q
     , iLink = Nothing
+    , chapterId = Just $ chapID ch
+    , questionId = Just $ questID q
     , iMandatory = True
     , iNumbering = NoNumbering
     , iIdent = Nothing
@@ -104,70 +132,155 @@ transformOptionQuestion q = ChoiceFI
     }
   , chfiAvailableOptions = map transformAnswer (fromMaybe [] . questAnswers $ q)
   }
+  where
+    transformAnswer :: Model.Answer -> Option
+    transformAnswer a =
+      case answerFollow a of
+        Just follows -> DetailedOption NoNumbering (answerLabel a) [followGroup follows]
+        _ -> SimpleOption (answerLabel a)
+      where
+        followGroup :: [Question] -> FormItem
+        followGroup fs =
+          SimpleGroup
+          { sgDescriptor =
+            FIDescriptor
+            { iLabel = Nothing
+            , iShortDescription = Nothing
+            , iTags = []
+            , iLongDescription = Nothing
+            , iLink = Nothing
+            , chapterId = Just $ chapID ch
+            , questionId = Just $ questID q
+            , iMandatory = True
+            , iNumbering = NoNumbering
+            , iIdent = Nothing
+            , iRules = []
+            }
+          , sgLevel = 0
+          , sgItems = map (transformQuestion ch) fs
+          }
 
-transformListQuestion   :: Model.Question -> FormItem
-transformListQuestion q = SimpleGroup
-  { sgDescriptor = FIDescriptor
+transformListQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformListQuestion ch q =
+  SimpleGroup
+  { sgDescriptor =
+    FIDescriptor
     { iLabel = Just (questTitle q)
     , iTags = []
     , iShortDescription = Nothing
     , iLongDescription = buildLongDesc q
     , iLink = Nothing
+    , chapterId = Just $ chapID ch
+    , questionId = Just $ questID q
     , iMandatory = True
     , iNumbering = NoNumbering
     , iIdent = Nothing
     , iRules = []
     }
   , sgLevel = 0
-  , sgItems = [ TextFI
-                { tfiDescriptor = FIDescriptor
-                  { iLabel = Just "Items"
-                  , iTags = []
-                  , iShortDescription = Just "Write each item on new line"
-                  , iLongDescription = buildLongDesc q
-                  , iLink = Nothing
-                  , iMandatory = False
-                  , iNumbering = NoNumbering
-                  , iIdent = Nothing
-                  , iRules = []
-                  }
-                }
-              ]
+  , sgItems =
+    [ TextFI
+      { tfiDescriptor =
+        FIDescriptor
+        { iLabel = Just "Items"
+        , iTags = []
+        , iShortDescription = Just "Write each item on new line"
+        , iLongDescription = buildLongDesc q
+        , iLink = Nothing
+        , chapterId = Just $ chapID ch
+        , questionId = Just $ questID q
+        , iMandatory = False
+        , iNumbering = NoNumbering
+        , iIdent = Nothing
+        , iRules = []
+        }
+      }
+    ]
   }
 
-transformFieldQuestion   :: Model.Question -> FormItem
-transformFieldQuestion q = case questType q of
-                            "text" -> TextFI {tfiDescriptor = qFI}
-                            "number" -> NumberFI {nfiDescriptor = qFI, nfiUnit = NoUnit}
-                            "email" -> EmailFI {efiDescriptor = qFI}
-                            _ -> StringFI {sfiDescriptor = qFI}
-                            where qFI = FIDescriptor
-                                        { iLabel = Just (questTitle q)
-                                        , iTags = []
-                                        , iShortDescription = Nothing
-                                        , iLongDescription = questText q
-                                        , iLink = Nothing
-                                        , iMandatory = True
-                                        , iNumbering = NoNumbering
-                                        , iIdent = Nothing
-                                        , iRules = []
-                                        }
+transformFieldQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformFieldQuestion ch q =
+  case questType q of
+    "text" ->
+      TextFI
+      { tfiDescriptor = qFI
+      }
+    "number" ->
+      NumberFI
+      { nfiDescriptor = qFI
+      , nfiUnit = NoUnit
+      }
+    "email" ->
+      EmailFI
+      { efiDescriptor = qFI
+      }
+    _ ->
+      StringFI
+      { sfiDescriptor = qFI
+      }
+  where
+    qFI =
+      FIDescriptor
+      { iLabel = Just (questTitle q)
+      , iTags = []
+      , iShortDescription = Nothing
+      , iLongDescription = questText q
+      , iLink = Nothing
+      , chapterId = Just $ chapID ch
+      , questionId = Just $ questID q
+      , iMandatory = True
+      , iNumbering = NoNumbering
+      , iIdent = Nothing
+      , iRules = []
+      }
 
-transformChapter    :: Model.Chapter -> FormItem
-transformChapter ch = FormEngine.FormItem.Chapter
-  { chDescriptor = FIDescriptor
-    { iLabel = Just (chapTitle ch)
-    , iTags = []
-    , iShortDescription = Just "chapter"
-    , iLongDescription = chapText ch
-    , iLink = Nothing
-    , iMandatory = False
-    , iNumbering = NoNumbering
-    , iIdent = Nothing
-    , iRules = []
-    }
-  , chItems = map transformQuestion (chapQuests ch)
-  }
+-- Generating details
 
-transformQuestionnaire :: [Model.Chapter] -> [FormItem]
-transformQuestionnaire = map transformChapter
+distillQuestionnaire :: PG.Connection -> [Model.Chapter] -> IO ()
+distillQuestionnaire pgConn = mapM_ (distillChapter pgConn)
+
+distillChapter :: PG.Connection -> Model.Chapter -> IO ()
+distillChapter pgConn ch = mapM_ (distillQuestion pgConn ch) (chapQuests ch)
+
+distillQuestion :: PG.Connection -> Model.Chapter -> Model.Question -> IO ()
+distillQuestion pgConn ch q = do
+  case questType q of
+    "option" -> distillOptionQuestion pgConn ch q
+    "list" -> do
+      _ <- storeDetails pgConn ch q
+      return ()
+    _ -> return ()
+  mapM_ (distillQuestion pgConn ch) (fromMaybe [] . questFollow $ q)
+
+distillOptionQuestion :: PG.Connection -> Model.Chapter -> Model.Question -> IO ()
+distillOptionQuestion pgConn ch q = do
+  _ <- storeDetails pgConn ch q
+  mapM_ distillAnswer (fromMaybe [] . questAnswers $ q)
+  where
+    distillAnswer :: Model.Answer -> IO ()
+    distillAnswer a =
+      case answerFollow a of
+        Just follows -> mapM_ (distillQuestion pgConn ch) follows
+        _ -> return ()
+
+storeDetails :: PG.Connection -> Model.Chapter -> Model.Question -> IO ()
+storeDetails pgConn ch q = do
+  _ <- PG.execute
+    pgConn
+    "INSERT INTO \"Questions\" (chapterId, questionId, bookRef, otherInfo) VALUES (?, ?, ?, ?)"
+    (chapID ch, questID q, getBookRef q, otherInfo)
+  return ()
+  where
+    otherInfo :: Maybe Text
+    otherInfo =
+      if Data.Text.null info
+        then Nothing
+        else Just info
+      where
+        info = Prelude.foldl (<>) "" (catMaybes infoParts)
+        infoParts = [fmap wrapExps (questExps q), fmap wrapRefs (questRefs q)]
+        wrapExps exps = "<p class=\"question-experts\">Experts:<ul>" <> concat (expertItems exps) <> "</ul></p>"
+        wrapRefs refs = "<p class=\"question-references\">References:<ul>" <> concat (referItems refs) <> "</ul></p>"
+        expertItems = fmap (enlist . transformExpert)
+        referItems = fmap (enlist . transformReference)
+        enlist item = "<li>" <> item <> "</li>"

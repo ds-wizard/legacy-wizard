@@ -1,8 +1,8 @@
 module Questionnaire
-    (formItems
-    ) where
+  ( formItems
+  ) where
 
 import FormEngine.FormItem
 
 formItems :: [FormItem]
-formItems = prepareForm []{-DSKM-}
+formItems = prepareForm [] -- Replaced by the generated DS-KM

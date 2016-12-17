@@ -1,23 +1,27 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 import System.IO
 import System.Environment
-import Data.Aeson
+import Data.Aeson (decode)
 import Data.Maybe
-import Data.ByteString.Lazy hiding (putStrLn, unpack, pack, head)
+import qualified Data.ByteString.Lazy as BS
+import qualified Database.PostgreSQL.Simple as PG
 
 import KModel
-import KMTransform
+import KMTransform (transformQuestionnaire, distillQuestionnaire)
+import qualified Config.Server.Config as Config
 
-
-{- Make hGetContents unambiguous -}
-hGetContentsBS :: Handle -> IO ByteString
-hGetContentsBS = Data.ByteString.Lazy.hGetContents
-
-{- Main region -}
+main :: IO ()
 main = do
-    args <- getArgs
-    handle <- openFile (head args) ReadMode
-    contents <- hGetContentsBS handle
-    let x = (decode contents :: Maybe [Chapter]) in
-        case x of
-            Nothing   -> putStrLn "Invalid JSON..."
-            _ -> print . transformQuestionnaire $ fromJust x
+  args <- getArgs  
+  handle <- openFile (head args) ReadMode
+  contentsJSON <- BS.hGetContents handle
+  let contents = decode contentsJSON :: Maybe [Chapter]
+  case contents of
+    Nothing -> putStrLn "Invalid JSON..."
+    _ -> do
+      pgConn <- PG.connect Config.pgCreds
+      _ <- PG.execute_ pgConn "DELETE FROM \"Questions\""
+      distillQuestionnaire pgConn (fromJust contents)
+      print $ transformQuestionnaire (fromJust contents)
+      PG.close pgConn
