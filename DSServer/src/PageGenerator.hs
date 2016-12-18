@@ -25,13 +25,13 @@ renderHead = H.head $ do
 
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" $ do
-  H.p ! A.class_ "title" $ "Data Stewardship Wizard" 
-  H.a ! A.href "https://www.elixir-europe.org/" $ 
+  H.a ! A.href "https://www.elixir-europe.org/" $
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
+  H.h1 ! A.class_ "title" $ "Data Stewardship Wizard"
 
 renderFooter :: Html
-renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $ 
-  H.table ! A.class_ "footer-table" $ H.tbody $ 
+renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
+  H.table ! A.class_ "footer-table" $ H.tbody $
     H.tr $ do
       H.td $ do
         H.h3 "Contact"
@@ -52,7 +52,7 @@ renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
       H.td ! A.style "text-align: center; " $ do
         H.h3 "Data stewardship action team"
         H.a ! A.href "http://ccmi.fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/CCMi-logo.png") ! A.class_ "logo" ! A.alt "CCMi logo"
-        H.a ! A.href "http://fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/FITlogo-small.png") ! A.class_ "logo" ! A.alt "FIT logo"
+        H.a ! A.href "http://fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/fit-logo.png") ! A.class_ "logo" ! A.alt "FIT logo"
         H.br
         H.span "Contact: "
         H.a ! A.href "mailto:robert.pergl@fit.cvut.cz" $ "robert.pergl@fit.cvut.cz"
@@ -69,29 +69,29 @@ renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
         H.a ! A.href "https://www.elixir-czech.cz/login" $ "Members area"
 
 renderAcknowledgement :: Html
-renderAcknowledgement = 
+renderAcknowledgement =
   H.div ! A.class_ "colophon-box" $ do
-    H.span ! A.class_ "colophon-text" $ "Crafted with "
-    H.a ! A.href "https://www.haskell.org/ghc/" ! A.class_ "colophon-text" $ "GHC"
-    H.span ! A.class_ "colophon-text" $ " & "
-    H.a ! A.href "http://haste-lang.org/" ! A.class_ "colophon-text" $ "Haste"
-    H.span ! A.class_ "colophon-text" $ ", powered by "
-    H.a ! A.href "https://www.spock.li/" ! A.class_ "colophon-text" $ "Spock"
-    H.img ! A.src (textValue $ staticURL <> "img/haskell.png") ! A.alt "Haskell logo" 
+    H.p ! A.class_ "colophon-line" $ do
+      H.span ! A.class_ "colophon-text" $ "Crafted with "
+      H.a ! A.href "https://www.haskell.org/ghc/" ! A.class_ "colophon-text" $ "GHC"
+      H.span ! A.class_ "colophon-text" $ " & "
+      H.a ! A.href "http://haste-lang.org/" ! A.class_ "colophon-text" $ "Haste"
+      H.span ! A.class_ "colophon-text" $ ", powered by "
+      H.a ! A.href "https://www.spock.li/" ! A.class_ "colophon-text" $ "Spock"
+      H.img ! A.src (textValue $ staticURL <> "img/haskell.png") ! A.alt "Haskell logo" ! A.class_ "logo"
 
 -- Pages
 
 renderPage :: Html
-renderPage = 
+renderPage =
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
-    H.body $ 
+    H.body $
       H.div ! A.id "container" $ do
         renderBanner
-        H.div ! A.class_ "inside" $ 
+        H.div ! A.class_ "inside" $
           H.form ! A.id "form" ! A.method "post" $ mempty
         H.div ! A.id "overlay" ! A.class_ "overlay" $ H.div "overlay"
         renderFooter
         renderAcknowledgement
         H.script ! A.src (textValue $ staticURL <> "js/main.js") $ mempty
-
