@@ -36,6 +36,7 @@ transformExpert e =
 transformReference :: Model.Reference -> Text
 transformReference r =
   case refType r of
+    "dmpbook" -> "" -- handled by Ajax loading from database
     "xref" -> "Reference to other question (not implemented yet)"
     "url" ->
       case urlrefText r of
