@@ -1,0 +1,261 @@
+//common
+@common-bg: white;
+@common-fg: black;
+//nav
+@tabs-current-bg: lightblue;
+@tabs-current-fg: black;
+@tabs-hover-bg: blue;
+@tabs-hover-fg: white;
+@tabs-common-bg: white;
+@tabs-common-fg: black;
+//footer
+@footer-bg: white;
+@footer-fg: black;
+
+body{
+    padding: 0 1em 1em 1em;
+    background: @common-bg;
+    color: @common-fg;
+}
+
+h1{
+    color: #544F4C;
+    margin: 0.5em;
+    max-height: 3em;
+    padding: 1em 0 0 1em;
+    font-variant: small-caps;
+}
+
+img#logo{
+    float:left;
+    max-height: 5em;
+    margin: 0.5em;
+}
+
+.inside{
+clear: both;
+    overflow: hidden;
+}
+
+.inside-bordered{
+    margin-top: 0.2em;
+    border-top: 1px solid gray;
+    clear: both;
+    padding: 0.3em 0;
+}
+
+ul.nav{
+    list-style-type: none;
+    padding: 0 0 0.5em 0;
+    margin: 0;
+    float: left;
+    overflow: hidden;
+}
+
+ul.nav > li{
+    display: block;
+    border: 1px solid black;
+    padding: 0.2em 1em;
+    margin: 0.2em;
+    cursor: pointer;
+    float: left;
+    color: @tabs-common-fg;
+    background: @tabs-common-bg;
+}
+
+ul.nav > li:hover{
+    color: @tabs-hover-fg;
+    background: @tabs-hover-bg;
+}
+
+
+ul.nav > li.current{
+    color: @tabs-current-fg;
+    background: @tabs-current-bg;
+    font-weight: bold;
+}
+
+div#footer{
+    margin-top: 0.2em;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    color: @footer-fg;
+    background: @footer-bg;
+}
+
+div#footer > table{
+    width: 100%;
+}
+
+div#footer td{
+    padding: 1em;
+}
+
+div#footer td img.logo{
+    max-height: 3em;
+    margin: 0.5em;
+}
+
+.colophon-box{
+    clear: both;
+    margin-top: 1em;
+    padding-top: 0.3em;
+    font-size: 80%;
+    text-align: center;
+    width: 100%;
+}
+
+.colophon-box img.logo{
+    margin: 0.2em;
+    max-height: 32px;
+    vertical-align: middle;
+}
+
+.overlay {
+    visibility: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background-color: rgba(150, 150, 150, 0.8);
+}
+
+.overlay > div {
+    position: fixed;
+    left: 50px;
+    right: 50px;
+    top: 50px;
+    bottom: 50px;
+    background-color: #CAE5FD;
+    border: 2px solid #00546D;
+    border-radius: 10px;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.validity-flag {
+  margin-left: 5px;
+}
+
+#questionnaire {
+  display: none;
+}
+
+.simple-group, .aligned-group {
+  padding: 0 0 10px 0;
+}
+
+.optional-section, .multiple-section, .framed {
+  margin-top: 5px;
+  border: 1px solid #aaa;
+  border-radius: 5px;
+  background-color: #eee;
+  padding: 5px;
+}
+
+.optional-section {
+  display: none;
+}
+
+.multiple-section {
+  float: left;
+}
+
+.button-add, .button-remove {
+    cursor: pointer;
+}
+
+.button-add {
+    margin-top: 5px;
+}
+
+.short-desc {
+  padding-top: 0;
+  font-size: 90%;
+  font-style: italic;
+  color: gray;
+}
+
+.long-desc {
+    padding: 10px;
+    margin: 20px;
+    border: 1px solid #ffff00;
+    border-radius: 10px;
+    background-color: #ffffdd;
+}
+
+.form-subpane {
+  display: inline-block;
+}
+
+.desc-subpane {
+  display: inline-block;
+  position: fixed;
+}
+
+td, th {
+    display: table-cell;
+    vertical-align: top;
+    padding: 4px;
+}
+
+.labeltd {
+    width: 400px;
+}
+
+.table-text tr {
+  border-bottom: 1px #ccc solid
+}
+
+.table-text td {
+  width: 75%;
+}
+
+.table-text th {
+  width: 25%;
+  text-align: left;
+}
+
+input, textarea {
+  border-color:#cccccc;
+  padding:3px;
+  border-width:1px;
+  border-radius:3px;
+  border-style:ridge;
+  background-color: #FFFBFB;
+}
+
+input[type="text"], input[type="email"], textarea {
+  width: 300px;
+}
+
+input[type="number"] {
+  width: 80px;
+}
+
+textarea {
+  height: 100px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+  position: relative;
+  vertical-align: middle;
+  top: 2px;
+  margin-right: 5px;
+}
+
+input[type="submit"], .submit {
+  background-color: #FBB48F;
+  padding: 10px 20px;
+  font-size: 110%;
+  border-width: 1px;
+  border-color: #FA7849;
+  border-radius: 20px;
+  border-style: groove;
+}
+
+label {
+  line-height : 20px;
+}
