@@ -34,39 +34,22 @@ renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
   H.table ! A.class_ "footer-table" $ H.tbody $
     H.tr $ do
       H.td $ do
-        H.h3 "Contact"
-        _ <- "Phone: +420 220 183 267"
+        H.h3 "Technical contacts"
+        H.a ! A.href "mailto:robert.pergl@fit.cvut.cz" $ "Robert Pergl"
         H.br
-        _ <- "E-mail : elixir@uochb.cas.cz"
-        H.br
-        H.a ! A.href "http://www.elixir-czech.cz" $ "http://www.elixir-czech.cz"
-      H.td $ do
-        H.h3 "Address"
-        _ <- "ELIXIR CZ"
-        H.br
-        _ <- "Flemingovo nám. 542/2"
-        H.br
-        _ <- "166 10 Praha 6 - Dejvice"
-        H.br
-        "Czech Republic"
+        H.a ! A.href "mailto:suchama4@fit.cvut.cz" $ "Marek Suchánek"
       H.td ! A.style "text-align: center; " $ do
         H.h3 "Data stewardship action team"
+        H.a ! A.href "http://elixir-czech.cz" $ H.img ! A.src (textValue $ staticURL <> "img/logo-elixir-cz.jpg") ! A.class_ "logo" ! A.alt "ELIXIR-CZ logo"
         H.a ! A.href "http://ccmi.fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/CCMi-logo.png") ! A.class_ "logo" ! A.alt "CCMi logo"
         H.a ! A.href "http://fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/fit-logo.png") ! A.class_ "logo" ! A.alt "FIT logo"
-        H.br
-        H.span "Contact: "
-        H.a ! A.href "mailto:robert.pergl@fit.cvut.cz" $ "robert.pergl@fit.cvut.cz"
+        H.a ! A.href "http://www.dtls.nl/elixir-nl/elixir-nl-2/" $ H.img ! A.src (textValue $ staticURL <> "img/logo-elixir-nl.png") ! A.class_ "logo" ! A.alt "ELIXIR-NL logo"
+        H.a ! A.href "http://www.dtls.nl/" $ H.img ! A.src (textValue $ staticURL <> "img/logo-dtl.png") ! A.class_ "logo" ! A.alt "DTL logo"
       H.td $ do
         H.h3 "Links"
         H.a ! A.href "http://www.elixir-europe.org/" $ "ELIXIR Europe"
         H.br
         H.a ! A.href "http://www.elixir-europe.org/about/elixir-nodes" $ "ELIXIR Nodes"
-        H.br
-        H.a ! A.href "http://www.elixir-czech.org/" $ "ELIXIR Czech"
-        H.br
-        H.a ! A.href "http://www.elixir-czech.cz/" $ "ELIXIR Czech local"
-        H.br
-        H.a ! A.href "https://www.elixir-czech.cz/login" $ "Members area"
 
 renderAcknowledgement :: Html
 renderAcknowledgement =
