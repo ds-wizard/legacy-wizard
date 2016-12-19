@@ -159,13 +159,12 @@ div#footer td img.logo{
 }
 
 .form-subpane {
-  display: block;
+  display: inline-block;
 }
 
 .desc-subpane {
   display: inline-block;
-  vertical-align: top;
-  margin-top: 0px;
+  position: fixed;
 }
 
 td, th {
