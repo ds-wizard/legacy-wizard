@@ -27,7 +27,9 @@ renderBanner :: Html
 renderBanner = H.div ! A.id "banner" $ do
   H.a ! A.href "https://www.elixir-europe.org/" $
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
-  H.h1 ! A.class_ "title" $ "Data Stewardship Wizard"
+  H.h1 ! A.class_ "title" $ do
+    "Data Stewardship Wizard"
+    H.span ! A.class_ "version" $ "v0.1"
 
 renderFooter :: Html
 renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
