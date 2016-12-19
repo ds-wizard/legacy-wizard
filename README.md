@@ -6,7 +6,6 @@
 
 ## Future development
 
-* Displaying DMP book related content
 * Style improvement (look & feel)
 * Comments & feedback
 * User accounts & saving questionnaire
