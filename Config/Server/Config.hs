@@ -3,7 +3,7 @@ module Config.Server.Config where
 import qualified Database.PostgreSQL.Simple as PG
 
 port :: Int
-port = 8000
+port = 8001
 
 pgCreds :: PG.ConnectInfo
 pgCreds =
