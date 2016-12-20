@@ -1,6 +1,7 @@
 # DS Wizard
 **Data Stewardship Wizard** for browsing the questions from [DS Knowledge Model](https://github.com/DataStewardshipPortal/ds-km).
 
+* Runs at http://dmp.fairdata.solutions/
 * Simple browsing questions of DS KM
 * Loading questions from [ds-km](https://github.com/DataStewardshipPortal/ds-km) precompiled JSON
 
@@ -17,10 +18,6 @@
 * [DS Knowledge Model](https://github.com/DataStewardshipPortal/ds-km)
 * [DS Form Engine](https://github.com/DataStewardshipPortal/ds-form-engine)
 * [DS Form Example](https://github.com/DataStewardshipPortal/ds-form-example)
-
-## Usage
-
-Just simply `make` (you might need to install some dependencies) and open `Page/index.html` in your favorite browser.
 
 ## License
 
