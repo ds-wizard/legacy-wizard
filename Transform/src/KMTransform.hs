@@ -77,15 +77,17 @@ transformChapter ch =
     , iTags = []
     , iShortDescription = Just "chapter"
     , iLongDescription = chapText ch
+    , chapterId = Just $ chapID ch
+    , questionId = Nothing
     , iLink = Nothing
     , iMandatory = False
     , iRules = []
     }
-  , chItems = map transformQuestion (chapQuests ch)
+  , chItems = map (transformQuestion ch) (chapQuests ch)
   }
 
-transformQuestion :: Model.Question -> FormItem
-transformQuestion q =
+transformQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformQuestion ch q =
   SimpleGroup
   { sgDescriptor =
     FIDescriptor
@@ -95,6 +97,8 @@ transformQuestion q =
     , iTags = []
     , iShortDescription = Nothing
     , iLongDescription = Nothing
+    , chapterId = Just $ chapID ch
+    , questionId = Just $ questID q
     , iLink = Nothing
     , iMandatory = True
     , iRules = []
@@ -105,13 +109,13 @@ transformQuestion q =
   where
     question =
       case questType q of
-        "option" -> transformOptionQuestion q
-        "list" -> transformListQuestion q
-        _ -> transformFieldQuestion q
-    follows = map transformQuestion (fromMaybe [] . questFollow $ q)
+        "option" -> transformOptionQuestion ch q
+        "list" -> transformListQuestion ch q
+        _ -> transformFieldQuestion ch q
+    follows = map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
 
-transformOptionQuestion :: Model.Question -> FormItem
-transformOptionQuestion q =
+transformOptionQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformOptionQuestion ch q =
   ChoiceFI
   { chfiDescriptor =
     FIDescriptor
@@ -121,6 +125,8 @@ transformOptionQuestion q =
     , iTags = []
     , iShortDescription = Nothing
     , iLongDescription = buildLongDesc q
+    , chapterId = Just $ chapID ch
+    , questionId = Just $ questID q
     , iLink = Nothing
     , iMandatory = True
     , iRules = []
@@ -147,6 +153,8 @@ transformOptionQuestion q =
             , iTags = []
             , iShortDescription = Nothing
             , iLongDescription = Nothing
+            , chapterId = Just $ chapID ch
+            , questionId = Just $ questID q
             , iLink = Nothing
             , iMandatory = True
             , iRules = []
@@ -155,7 +163,7 @@ transformOptionQuestion q =
           , sgItems = followAdvice ++ followsQuestions
           }
         followsQuestions :: [FormItem]
-        followsQuestions = map transformQuestion (fromMaybe [] . answerFollow $ a)
+        followsQuestions = map (transformQuestion ch) (fromMaybe [] . answerFollow $ a)
         followAdvice :: [FormItem]
         followAdvice = case answerAdvice a of
             Just advice -> [InfoFI
@@ -167,6 +175,8 @@ transformOptionQuestion q =
                                 , iTags = []
                                 , iShortDescription = Nothing
                                 , iLongDescription = Nothing
+                                , chapterId = Just $ chapID ch
+                                , questionId = Just $ questID q
                                 , iLink = Nothing
                                 , iMandatory = True
                                 , iRules = []
@@ -175,8 +185,8 @@ transformOptionQuestion q =
                            ]
             _ -> []
 
-transformListQuestion :: Model.Question -> FormItem
-transformListQuestion q =
+transformListQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformListQuestion ch q =
   SimpleGroup
   { sgDescriptor =
     FIDescriptor
@@ -186,6 +196,8 @@ transformListQuestion q =
     , iTags = []
     , iShortDescription = Nothing
     , iLongDescription = buildLongDesc q
+    , chapterId = Just $ chapID ch
+    , questionId = Just $ questID q
     , iLink = Nothing
     , iMandatory = True
     , iRules = []
@@ -201,6 +213,8 @@ transformListQuestion q =
         , iTags = []
         , iShortDescription = Just "Write each item on new line"
         , iLongDescription = buildLongDesc q
+        , chapterId = Just $ chapID ch
+        , questionId = Just $ questID q
         , iLink = Nothing
         , iMandatory = False
         , iRules = []
@@ -209,8 +223,8 @@ transformListQuestion q =
     ]
   }
 
-transformFieldQuestion :: Model.Question -> FormItem
-transformFieldQuestion q =
+transformFieldQuestion :: Model.Chapter -> Model.Question -> FormItem
+transformFieldQuestion ch q =
   case questType q of
     "text" ->
       TextFI
@@ -238,6 +252,8 @@ transformFieldQuestion q =
       , iTags = []
       , iShortDescription = Nothing
       , iLongDescription = questText q
+      , chapterId = Just $ chapID ch
+      , questionId = Just $ questID q
       , iLink = Nothing
       , iMandatory = True
       , iRules = []
