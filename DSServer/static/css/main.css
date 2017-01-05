@@ -153,6 +153,7 @@ div#footer td img.logo {
 }
 .form-subpane {
   display: inline-block;
+  max-width: 70%;
 }
 .desc-subpane {
   display: inline-block;
