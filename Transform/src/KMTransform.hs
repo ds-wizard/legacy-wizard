@@ -75,16 +75,37 @@ transformChapter ch =
     , iNumbering = NoNumbering
     , iIdent = Nothing
     , iTags = []
-    , iShortDescription = Just "chapter"
-    , iLongDescription = chapText ch
+    , iShortDescription = Nothing
+    , iLongDescription = Nothing
     , chapterId = Just $ chapID ch
     , questionId = Nothing
     , iLink = Nothing
     , iMandatory = False
     , iRules = []
     }
-  , chItems = map (transformQuestion ch) (chapQuests ch)
+  , chItems = intro ++ map (transformQuestion ch) (chapQuests ch)
   }
+  where
+      intro = case chapText ch of
+              Just introText -> [InfoFI
+                                  { ifiDescriptor =
+                                      FIDescriptor
+                                      { iLabel = Nothing
+                                      , iNumbering = NoNumbering
+                                      , iIdent = Nothing
+                                      , iTags = []
+                                      , iShortDescription = Nothing
+                                      , iLongDescription = Nothing
+                                      , chapterId = Just $ chapID ch
+                                      , questionId = Nothing
+                                      , iLink = Nothing
+                                      , iMandatory = True
+                                      , iRules = []
+                                      }
+                                  , ifiText = introText
+                                  }
+                                ]
+              _ -> []
 
 transformQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformQuestion ch q =
@@ -181,7 +202,8 @@ transformOptionQuestion ch q =
                                 , iMandatory = True
                                 , iRules = []
                                 }
-                            , ifiText = advice }
+                            , ifiText = advice
+                            }
                            ]
             _ -> []
 

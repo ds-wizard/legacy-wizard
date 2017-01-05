@@ -155,6 +155,9 @@ div#footer td img.logo {
   display: inline-block;
   max-width: 70%;
 }
+.form-subpane > table {
+  border-bottom: 2px dashed gray;
+}
 .desc-subpane {
   display: inline-block;
   position: fixed;
