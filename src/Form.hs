@@ -77,7 +77,7 @@ generateForm tabs = do
                             [("chid" :: JSString, show chid), ("qid" :: JSString, show qid)]
                             getBookContents
                           where getBookContents :: Maybe String -> IO ()
-                                getBookContents maybeQuestionStr = do
+                                getBookContents maybeQuestionStr = 
                                   ajaxRequest
                                     POST
                                     "api/getBookContents"
