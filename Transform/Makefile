@@ -2,7 +2,7 @@ all: src/Main.hs
 	cabal build
 
 generate: all
-	./transform.sh data/example.json
+	./transform.sh data/current.json
 
 configure:
 	rm -rf .cabal* cabal.sandbox.config dist
