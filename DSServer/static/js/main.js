@@ -3701,7 +3701,7 @@ _4F/* aboutTab2 */ = {_:0,a:_4E/* Form.aboutTab7 */,b:_4C/* Form.aboutTab3 */,c:
 _4G/* aboutTab1 */ = new T2(7,_4F/* Form.aboutTab2 */,_k/* GHC.Types.[] */),
 _4H/* aboutTab */ = new T3(0,_4G/* Form.aboutTab1 */,_k/* GHC.Types.[] */,_4x/* GHC.Types.False */),
 _4I/* aboutTabPaneJq2 */ = new T(function(){
-  return B(unCStr/* EXTERNAL */("  <div>    <p>      Questionnaire generated from precompiler JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>.    </p>  </div> "));
+  return B(unCStr/* EXTERNAL */("  <div>    <p>      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>.    </p>  </div> "));
 }),
 _4J/* aboutTabPaneJq1 */ = function(_/* EXTERNAL */){
   return new F(function(){return _2E/* FormEngine.JQuery.select1 */(_4I/* Form.aboutTabPaneJq2 */, _/* EXTERNAL */);});
