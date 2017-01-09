@@ -194,10 +194,6 @@ div#footer td img.logo{
   max-width: 70%;
 }
 
-.form-subpane > table {
-  border-bottom: 2px dashed gray;
-}
-
 .desc-subpane {
   display: inline-block;
   position: fixed;
@@ -266,4 +262,30 @@ input[type="submit"], .submit {
 
 label {
   line-height : 20px;
+}
+
+// Chapter intro text
+div.form-subpane > table {
+  border-bottom: 2px dashed gray;
+  margin-bottom: 1em;
+}
+
+div.form-subpane > table td.info {
+  text-align: justify;
+  padding: 1em 0;
+}
+
+div.form-subpane > table td.info:before {
+  content: "Introduction: ";
+  font-style: italic;
+}
+
+// Answer advice text
+div.simple-group > table td.info {
+  text-align: justify;
+}
+
+div.simple-group > table td.info:before {
+  content: "Advice: ";
+  font-style: italic;
 }
