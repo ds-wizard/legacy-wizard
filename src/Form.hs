@@ -9,7 +9,7 @@ import Control.Monad (join)
 import Haste (JSString)
 import Haste.Ajax
 
-import Model.Question 
+import Model.Question
 import FormEngine.JQuery as JQ
 import FormEngine.FormItem as FI
 import FormEngine.FormElement.FormElement as E
@@ -77,7 +77,7 @@ generateForm tabs = do
                             [("chid" :: JSString, show chid), ("qid" :: JSString, show qid)]
                             getBookContents
                           where getBookContents :: Maybe String -> IO ()
-                                getBookContents maybeQuestionStr = 
+                                getBookContents maybeQuestionStr =
                                   ajaxRequest
                                     POST
                                     "api/getBookContents"
@@ -98,7 +98,7 @@ generateForm tabs = do
                                         Nothing -> ""
                                         Just ref -> bookLabelTxt ref
                                     bookAck :: String
-                                    bookAck = 
+                                    bookAck =
                                       case join $ bookRef <$> maybeQuestion of
                                         Nothing -> ""
                                         Just _ -> bookAckTxt
@@ -152,7 +152,7 @@ aboutTabPaneJq =
     "\
 \  <div>\
 \    <p>\
-\      Questionnaire generated from precompiler JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>.\
+\      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>.\
 \    </p>\
 \  </div>\
 \ "
