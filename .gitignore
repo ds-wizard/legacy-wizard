@@ -22,4 +22,4 @@ tags
 cabal.project.local
 Transform/Questionnaire.hs
 Transform/Main
-Page/js/main.js
+DSServer/static/js/main.js
