@@ -1,0 +1,2617 @@
+[
+    {
+        "chapterid": 1,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "advice": "You know that this is very unlikely? This question is not only about data sets that are similar to what you want to determine yourself, but also reference data or data that should be mined from the existing literature. Further, it is very likely that you will refer to related data, e.g. other databases where you usually \"quickly look something up\", but that could maybe be properly integrated, especially if you need to do such lookups multiple times.",
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "advice": "Did you research all the data that exists? You may not be aware of all existing data that could be available. Although using and/or integrating existing data sets may pose a challenge, it will normally be cheaper than collecting everything yourself. Even if you decide not to use an existing data set, it is better to do this as a conscious decision.",
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "followups": [
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "advice": "Figure this out quickly!",
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            }
+                                                        ],
+                                                        "questionid": 4,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.4",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "Do you know where the reference data is available, what the conditions for use are, and how to reference it?",
+                                                        "title": "Do you know where and how is it available?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "I can directly use it"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "I need to convert it before using"
+                                                            }
+                                                        ],
+                                                        "questionid": 5,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.5",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "Do you know the data format of the reference data? Is this suitable for your work? Does it need to be converted?",
+                                                        "title": "Do you knpw in what format the reference data is available?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "followups": [
+                                                                    {
+                                                                        "questionid": 7,
+                                                                        "text": "If there are different versions available, you have to decide with all project partners together which version you will be using. Probably you will go for the latest release as of the date of the start of your research project. However, if you have other data from older projects that need to be merged, you may need to consider using the same release you used for a previous project.",
+                                                                        "title": "Which version will you use?",
+                                                                        "type": "text"
+                                                                    },
+                                                                    {
+                                                                        "answers": [
+                                                                            {
+                                                                                "followups": [
+                                                                                    {
+                                                                                        "answers": [
+                                                                                            {
+                                                                                                "id": 0,
+                                                                                                "label": "I will need it only at the beginning"
+                                                                                            },
+                                                                                            {
+                                                                                                "id": 1,
+                                                                                                "label": "I will use a downloaded version"
+                                                                                            },
+                                                                                            {
+                                                                                                "id": 2,
+                                                                                                "label": "The provider keeps old versions around"
+                                                                                            }
+                                                                                        ],
+                                                                                        "questionid": 79,
+                                                                                        "text": "Since you want to keep using the old version of the reference data, how will it be available to you?",
+                                                                                        "title": "How will the old version be available?",
+                                                                                        "type": "option"
+                                                                                    }
+                                                                                ],
+                                                                                "id": 0,
+                                                                                "label": "Will stay with the old version"
+                                                                            },
+                                                                            {
+                                                                                "id": 1,
+                                                                                "label": "New analyses will be done with the new version"
+                                                                            },
+                                                                            {
+                                                                                "id": 2,
+                                                                                "label": "All analyses will be redone with the new version"
+                                                                            }
+                                                                        ],
+                                                                        "questionid": 8,
+                                                                        "text": "If the reference changes while you are working on your research project, you need to decide whether you will follow these changes. Most likely that will mean that you have to do some analyses again, so you will need to make sure enough resources are available to do so. You can decide to stay with the version that you started with; this can have the disadvantage that you will not benefit from added information or added consistency.",
+                                                                        "title": "Will you change version if it updates?",
+                                                                        "type": "option"
+                                                                    }
+                                                                ],
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            }
+                                                        ],
+                                                        "questionid": 6,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.6",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "Many reference data sets evolve over time. If the reference data set changes, this may affect your results. If different versions of a reference data set exist, you need to establish your \"version policy\".",
+                                                        "title": "Is the reference data resource versioned?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "I will keep a copy and make it available with my results"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "The provider keeps old versions around"
+                                                            }
+                                                        ],
+                                                        "questionid": 80,
+                                                        "text": "Will the reference data in the version you use be available to others?",
+                                                        "title": "How will you make sure the same reference data will be available to reproduce your results?",
+                                                        "type": "option"
+                                                    }
+                                                ],
+                                                "questionid": 3,
+                                                "references": [
+                                                    {
+                                                        "chapter": "1.3",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "text": "Much of todays data is used in comparison with reference data. A genome for instance is compared with a reference genome to identify genomic variants. If you use reference data, there are several other issues that you should consider. What are the reference data sets that you will use?",
+                                                "title": "What reference data will you use?",
+                                                "type": "list"
+                                            },
+                                            {
+                                                "followups": [
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "followups": [
+                                                                    {
+                                                                        "answers": [
+                                                                            {
+                                                                                "id": 0,
+                                                                                "label": "No"
+                                                                            },
+                                                                            {
+                                                                                "id": 1,
+                                                                                "label": "Yes"
+                                                                            }
+                                                                        ],
+                                                                        "questionid": 10,
+                                                                        "title": "Do you need to request access to the data",
+                                                                        "type": "option"
+                                                                    }
+                                                                ],
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            },
+                                                            {
+                                                                "id": 2,
+                                                                "label": "We are the owners"
+                                                            }
+                                                        ],
+                                                        "questionid": 11,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.8",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "title": "Will the owners of this data set work with you on this study",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "Not applicable"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Existing consent applies"
+                                                            },
+                                                            {
+                                                                "id": 2,
+                                                                "label": "New consent needed"
+                                                            }
+                                                        ],
+                                                        "questionid": 12,
+                                                        "references": [
+                                                            {
+                                                                "chapter": "1.9",
+                                                                "type": "dmpbook"
+                                                            }
+                                                        ],
+                                                        "text": "If the data that you will re-use is coupled to people, is the informed consent that was originally obtained from those people covering your current research?",
+                                                        "title": "Is extenstion of any consent for privacy sensitive data needed?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "No"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Yes"
+                                                            }
+                                                        ],
+                                                        "questionid": 13,
+                                                        "title": "Will any usage restrictions affect your reuse?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "Already have physical copy"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Will make physical copy"
+                                                            },
+                                                            {
+                                                                "id": 2,
+                                                                "label": "Will use it online"
+                                                            }
+                                                        ],
+                                                        "questionid": 14,
+                                                        "title": "How will you be accessing the data?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "I can directly use it"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "I need to convert it before using"
+                                                            }
+                                                        ],
+                                                        "questionid": 15,
+                                                        "text": "Do you know the data format of the data? Is this suitable for your work? Does it need to be converted?",
+                                                        "title": "Do you knpw in what format the data is available?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "It is a fixed data set, this will not influence reproducibility of my results"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "It may change, I will make sure a copy of the version I used will be available with my results"
+                                                            }
+                                                        ],
+                                                        "questionid": 17,
+                                                        "text": "Is the data set you will reuse a fixed data set (with a persistent identifier), or is it a data set that is being worked on (by others) and may be updated during your project or after?",
+                                                        "title": "Is the data set fixed, or will it be updated in the future?",
+                                                        "type": "option"
+                                                    },
+                                                    {
+                                                        "answers": [
+                                                            {
+                                                                "id": 0,
+                                                                "label": "I will use the complete data set"
+                                                            },
+                                                            {
+                                                                "id": 1,
+                                                                "label": "Any filtering or selection will be well documented"
+                                                            },
+                                                            {
+                                                                "id": 2,
+                                                                "label": "I will make sure the selected subset will be available together with my results"
+                                                            }
+                                                        ],
+                                                        "questionid": 18,
+                                                        "text": "If you use any filtering, how will you make sure that your results will be reproducible by yourself and others at a later time?",
+                                                        "title": "Can you and will you use the complete existing data set?",
+                                                        "type": "option"
+                                                    }
+                                                ],
+                                                "questionid": 9,
+                                                "references": [
+                                                    {
+                                                        "chapter": "1.7",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "text": "Even if you will be producing your own data, you often will also be relying on existing data sets (e.g. from earlier . You may need to integrate your new data with an existing data set or retrieve additional information from related data bases. Will you be doing such things?",
+                                                "title": "What existing non-reference data sets will you use?",
+                                                "type": "list"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "followups": [
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 43,
+                                                                "text": "Data sets that have exactly identical fields that are well filled can be coupled using deterministic methods. Will you be using such methods?",
+                                                                "title": "Will you use deterministic couplings?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "questionid": 44,
+                                                                "text": "What will be the procedure that is followed? Where will what data be sent? Did a legal advisor look at the procedures?",
+                                                                "title": "Will you be using a trusted third party for coupling?",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 45,
+                                                                "title": "Is consent available for the couplings?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "questionid": 46,
+                                                                "text": "Sometimes, through the nature of the data sets that are coupled, the coupled set is no longer representative for the whole population (e.g. some fields may only have been filled for people with high blood pressure). This can disturb your research if undetected. How will you make sure this is not happening?",
+                                                                "title": "How will you check whether your coupled data are representative of your goal population?",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "More data about the same subjects (intersection)"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Enlarging the group of subjects (union)"
+                                                                    }
+                                                                ],
+                                                                "questionid": 47,
+                                                                "title": "What is the goal of the coupling?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "questionid": 48,
+                                                                "title": "What variable(s) will you be using for the coupling?",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 49,
+                                                                "text": "Data sets that have similar but not identical fields or with identical fields that are not consistently filled can be coupled using probabilistic methods. Will you be using such methods?",
+                                                                "title": "Will you use probabilistic couplings?",
+                                                                "type": "option"
+                                                            }
+                                                        ],
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 42,
+                                                "title": "Will you couple existing (biobank) data sets?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "followups": [
+                                    {
+                                        "answers": [
+                                            {
+                                                "id": 0,
+                                                "label": "No"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "label": "Yes"
+                                            }
+                                        ],
+                                        "questionid": 16,
+                                        "references": [
+                                            {
+                                                "chapter": "1.10",
+                                                "type": "dmpbook"
+                                            }
+                                        ],
+                                        "text": "If you are combining data from different sources, harmonization may be required. You may need to re-analyse some original data.",
+                                        "title": "Do you need to harmonize different sources of existing data?",
+                                        "type": "option"
+                                    },
+                                    {
+                                        "answers": [
+                                            {
+                                                "id": 0,
+                                                "label": "No"
+                                            },
+                                            {
+                                                "id": 1,
+                                                "label": "Yes, I will make sure to make this data available with my results."
+                                            }
+                                        ],
+                                        "questionid": 81,
+                                        "text": "Some old data may need to be recovered, e.g. from tables in scientific papers or may be punch cards.",
+                                        "title": "Will you be using data that needs to be (re-)made computer readable first?",
+                                        "type": "option"
+                                    }
+                                ],
+                                "questionid": 2,
+                                "references": [
+                                    {
+                                        "chapter": "1.2",
+                                        "type": "dmpbook"
+                                    }
+                                ],
+                                "text": "Will you be referring to any earlier measured data, reference data, or data that should be mined from existing literature? Your own data as well as data from others?",
+                                "title": "Will you be using any pre-existing data (including other people's data)?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "experts": [
+                    {
+                        "email": "barend.mons@dtls.nl",
+                        "name": "Barend Mons"
+                    }
+                ],
+                "questionid": 1,
+                "references": [
+                    {
+                        "chapter": "1.1",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "Are there any data sets available in the world that are relevant to your planned research?",
+                "title": "Is there any pre-existing data?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "questionid": 30,
+                                "text": "Who will own the rights to the reference data set? Who will be able to use it?",
+                                "title": "What will the Intellectual Property be like?",
+                                "type": "text"
+                            },
+                            {
+                                "questionid": 31,
+                                "text": "How will maintenance be paid for in the long run? Will you host it yourself or deposit it with a repository? How will you deal with requests for help? And with requests for adding data?",
+                                "title": "How will you maintain it?",
+                                "type": "text"
+                            },
+                            {
+                                "questionid": 32,
+                                "text": "Will you be updating the reference data at regular intervals?",
+                                "title": "How will the release schedule be?",
+                                "type": "text"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 29,
+                "references": [
+                    {
+                        "chapter": "1.12",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "Will any of the data that you will be creating form a reference data set for future research (by others)?",
+                "title": "Will reference data be created?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 33,
+                "references": [
+                    {
+                        "chapter": "1.13",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Will you be storing samples?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 38,
+                "references": [
+                    {
+                        "chapter": "1.14",
+                        "type": "dmpbook"
+                    }
+                ],
+                "title": "Will you be collecting experimental data?",
+                "type": "option"
+            }
+        ],
+        "text": "Before you decide to embark on any new study, it is nowadays good practice to consider all options to keep the data generation part of your study as limited as possible. It is not because we can generate massive amounts of data that we always need to do so. Creating data with public money is bringing with it the responsibility to treat those data well and (if potentially useful) make them available for re-use by others.",
+        "title": "Design of experiment"
+    },
+    {
+        "chapterid": 2,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No, I am not using any common data types"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes, I will make sure to use common formats for common data types"
+                    }
+                ],
+                "questionid": 1,
+                "references": [
+                    {
+                        "chapter": "2.1",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "Some types of data (e.g. genetic variants in the life sciences) are used by many different projects. For such data, often common standards exist that help to make these data reusable. Are you using such common data formats?",
+                "title": "Have you identified types of data that you will use that are used by others too?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No, all of my data will fit in common formats"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No, all of my data types are described in a data type registry already"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes, I will add new types to an existing data type registry"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "Yes, I will create my own data type registry"
+                                    }
+                                ],
+                                "questionid": 7,
+                                "references": [
+                                    {
+                                        "chapter": "2.2.1",
+                                        "type": "dmpbook"
+                                    }
+                                ],
+                                "text": "Even if the data format you are using is unique to your project, the discrete data items should be reused or reusable as much as possible. Data type registries can help with that.",
+                                "title": "Will you need to add fields in your data format to a data type registry?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No, suitable public controlled vocabularies or ontologies exist for all of my data types"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes, I will make and publish a vocabulary or ontology for some of my data"
+                                    }
+                                ],
+                                "questionid": 8,
+                                "references": [
+                                    {
+                                        "chapter": "2.2.1",
+                                        "type": "dmpbook"
+                                    }
+                                ],
+                                "text": "For good interoperability the use of controlled vocabularies for each discrete data item is advisable. If such vocabularies exist, it is best to reuse those.",
+                                "title": "Do you need to create vocabularies or ontologies for any of your data items?",
+                                "type": "option"
+                            },
+                            {
+                                "questionid": 9,
+                                "title": "Which data type registries will you use?",
+                                "type": "text"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "There is a closely related more generic and open format that I can specialize"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "I will use a Linked Data format"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "I will use a completely custom data format"
+                                    }
+                                ],
+                                "questionid": 10,
+                                "title": "How will you design your new data format?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No, this is not needed"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes, I will register my standards at a data standards registry"
+                                    }
+                                ],
+                                "questionid": 11,
+                                "title": "Will you describe your new data format for others?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes, I will need to use custom formats for some of my data"
+                    }
+                ],
+                "questionid": 2,
+                "references": [
+                    {
+                        "chapter": "2.2",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "Sometimes the type of data you collect can not be stored in a commonly used data format. In such cases you may need to make your own, keeping interoperability as high as possible.",
+                "title": "Will you be using new types of data?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 12,
+                                "title": "Do suitable 'Minimal Metadata About ...' (MIA...) standards exist for your experiments?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No, I will just document the bare minimum"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "I will see what I can do"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "I will use preselected additional standard modules of metadata"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "I will store all metadata I can gather and document"
+                                                    }
+                                                ],
+                                                "questionid": 14,
+                                                "references": [
+                                                    {
+                                                        "chapter": "2.3.1.1",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "title": "How will you balance the extra efforts with the potential for added reusability?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 15,
+                                                "references": [
+                                                    {
+                                                        "chapter": "2.3.1.2",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "title": "Do you need to exchange your data with others?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes, I will document more metadata than needed for reproducibility"
+                                    }
+                                ],
+                                "questionid": 13,
+                                "references": [
+                                    {
+                                        "chapter": "2.3.1",
+                                        "type": "dmpbook"
+                                    }
+                                ],
+                                "text": "Adding more than the strict minimum metadata about your experiment will possibly allow more wide re-use of your data, with associated higher data citation rates. Please note that it is not easy for yourself to see all other ways in which others could be reusing your data.",
+                                "title": "Will you consider re-usability of your data beyond your original purpose?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "Skip"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 17,
+                                                "text": "Data corruption or mistakes can happen with large amounts of files or large files. Keeping a master list with data checksums can be helpful to prevent expensive mistakes. It can also be helpful to keep the sample list under version control forcing that all changes are well documented.",
+                                                "title": "Will you be keeping a master list with checksums of certified/correct/canonical/verified data?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 18,
+                                                "title": "Will you define a way to detect file or sample swaps, e.g. by measuring something independently?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Explore"
+                                    }
+                                ],
+                                "questionid": 16,
+                                "references": [
+                                    {
+                                        "chapter": "2.3.2",
+                                        "type": "dmpbook"
+                                    }
+                                ],
+                                "text": "Working with large amounts of heterogenous data in a larger research group has implications for the data integrity. How do you make sure every step of the workflow is done with the right version of the data? How do you handle the situation when a mistake is uncovered? Will you be able to redo the strict minimum data handling?",
+                                "title": "Did you consider how to monitor data integrity?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 19,
+                                                "references": [
+                                                    {
+                                                        "chapter": "2.3.3",
+                                                        "type": "dmpbook"
+                                                    }
+                                                ],
+                                                "text": "It is very likely that data will be moved and copied. At some point people may lose track of the origins. It can be helpful to have the licenses (of coarse as open as possible) stored in close association with the data.",
+                                                "title": "Will you store the licenses with the data at all time?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 20,
+                                "text": "It is not always clear to everyone in the project (ad outside) what can and can not be done with a data set. It is helpful to associate each data set with a license as early as possible in the project. A data license should ideally be as free as possible: any restriction like 'only for non-commercial use' or 'attribution required' may reduce the reusability and thereby the number of citations. If possible, use a computer-readable and computer actionable license.",
+                                "title": "Do all datasets you work with have a license?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "All steps will be documented in an (electronic) lab notebook"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Our work flow system documents the provenance automatically and completely"
+                                    }
+                                ],
+                                "questionid": 21,
+                                "references": [
+                                    {
+                                        "chapterid": 4,
+                                        "questionid": 2,
+                                        "type": "xref"
+                                    }
+                                ],
+                                "text": "To make your experiments reproducible, all steps in the data processing must be documented in detail. The software you used, including version number, all options and parameters. This information together for every step of the analysis is part of the so-called data provenance. There are more questions regarding this in the chapter on data processing and curation.",
+                                "title": "How will you keep provenance?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "Skip"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 23,
+                                                "text": "It can help if everyone in the project uses the same naming scheme.",
+                                                "title": "Did you make a SOP (Standard Operating Procedure) for file naming?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 24,
+                                                "text": "Advice: Use the same identifiers for sample IDs etc throughout the entire project.",
+                                                "title": "Will you be keeping the relationships between data clear in the file names?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No, the file names in the project are an essential part of the metadata"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes, all metadata is also explicitly available elsewhere"
+                                                    }
+                                                ],
+                                                "questionid": 25,
+                                                "text": "The file names are very useful as metadata for people involved in the project, but to computers they are just identifiers. To prevent accidents with e.g. renamed files metadata information should always also be available elsewhere and not only through the file name.",
+                                                "title": "Will all the metadata in the file names also be available in the proper metadata?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Explore"
+                                    }
+                                ],
+                                "questionid": 22,
+                                "text": "Putting some thoughts into file naming can save a lot of trouble later.",
+                                "title": "How will you do file naming and file organization?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Explore"
+                    }
+                ],
+                "questionid": 3,
+                "references": [
+                    {
+                        "chapter": "2.3",
+                        "type": "dmpbook"
+                    }
+                ],
+                "text": "For the re-usability of your data by yourself or others at a later stage, a lot of information about the data, how it was collected and how it can be used should be stored with the data. Such data about the data is called metadata, and this set of questions are about this metadata",
+                "title": "How will you be storing metadata?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 74,
+                                "text": "When assessing the risk, take into account who has access to the lab, who has (physical) access to the computer hardware itself. Also consider whether data on those systems is properly backed up",
+                                "title": "Do project members store data or software on computers in the lab or external hard drives connected to those computers?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 76,
+                                                "title": "Are all data carriers encrypted? Are accounts on the laptop password protected?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 75,
+                                "text": "Does anyone carry project data on laptops, USB sticks or other external media?",
+                                "title": "Do project members carry data with them?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 77,
+                                "text": "Think about services like Dropbox, but also about Google Drive, Apple iCloud accounts, or Microsoft's Office365",
+                                "title": "Do project members store project data in cloud accounts?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 78,
+                                "title": "Do project members send project data or reports per e-mail or other messaging services?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 79,
+                                "title": "Do all data centers where project data is stored carry sufficient certifications?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 80,
+                                "title": "Are all project web services addressed via secure http (https://)?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 81,
+                                "text": "Project members may need to know about passwords (not sharing accounts, using different passwords for each service, and two factor authentication), about security for data they carry (encryption, backups), data stored in their own labs and in personal cloud accounts, and about the use of open WiFi and https",
+                                "title": "Have project members been instructed about the risks (generic and specific to the project)?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "The effect is small"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "The risk is acceptably low"
+                                    }
+                                ],
+                                "questionid": 82,
+                                "title": "Did you consider the possible impact to the project or organization if information is lost?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "The effect is small"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "The risk is acceptably low"
+                                    }
+                                ],
+                                "questionid": 83,
+                                "title": "Did you consider the possible impact to the project or organization if information leaks?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "The effect is small"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "The risk is acceptably low"
+                                    }
+                                ],
+                                "questionid": 84,
+                                "title": "Did you consider the possible impact to the project or organization if information is vandalized?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Explore"
+                    }
+                ],
+                "questionid": 5,
+                "text": "There are many factors that can contribute to the risk of information loss or information leaks. They are often part of the behavior of the people that are involved in the project, but can also be steered by properly planned infrastructure.",
+                "title": "Is the risk of information loss, leaks and vandalism acceptably low?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 85,
+                                "text": "Did you run pilot jobs? Do you know this information from comparable projects? Did you test whether the work scales up as you expected if you run more than one job?",
+                                "title": "Do you know how much CPU power, memory and I/O band width a typical analysis will take?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "We will use a compute cluster"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "We will use grid computing"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "We will use cloud computing"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "label": "We will use a mix of computing architectures for different parts of the work"
+                                    }
+                                ],
+                                "questionid": 86,
+                                "title": "What type of compute architecture is most suitable for your work? Will you have that available?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 87,
+                                "text": "Do you need the compute capacity also for development? Can you start developing locally and start with a deployment test later?",
+                                "title": "Have you established with the provider when will you need the compute capacity?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "There are no special networking requirements"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Copying or network delays are considered to be acceptable"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "We will be able to use a dedicated network connection"
+                                                    }
+                                                ],
+                                                "questionid": 89,
+                                                "title": "Did you plan the required network capacity between storage and compute services?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 90,
+                                                "text": "Are the risks of data leaks covered?",
+                                                "title": "Can all data be legally transported and processed at the computing site?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 88,
+                                "title": "Is all required compute capacity available close to the project working storage area?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "All steps of the workflow will be performed at central computing locations"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 92,
+                                                "title": "Is there sufficient network capacity to the other computing locations?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Some steps may be performed at local computing locations"
+                                    }
+                                ],
+                                "questionid": 91,
+                                "title": "Will different groups work on different parts of the workflow? Will parts of the computing be done on 'local' infrastructure to the group?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "We will recruit"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Training has been arranged"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "Our people will be able to call for help"
+                                    },
+                                    {
+                                        "id": 3,
+                                        "label": "We have sufficient knowledge in the project"
+                                    }
+                                ],
+                                "questionid": 93,
+                                "title": "Is there sufficient experience with the chosen computer experience in the project?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 6,
+                "text": "If you require substantial amounts of compute power, amounts that are not trivially absorbed in what you usually have abailable, some planning is necessary. Do you think you need to do compute capacity planning?",
+                "title": "Do you need to do compute capacity planning?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 27,
+                                "title": "Can the original data be recreated?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "As soon as it comes in, in chunks"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "As soon as it has all arrived, in one session"
+                                    },
+                                    {
+                                        "id": 2,
+                                        "label": "All at once with the results at the end of the project"
+                                    }
+                                ],
+                                "questionid": 30,
+                                "title": "When is the raw data archived?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No, data changes infrequently"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes, data changes frequently"
+                                                    }
+                                                ],
+                                                "questionid": 29,
+                                                "title": "Do you need frequent backups?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 31,
+                                                "title": "Will you be relying on these backups to recover from human error (accidental changes or deletions)?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 28,
+                                "title": "Is the archived data changing over time, needing re-archival?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "Disc"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Tape"
+                                    }
+                                ],
+                                "questionid": 32,
+                                "title": "Will the archive be stored on disc or on tape?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 33,
+                                "title": "Will the archive be stored in a remote location, protecting the data against disasters?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "followups": [
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 36,
+                                                                "title": "Is it clear who has access to the key? Also in case of a required data restore?",
+                                                                "type": "option"
+                                                            }
+                                                        ],
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 35,
+                                                "title": "Will the archive be encrypted?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 37,
+                                                "title": "Is it clear who has physical access to the archives?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 34,
+                                "title": "Will the archive need to be protected against loss or theft?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 39,
+                                                "text": "If the 'master copy' of the data is available on line, it should probably be protected against being tampered with.",
+                                                "title": "Will data integrity be guaranteed?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 38,
+                                "title": "Will your project require the archives to be available on-line?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 41,
+                                                "title": "Has it been established who can ask for a restore during the project?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 42,
+                                                "title": "If the data is voluminous, will the project be able to cope with the time needed for a restore?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 43,
+                                                "title": "has authority over the data been arranged for when the project is finished (potentially long ago)? Is there a data access committee?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 40,
+                                "title": "Has it been established who has access to the archive, and how fast?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 44,
+                                "title": "Has it been established how long the archived data need to be kept? For each of the different parts of the archive (raw data / results)?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes"
+                                    }
+                                ],
+                                "questionid": 45,
+                                "text": "See also all questions about keeping metadata and data formats. Make sure the metadata is kept close to the data in the archive, and that community supported data formats are used for all long term archiving.",
+                                "title": "Will the data still be understandable after a long time?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 26,
+                "title": "Will you be archiving data for long term preservation?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "No"
+                                    },
+                                    {
+                                        "id": 1,
+                                        "label": "Yes, protected against both equipment failure and human error"
+                                    }
+                                ],
+                                "questionid": 73,
+                                "title": "Are data all project members store adequately backed up and traceable?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "followups": [
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "Skip"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "questionid": 48,
+                                                "text": "When making the work space, it helps to know whether you expect to work with very many small files, a few very large files, whether you will use a (SQL) database to store most of the data. Maybe your data is suitable for a system like Hadoop? Such information can be collected here.",
+                                                "title": "What kind of data will you have in your work space?",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 49,
+                                                "references": [
+                                                    {
+                                                        "chapterid": 2,
+                                                        "questionid": 6,
+                                                        "type": "xref"
+                                                    }
+                                                ],
+                                                "text": "If you have large volumes of data that are intensely and repeatedly used by the computing work flow, it may be needed to keep the storage in the same place as where the computing takes place.",
+                                                "title": "Do you need the work space to be close to the compute capacity?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No, data format will be archived in the same way we work with it"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes, archival will require a conversion step"
+                                                    }
+                                                ],
+                                                "questionid": 50,
+                                                "text": "Archival and working with data have different requirements. You want archived information to be in a form that others could read and in a format that is also understandable in a number of years. When working with the data, you need to be able to address it efficiently. If the two differ, you need to plan for conversions.",
+                                                "title": "Will you be working with your data in another form than the way it will be archived?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "Storage needs will be the same during the whole project"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Storage needs are large at the beginning and will be reduced later"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "Storage needs are small at the beginning and will grow later"
+                                                    },
+                                                    {
+                                                        "id": 3,
+                                                        "label": "Storage needs are largest in the middle of the project"
+                                                    },
+                                                    {
+                                                        "followups": [
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "Raw data will come in right at the start"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Raw data will come in during the project"
+                                                                    }
+                                                                ],
+                                                                "questionid": 52,
+                                                                "title": "When will your raw data become available?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "Raw data will need to stay in the work space"
+                                                                    },
+                                                                    {
+                                                                        "followups": [
+                                                                            {
+                                                                                "answers": [
+                                                                                    {
+                                                                                        "id": 0,
+                                                                                        "label": "No, it is also stored elsewhere can can be recovered easily"
+                                                                                    },
+                                                                                    {
+                                                                                        "id": 1,
+                                                                                        "label": "No, it can be remeasured easily and more cheaply than archiving"
+                                                                                    },
+                                                                                    {
+                                                                                        "id": 2,
+                                                                                        "label": "Yes"
+                                                                                    }
+                                                                                ],
+                                                                                "questionid": 54,
+                                                                                "title": "Do your raw data need to be archived?",
+                                                                                "type": "option"
+                                                                            }
+                                                                        ],
+                                                                        "id": 1,
+                                                                        "label": "Raw data can be cleaned out or archived quickly"
+                                                                    },
+                                                                    {
+                                                                        "id": 2,
+                                                                        "label": "Raw data do not form a major part of the storage needs"
+                                                                    }
+                                                                ],
+                                                                "questionid": 53,
+                                                                "text": "Sometimes the raw data is relatively large, and it pays of to clean it quickly.",
+                                                                "title": "How much of the raw data do you need to keep in the work space?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "The volume of intermediate data will not be significant"
+                                                                    },
+                                                                    {
+                                                                        "followups": [
+                                                                            {
+                                                                                "answers": [
+                                                                                    {
+                                                                                        "id": 0,
+                                                                                        "label": "We will use the main work space for temporary data"
+                                                                                    },
+                                                                                    {
+                                                                                        "followups": [
+                                                                                            {
+                                                                                                "answers": [
+                                                                                                    {
+                                                                                                        "id": 0,
+                                                                                                        "label": "No"
+                                                                                                    },
+                                                                                                    {
+                                                                                                        "id": 1,
+                                                                                                        "label": "Yes"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "questionid": 71,
+                                                                                                "references": [
+                                                                                                    {
+                                                                                                        "anchor": "How CSC restored 850 million temporary files",
+                                                                                                        "type": "url",
+                                                                                                        "weblink": "https://www.csc.fi/web/blog/post/-/blogs/the-largest-unplanned-outage-in-years-and-how-we-survived-it"
+                                                                                                    }
+                                                                                                ],
+                                                                                                "title": "Are you sure you will not need a backup of the data stored on the scratch file systems (any scratch you use)?",
+                                                                                                "type": "option"
+                                                                                            }
+                                                                                        ],
+                                                                                        "id": 1,
+                                                                                        "label": "We can offload intermediate results to a scratch file system that is not backed up"
+                                                                                    }
+                                                                                ],
+                                                                                "questionid": 56,
+                                                                                "text": "If the intermediate results are in your main work space, a restore in case of a problem could take much more time. It may be faster to recover it by re-running computations",
+                                                                                "title": "Is it possible to store intermediate temporary data on a separate (scratch) file system that is not backed up?",
+                                                                                "type": "option"
+                                                                            }
+                                                                        ],
+                                                                        "id": 1,
+                                                                        "label": "A large volume of intermediate data will be in the work space"
+                                                                    }
+                                                                ],
+                                                                "questionid": 55,
+                                                                "title": "Did you plan how much intermediate data you will get during analysis and how long each step needs to be kept?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes"
+                                                                    }
+                                                                ],
+                                                                "questionid": 57,
+                                                                "text": "Consider storing only the workflow parameters if the data itself could be reproduced quickly",
+                                                                "title": "Will you have different versions of intermediate data that need to be kept?",
+                                                                "type": "option"
+                                                            }
+                                                        ],
+                                                        "id": 4,
+                                                        "label": "Explore"
+                                                    }
+                                                ],
+                                                "questionid": 51,
+                                                "text": "To perform capacity planning, it is important to know what the need for storage capacity at the beginning and the end of the project will be.",
+                                                "title": "How does the storage need change over time?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Yes"
+                                                    }
+                                                ],
+                                                "questionid": 58,
+                                                "title": "Will you need to temporarilty archive data sets (to tape)?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "No special planning is needed for the initial data"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Initial data will need to be made available through a local network copy"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "We will need a high-speed network connection to copy the initial data"
+                                                    },
+                                                    {
+                                                        "id": 3,
+                                                        "label": "Initial data will arrive on separate media and will need to be copied to the work space"
+                                                    }
+                                                ],
+                                                "questionid": 59,
+                                                "title": "How will your first data come in?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "Skip"
+                                                    },
+                                                    {
+                                                        "followups": [
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No special provisions are needed"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Project management will need to be able to give people access"
+                                                                    },
+                                                                    {
+                                                                        "id": 2,
+                                                                        "label": "The work space should be connected to a single-sign-on system"
+                                                                    }
+                                                                ],
+                                                                "questionid": 61,
+                                                                "title": "Who will arrange access control?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes, for occasional exploration"
+                                                                    },
+                                                                    {
+                                                                        "id": 2,
+                                                                        "label": "Yes, for actual computations, requiring high performance"
+                                                                    }
+                                                                ],
+                                                                "questionid": 62,
+                                                                "title": "Will the work space need to be remote mounted?",
+                                                                "type": "option"
+                                                            },
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "No, this should not be allowed"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Yes, occasionally"
+                                                                    },
+                                                                    {
+                                                                        "followups": [
+                                                                            {
+                                                                                "answers": [
+                                                                                    {
+                                                                                        "id": 0,
+                                                                                        "label": "This is not needed"
+                                                                                    },
+                                                                                    {
+                                                                                        "id": 1,
+                                                                                        "label": "Yes"
+                                                                                    }
+                                                                                ],
+                                                                                "questionid": 64,
+                                                                                "title": "Are data integrity and reliability requirements also met by the other storage spaces used in the project?",
+                                                                                "type": "option"
+                                                                            }
+                                                                        ],
+                                                                        "id": 2,
+                                                                        "label": "Yes, for actual computations, requiring high performance"
+                                                                    }
+                                                                ],
+                                                                "questionid": 63,
+                                                                "title": "Will data be copied out and in to the workspace by remote users?",
+                                                                "type": "option"
+                                                            }
+                                                        ],
+                                                        "id": 1,
+                                                        "label": "Explore"
+                                                    }
+                                                ],
+                                                "questionid": 60,
+                                                "title": "How will project partners access the work space?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Explore"
+                                    }
+                                ],
+                                "questionid": 47,
+                                "title": "How will you work with your data?",
+                                "type": "option"
+                            },
+                            {
+                                "answers": [
+                                    {
+                                        "id": 0,
+                                        "label": "Skip"
+                                    },
+                                    {
+                                        "followups": [
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "This is unacceptable"
+                                                    },
+                                                    {
+                                                        "followups": [
+                                                            {
+                                                                "answers": [
+                                                                    {
+                                                                        "id": 0,
+                                                                        "label": "There is no software"
+                                                                    },
+                                                                    {
+                                                                        "id": 1,
+                                                                        "label": "Software in the work space is only a copy"
+                                                                    },
+                                                                    {
+                                                                        "id": 2,
+                                                                        "label": "Special care will be taken for the software and configurations"
+                                                                    }
+                                                                ],
+                                                                "questionid": 67,
+                                                                "title": "Is there software in the work space? Can it also be restored quickly?",
+                                                                "type": "option"
+                                                            }
+                                                        ],
+                                                        "id": 1,
+                                                        "label": "All essential data is also stored elsewhere"
+                                                    }
+                                                ],
+                                                "questionid": 66,
+                                                "title": "What is the acceptable risk for a total loss?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "We could handle a few days of offline time per year"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "We can only miss the work space for a few hours during work hours"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "Problems during the evenings and weekends can not wait for work hours to be repaired"
+                                                    }
+                                                ],
+                                                "questionid": 68,
+                                                "title": "Can you handle it when the work space is off line for a while?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "We can wait for repair and a restore from tape"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "A spare copy needs to be deployed quickly"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "No waiting is possible, a hot copy must be ready to take over"
+                                                    }
+                                                ],
+                                                "questionid": 69,
+                                                "title": "How long can you wait for a restore if the storage fails?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "Days"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "Hours"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "Any user needs to be able to restore an old copy instantaneously"
+                                                    }
+                                                ],
+                                                "questionid": 70,
+                                                "title": "How long can you wait for a restore if you accidentally damage a file?",
+                                                "type": "option"
+                                            },
+                                            {
+                                                "answers": [
+                                                    {
+                                                        "id": 0,
+                                                        "label": "There is no data elsewhere"
+                                                    },
+                                                    {
+                                                        "id": 1,
+                                                        "label": "All data elsewhere is adequately backed up"
+                                                    },
+                                                    {
+                                                        "id": 2,
+                                                        "label": "We make (automated) backups of all data stored outside of the working area"
+                                                    }
+                                                ],
+                                                "questionid": 72,
+                                                "text": "Are there any data files e.g. on laptops of project members? Also: supercomputing centers and other high performance computer centers often write in their terms of use that you need to take care of your own backups",
+                                                "title": "Do you need to make backups of project data stored elsewhere into your work space?",
+                                                "type": "option"
+                                            }
+                                        ],
+                                        "id": 1,
+                                        "label": "Explore"
+                                    }
+                                ],
+                                "questionid": 65,
+                                "title": "How available/reliable should must the workspace be?",
+                                "type": "option"
+                            }
+                        ],
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 46,
+                "title": "Will you need a shared working space to work with your data?",
+                "type": "option"
+            }
+        ],
+        "text": "In the data design and planning phase, we will make sure that we know what data comes when, that we have enough storage space and compute power to deal with it, and that all the responsibilities have been taken care of.",
+        "title": "Data design and planning"
+    },
+    {
+        "chapterid": 3,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "In the project"
+                    },
+                    {
+                        "advice": "consider making them partner in the project",
+                        "id": 1,
+                        "label": "External party"
+                    }
+                ],
+                "questionid": 1,
+                "text": "Are there easily accessible specialized service providers for data capture?",
+                "title": "Who will do the measurements?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "text": "Where does the data come from? And who will need it? Sometimes the raw data is measured somewhere else than where the primary processing is taking place. In such cases the ingestion of the primary data may take special planning.",
+                "title": "Is special care needed to get the raw data ready for processing?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": "Do you have any non-equipment data capture?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 4,
+                "title": "Is there a data integration tool that can handle and combine all the data types you are dealing with in your project?",
+                "type": "option"
+            }
+        ],
+        "title": "Data Capture/Measurement"
+    },
+    {
+        "chapterid": 4,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 1,
+                "text": "It is likely that you will be developing or modifying the workflow for data processing. There are a lot of aspects of this workflow that can play a role in your data management, such as the use of an existing work flow engine, the use of existing software vs development of new components, and whether every run needs human intervention or whether all data processing can be run in bulk once the work flow has been defined.",
+                "title": "Workflow development",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 2,
+                "title": "How will you make sure to know what exactly has been run?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 3,
+                "title": "How will you validate the integrity of the results?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Wait"
+                    },
+                    {
+                        "id": 1,
+                        "label": "We have an alternative"
+                    }
+                ],
+                "questionid": 4,
+                "text": "What will you do if the compute facility is down?",
+                "title": "Do you have a contingency plan?",
+                "type": "option"
+            }
+        ],
+        "title": "Data processing and curation"
+    },
+    {
+        "chapterid": 5,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 1,
+                "title": "What is the framework you will use for data integration?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "title": "Will you be using common or exchangeable units?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "advice": "Choose the ontologies before you start",
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": "Will you be using common ontologies?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 4,
+                "title": "Will there be potential issues with statistical normalization?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 5,
+                "title": "Do you have all tools to couple the necessary data types?",
+                "type": "option"
+            }
+        ],
+        "title": "Data integration"
+    },
+    {
+        "chapterid": 6,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "advice": "Make sure this has been taken into account in the capacity planning under 'Data design and planning'",
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 1,
+                "title": "Will data interpretation and modeling require significant compute infrastructure capacity?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Taken care of"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill deeper"
+                    }
+                ],
+                "questionid": 2,
+                "text": "Data analysis is normally done manually on a step-by-step basis. It is essential to make sure all steps are properly documented, otherwise results will not be reproducible.",
+                "title": "How will you be making sure there is good provenance of the data analysis?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": "Will you be doing (automated) knowledge discovery?",
+                "type": "option"
+            }
+        ],
+        "title": "Data interpretation"
+    },
+    {
+        "chapterid": 7,
+        "questions": [
+            {
+                "answers": [
+                    {
+                        "advice": "You will need to explain!",
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 1,
+                "title": "Will you be working with the philosophy 'as open as possible' for your data?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 2,
+                "title": " Are there legal reasons why (some of your) data can not be completely open?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 3,
+                "title": " Are there business reasons why (some of your) data can not be completely open?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill Deeper"
+                    }
+                ],
+                "questionid": 4,
+                "title": "Where will you make your data available?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "Skip"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Drill Deeper"
+                    }
+                ],
+                "questionid": 5,
+                "title": "Did you work out the financial aspects of making the data available?",
+                "type": "option"
+            },
+            {
+                "answers": [
+                    {
+                        "id": 0,
+                        "label": "No"
+                    },
+                    {
+                        "id": 1,
+                        "label": "Yes"
+                    }
+                ],
+                "questionid": 6,
+                "title": "Will you be archiving data?",
+                "type": "option"
+            }
+        ],
+        "title": "Information and insight"
+    }
+]
