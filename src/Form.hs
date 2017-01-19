@@ -60,8 +60,8 @@ generateForm tabs = do
                   { allElems = tabs
                   , validImg = "<img alt='valid' class='validity-flag' src='" <> staticURL <> "img/valid.png'/>"
                   , invalidImg = "<img alt='invalid' class='validity-flag' src='" <> staticURL <> "img/invalid.png'/>"
-                  , addImg = "<img alt='add' class='button-add' src='img/add.png'/>"
-                  , removeImg = "<img alt='remove' class='button-add' src='img/remove.png'/>"
+                  , addImg = "<img alt='add' class='button-add' src='" <> staticURL <> "img/add.png'/>"
+                  , removeImg = "<img alt='remove' class='button-add' src='" <> staticURL <> "img/remove.png'/>"
                   }
                 showDetails :: ElemAction
                 showDetails element _ = do

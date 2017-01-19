@@ -133,7 +133,9 @@ transformQuestion ch q =
         "option" -> transformOptionQuestion ch q
         "list" -> transformListQuestion ch q
         _ -> transformFieldQuestion ch q
-    follows = map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
+    follows = case questType q of
+        "list" -> []
+        _ -> map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
 
 transformOptionQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformOptionQuestion ch q =
@@ -209,14 +211,14 @@ transformOptionQuestion ch q =
 
 transformListQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformListQuestion ch q =
-  SimpleGroup
-  { sgDescriptor =
+  MultipleGroup
+  { mgDescriptor =
     FIDescriptor
     { iLabel = Just (questTitle q)
     , iNumbering = NoNumbering
     , iIdent = Nothing
     , iTags = []
-    , iShortDescription = Nothing
+    , iShortDescription = Just "List all the items bellow."
     , iLongDescription = buildLongDesc q
     , chapterId = Just $ chapID ch
     , questionId = Just $ questID q
@@ -224,16 +226,16 @@ transformListQuestion ch q =
     , iMandatory = True
     , iRules = []
     }
-  , sgLevel = 0
-  , sgItems =
-    [ TextFI
-      { tfiDescriptor =
+  , mgLevel = 0
+  , mgItems =
+    StringFI
+      { sfiDescriptor =
         FIDescriptor
-        { iLabel = Just "Items"
+        { iLabel = Just "Item"
         , iNumbering = NoNumbering
         , iIdent = Nothing
         , iTags = []
-        , iShortDescription = Just "Write each item on new line"
+        , iShortDescription = Nothing
         , iLongDescription = buildLongDesc q
         , chapterId = Just $ chapID ch
         , questionId = Just $ questID q
@@ -242,8 +244,9 @@ transformListQuestion ch q =
         , iRules = []
         }
       }
-    ]
+    : follows
   }
+  where follows = map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
 
 transformFieldQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformFieldQuestion ch q =
