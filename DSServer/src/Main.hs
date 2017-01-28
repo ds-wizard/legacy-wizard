@@ -55,7 +55,7 @@ getQuestionHandler = do
         Nothing -> W.text "Missing qid"
         Just qid -> do
           maybeQuestion <- runQuery $ getQuestion chid qid
-          W.text $ toStrict $ fromMaybe "" $ (pack . show) <$> maybeQuestion 
+          W.text $ toStrict $ fromMaybe "" $ (pack . show) <$> maybeQuestion
 
 getBookContentsHandler :: ActionCtxT ctx (WebStateM PG.Connection b ()) a
 getBookContentsHandler = do
@@ -67,14 +67,13 @@ getBookContentsHandler = do
         Nothing -> W.text "Missing qid"
         Just qid -> do
           maybeText <- runQuery $ getBookContents chid qid
-          W.text $ fromMaybe "" $ maybeText
+          W.text $ fromMaybe "" maybeText
 
 readInt :: Text -> Maybe Int
-readInt str =
-  if length readChid /= 1
-    then Nothing
-    else if not $ null $ snd $ Prelude.head readChid
-           then Nothing
-           else Just $ fst $ Prelude.head readChid
+readInt str
+  | length readChid /= 1 = Nothing
+  | otherwise = if not $ null $ snd $ Prelude.head readChid
+     then Nothing
+     else Just $ fst $ Prelude.head readChid
   where
     readChid = reads (unpack str) :: [(Int, String)]
