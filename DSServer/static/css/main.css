@@ -130,6 +130,7 @@ div#footer td img.logo {
 }
 .multiple-section {
   float: left;
+  background-color: #e2ffd7;
 }
 .button-add,
 .button-remove {
