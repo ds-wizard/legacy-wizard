@@ -1,5 +1,4 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# ANN module "HLint: ignore Reduce duplication" #-}
 
 module Persistence.User where
 
@@ -17,6 +16,9 @@ import System.Random (getStdGen, randomBS)
 
 import Model.User
 import Model.Session
+
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
+{-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
 
 instance FromRow User where
   fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field

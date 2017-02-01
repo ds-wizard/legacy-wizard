@@ -1,11 +1,12 @@
-all: src/Main.hs
-	cabal build
+all: app/Main.hs
+	stack build
 
 configure:
-	rm -rf .cabal* cabal.sandbox.config dist
-	cabal sandbox init
-	cabal update
-	cabal install --dependencies-only
+	rm -rf .stack-work
+	stack clean
+	stack setup
 
-clean:	
-	rm -rf dist
+clean:
+	stack clean
+run: all
+	stack exec DSServer

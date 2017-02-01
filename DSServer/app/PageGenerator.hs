@@ -13,6 +13,8 @@ import           Config.Config (staticURL)
 
 import           Model.Question as Q
 
+{-# ANN module ("HLint: ignore Redundant do" :: String) #-}
+
 renderHead :: Html
 renderHead = H.head $ do
     H.meta ! A.charset "utf-8"

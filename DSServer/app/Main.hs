@@ -8,10 +8,12 @@ import Data.HVect
 import Control.Monad (join)
 import Control.Monad.IO.Class (MonadIO)
 import Data.Text (Text, unpack)
-import Data.Text.Lazy (toStrict, pack)
-import Text.Blaze.Html.Renderer.Text
-import Web.Spock.Safe as W
-import Web.Spock.Digestive (runForm)
+import qualified Data.Text.Lazy as T
+import Text.Blaze.Html.Renderer.Text (renderHtml)
+import qualified Text.Blaze.Html5 as H
+import Web.Spock as W
+import Web.Spock.Config as WC
+import DigestiveForm (runForm)
 import Network.Wai.Middleware.Static as M
 import Network.Wai.Middleware.RequestLogger
 import Data.Pool
@@ -23,42 +25,42 @@ import Config.Server.Config (port, pgCreds)
 import PageGenerator (renderPage)
 import Model.Question
 import Persistence.Question (getQuestion, getBookContents)
-import Web.Forms.Register (registerForm, registerReq)
+import Views.Forms.Register (registerForm, registerView, RegisterRequest(..))
 
 type SessionVal = Maybe SessionId
-type WizardAction = ActionCtxT ctx (WebStateM PG.Connection b ()) a
+type WizardAction ctx b a = ActionCtxT ctx (WebStateM PG.Connection b ()) a
 
-poolCfg :: PoolCfg
-poolCfg = PoolCfg 50 50 60
+poolCfg :: WC.PoolCfg
+poolCfg = WC.PoolCfg 50 50 60
 
-pcconn :: ConnBuilder PG.Connection
-pcconn = ConnBuilder (PG.connect pgCreds) PG.close poolCfg
+pcconn :: WC.ConnBuilder PG.Connection
+pcconn = WC.ConnBuilder (PG.connect pgCreds) PG.close poolCfg
 
-dbConn :: PoolOrConn PG.Connection
-dbConn = PCConn pcconn
+dbConn :: WC.PoolOrConn PG.Connection
+dbConn = WC.PCConn pcconn
 
 main :: IO ()
-main =
-  runSpock port $
-  spock (defaultSpockCfg defaultSessionCfg dbConn ()) $
-  subcomponent "/" $
-  do middleware M.static
-     middleware logStdoutDev
-     get root rootHandler
-     getpost "api/getQuestion" getQuestionHandler
-     getpost "api/getBookContents" getBookContentsHandler
-   --  prehook guestOnlyHook $ do
-     getpost "/register" registerHandler
-     --  getpost "/login" loginHandler
-    -- prehook authHook $
-    --  get "/logout" logoutHandler
+main = do
+  cfg <- WC.defaultSpockCfg WC.defaultSessionCfg dbConn ()
+  runSpock port $ spock cfg $
+    subcomponent "/" $ do
+      middleware M.static
+      middleware logStdoutDev
+      get root rootHandler
+      getpost "api/getQuestion" getQuestionHandler
+      getpost "api/getBookContents" getBookContentsHandler
+    --  prehook guestOnlyHook $ do
+      getpost "/register" registerHandler
+      --  getpost "/login" loginHandler
+     -- prehook authHook $
+     --  get "/logout" logoutHandler
 
 -- * Utils
 
 readInt :: Text -> Maybe Int
 readInt str
-  | length readChid /= 1 = Nothing
-  | otherwise = if not $ null $ snd $ Prelude.head readChid
+  | Prelude.length readChid /= 1 = Nothing
+  | otherwise = if not $ Prelude.null $ snd $ Prelude.head readChid
      then Nothing
      else Just $ fst $ Prelude.head readChid
   where
@@ -78,10 +80,10 @@ readInt str
 
 -- * Handlers
 
-rootHandler :: WizardAction
-rootHandler = html $ toStrict $ renderHtml renderPage
+rootHandler :: WizardAction ctx b a
+rootHandler = W.html $ T.toStrict $ renderHtml renderPage
 
-getQuestionHandler :: WizardAction
+getQuestionHandler :: WizardAction ctx b a
 getQuestionHandler = do
   ps <- params
   case join $ readInt <$> lookup "chid" ps of
@@ -91,9 +93,9 @@ getQuestionHandler = do
         Nothing -> W.text "Missing qid"
         Just qid -> do
           maybeQuestion <- runQuery $ getQuestion chid qid
-          W.text $ toStrict $ fromMaybe "" $ (pack . show) <$> maybeQuestion
+          W.text $ T.toStrict $ fromMaybe "" $ (T.pack . show) <$> maybeQuestion
 
-getBookContentsHandler :: WizardAction
+getBookContentsHandler :: WizardAction ctx b a
 getBookContentsHandler = do
   ps <- params
   case join $ readInt <$> lookup "chid" ps of
@@ -108,13 +110,13 @@ getBookContentsHandler = do
 -- ** User management
 
 -- registerHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
-registerHandler :: WizardAction
+registerHandler :: WizardAction ctx b a
 registerHandler = do
   res <- runForm "registerForm" registerForm
   case res of
     (view, Nothing) -> do
       let view' = fmap H.toHtml view
-      html $ toStrict $ renderHtml (registerView view')
+      W.html $ T.toStrict $ renderHtml (registerView view')
     (view, Just registerReq) ->
         if rr_password registerReq /= rr_passwordConfirm registerReq
         then W.text "passwords do not match"

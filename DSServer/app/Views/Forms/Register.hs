@@ -1,18 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# ANN module "HLint: ignore Use camelCase" #-}
 
-module Web.Forms.Register where
+module Views.Forms.Register where
 
-import Web.Forms.Common
+import Views.Forms.Common
 
 import qualified Data.Text as T
-import qualified Text.Blaze.Html
+import qualified Text.Blaze.Html5 as H
 import Text.Digestive
-import Text.Digestive.Bootstrap
+import Text.Digestive.Blaze.Html5
+
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 
 data RegisterRequest = RegisterRequest
-  { rr_username :: T.Text
-  , rr_password :: T.Text
+  { rr_password :: T.Text
   , rr_passwordConfirm :: T.Text
   , rr_email :: T.Text
   , rr_name :: T.Text
@@ -30,9 +30,7 @@ registerForm =
 registerView :: View H.Html -> H.Html
 registerView view = do
  -- errorList "mail" view
-  H.label "email" view "Email: "
-  H.inputText "email" view
+  label     "email" view "Email: "
+  inputText "email" view
   H.br
-  H.label "name" view "Name: "
-  H.inputText "name" view
-  H.br
+
