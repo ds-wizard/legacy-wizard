@@ -54,6 +54,9 @@ ul.nav > li.current {
   background: lightblue;
   font-weight: bold;
 }
+.login-box {
+  float: right;
+}
 div#footer {
   margin-top: 0.2em;
   border-top: 1px solid gray;
@@ -108,6 +111,9 @@ div#footer td img.logo {
 }
 .validity-flag {
   margin-left: 5px;
+}
+.form-table {
+  margin-bottom: 10px;
 }
 #questionnaire {
   display: none;
