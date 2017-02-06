@@ -31,6 +31,7 @@ executable DSServer
     blaze-markup,
     blaze-html,
     text,
+    email-validate,
     Spock,
     digestive-functors,
     digestive-functors-blaze,

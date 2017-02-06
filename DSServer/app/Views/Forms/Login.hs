@@ -6,6 +6,7 @@ import qualified Data.Text as T
 import Text.Blaze.Html5 (Html, toHtml, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
+import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
 
@@ -21,8 +22,8 @@ data LoginRequest = LoginRequest
 
 registerForm :: Monad m => D.Form H.Html m LoginRequest
 registerForm =
-  LoginRequest <$> "email" D..: emailFormlet Nothing
-                  <*> "password" D..: passwordFormlet Nothing
+  LoginRequest <$> "email" .: emailFormlet Nothing
+                  <*> "password" .: passwordFormlet Nothing
 
 url :: T.Text
 url = "/login"
@@ -31,7 +32,7 @@ view :: D.View H.Html -> H.Html
 view v = do
  -- errorList "mail" view
   H.h2 "User Login"
-  DH.form v "/loginSent" $ do
+  DH.form v url $ do
     H.table ! A.class_ "form-table" $
       H.tbody $ do
         H.tr $ do

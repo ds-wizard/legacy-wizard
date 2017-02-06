@@ -244,3 +244,12 @@ div.simple-group > table td.info:before {
   content: "Advice: ";
   font-style: italic;
 }
+ul.digestive-functors-error-list {
+  margin: 0 0 10px 0;
+  padding: 0;
+}
+li.digestive-functors-error {
+  color: red;
+  font-size: 90%;
+  list-style: none;
+}

@@ -115,11 +115,9 @@ registrationHandler = do
     (view, Nothing) -> do
       let view' = fmap H.toHtml view
       W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration view'
-    (view, Just registerReq) ->
-        if rr_password registerReq /= rr_passwordConfirm registerReq
-        then W.text "passwords do not match"
-        else W.text "registering"
-        --else do registerRes <-
+    (view, Just registrationReq) ->
+        W.text "registering"
+        --do registerRes <-
         --          runQuery $ createUser (rr_email registerReq) (rr_password registerReq) (rr_name registerReq) (rr_affiliation registerReq)
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
