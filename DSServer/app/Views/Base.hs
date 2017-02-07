@@ -19,22 +19,26 @@ import Config.Config (staticURL)
 import qualified Views.Pages.Main
 import qualified Views.Forms.Login
 import qualified Views.Forms.Registration
+import qualified Views.Pages.RegistrationSucc
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 data Page = Main
           | Login (D.View H.Html)
           | Registration (D.View H.Html)
+          | RegistrationSucc
 
 instance Eq Page where
   Main == Main = True
   Login _ == Login _ = True
   Registration _ == Registration _ = True
+  RegistrationSucc == RegistrationSucc = True
   _ == _ = False
 
 renderContents :: Page -> Html
 renderContents Main = Views.Pages.Main.view
 renderContents (Registration v) = Views.Forms.Registration.view v
+renderContents RegistrationSucc = Views.Pages.RegistrationSucc.view
 renderContents (Login v) = Views.Forms.Login.view v
 
 makePage :: Page -> Html

@@ -25,6 +25,10 @@ import Config.Server.Config (port, pgCreds)
 
 import Model.Question
 import Persistence.Question (getQuestion, getBookContents)
+import qualified Model.User as U
+import qualified Persistence.User as U
+import qualified Model.Session as S
+import qualified Persistence.Session as S
 import qualified Views.Base as V
 import Views.Forms.Registration (registrationForm, RegistrationRequest(..))
 
@@ -115,10 +119,10 @@ registrationHandler = do
     (view, Nothing) -> do
       let view' = fmap H.toHtml view
       W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration view'
-    (view, Just registrationReq) ->
-        W.text "registering"
-        --do registerRes <-
-        --          runQuery $ createUser (rr_email registerReq) (rr_password registerReq) (rr_name registerReq) (rr_affiliation registerReq)
+    (view, Just registrationReq) -> do
+      let view' = fmap H.toHtml view
+      registerRes <- W.runQuery $ U.createUser (U.Email (rr_email registrationReq)) (U.Password (rr_password registrationReq)) (rr_name registrationReq) (rr_affiliation registrationReq)
+      W.html $ TL.toStrict $ renderHtml $ V.makePage V.RegistrationSucc
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 -- loginHandler =

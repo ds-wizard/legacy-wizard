@@ -10,9 +10,12 @@ type Text = String
 import           Data.Text (Text)
 #endif
 
+domainURL :: Text
+domainURL = "dmp.fairdata.solutions"
+
 baseURL :: Text
-baseURL = "/" 
+baseURL = "/"
 
 staticURL :: Text
-staticURL = baseURL <> "static/" 
+staticURL = baseURL <> "static/"
 

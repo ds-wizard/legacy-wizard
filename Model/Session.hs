@@ -1,9 +1,15 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# ANN module "HLint: ignore Use camelCase" #-}
 
 module Model.Session  where
 
-type SessionId = BS.ByteString
+import qualified Data.ByteString as BS
+import qualified Data.Time.Clock as DTC
+import Data.UUID (UUID)
+import Model.User (UserId)
+
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
+
+type SessionId = UUID
 
 data Session = Session
   { s_session_id :: SessionId
