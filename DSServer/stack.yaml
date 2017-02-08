@@ -15,7 +15,7 @@
 # resolver:
 #  name: custom-snapshot
 #  location: "./custom-snapshot.yaml"
-resolver: lts-7.18
+resolver: lts-7.19
 
 # User packages to be built.
 # Various formats can be used as shown in the example below.
@@ -37,6 +37,10 @@ resolver: lts-7.18
 # will not be run. This is useful for tweaking upstream packages.
 packages:
 - '.'
+- location:
+    git: https://github.com/perglr/Spock-digestive.git
+    commit: 4615b73e020606bb939ddf2eb4f2eb54bd9e705e
+
 # Dependency packages to be pulled from upstream that are not in the resolver
 # (e.g., acme-missiles-0.3)
 extra-deps: [digestive-functors-0.8.2.0, digestive-functors-blaze-0.6.1.0]

@@ -39,6 +39,7 @@ executable DSServer
     Spock,
     digestive-functors,
     digestive-functors-blaze,
+    Spock-digestive,
     hvect,
     wai-middleware-static,
     wai-extra,
