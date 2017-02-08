@@ -14,7 +14,8 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Web.Spock as W
 import qualified Web.Spock.Config as WC
-import DigestiveForm (runForm)
+import Web.Spock.Digestive (runForm)
+--import DigestiveForm (runForm)
 import qualified Network.Wai.Middleware.Static as M
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 --import Data.Pool
@@ -121,7 +122,9 @@ registrationHandler = do
       W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration view'
     (view, Just registrationReq) -> do
       let view' = fmap H.toHtml view
+      -- TODO: check unique email
       registerRes <- W.runQuery $ U.createUser (U.Email (rr_email registrationReq)) (U.Password (rr_password registrationReq)) (rr_name registrationReq) (rr_affiliation registrationReq)
+      -- TODO: send confirmation email
       W.html $ TL.toStrict $ renderHtml $ V.makePage V.RegistrationSucc
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
