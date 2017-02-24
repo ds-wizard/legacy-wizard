@@ -8,17 +8,12 @@ module Persistence.Session
   , deleteSessionOfUser
   ) where
 
-import Control.Monad
-import Control.Monad.Trans
-import qualified Data.ByteString as BS
-import qualified Data.Text as T
-import qualified Data.Text.Encoding as T
+import Control.Monad.Trans (liftIO)
 import qualified Data.Time.Clock as DTC
 import qualified Data.UUID.V4 as UUID
 import qualified Database.PostgreSQL.Simple as PG
 import Database.PostgreSQL.Simple.FromRow
 
-import Config.Config (domainURL)
 import Model.User (User(..))
 import Model.Session
 

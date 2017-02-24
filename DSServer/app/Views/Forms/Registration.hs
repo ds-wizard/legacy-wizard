@@ -2,6 +2,7 @@
 
 module Views.Forms.Registration where
 
+import Data.Text (Text)
 import qualified Data.Text as T
 import Text.Blaze.Html5 (Html, toHtml, (!))
 import qualified Text.Blaze.Html5 as H
@@ -16,14 +17,14 @@ import Views.Forms.Common (notEmpty, emailFormlet, passwordFormlet, errorTr)
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 data RegistrationRequest = RegistrationRequest
-  { rr_email :: T.Text
-  , rr_password :: T.Text
+  { rr_email :: Text
+  , rr_password :: Text
   ---, rr_password2 :: T.Text
-  , rr_name :: T.Text
-  , rr_affiliation :: T.Text
+  , rr_name :: Text
+  , rr_affiliation :: Text
   } deriving (Show)
 
-registrationForm :: Monad m => D.Form H.Html m RegistrationRequest
+registrationForm :: Monad m => D.Form Html m RegistrationRequest
 registrationForm =
   RegistrationRequest <$> "email" .: emailFormlet Nothing
   --                <*> "password1" .: passwordFormlet Nothing
@@ -38,10 +39,10 @@ registrationForm =
     fst' (p1, p2) | p1 == p2  = D.Success p1
                   | otherwise = D.Error "Passwords do not match"
 
-url :: T.Text
+url :: Text
 url = "/registration"
 
-view :: D.View H.Html -> H.Html
+view :: D.View Html -> Html
 view v = do
   H.h2 "New User Registration"
   DH.form v url $ do

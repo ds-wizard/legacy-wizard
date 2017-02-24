@@ -7,7 +7,6 @@ module Views.Base
 
 import Data.Monoid ((<>))
 
-import Data.Text as T
 import Text.Blaze.Internal (textValue)
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
@@ -71,7 +70,7 @@ renderHead = H.head $ do
 renderLogin :: Html
 renderLogin = H.div ! A.class_ "login-box" $ do
   H.a ! A.href (textValue Views.Forms.Login.url) $ "Login"
-  " | "
+  _ <- " | "
   H.a ! A.href (textValue Views.Forms.Registration.url) $ "Register"
 
 renderBanner :: Html

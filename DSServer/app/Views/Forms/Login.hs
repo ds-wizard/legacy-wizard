@@ -20,7 +20,7 @@ data LoginRequest = LoginRequest
   , lr_passwordConfirm :: T.Text
   } deriving (Show)
 
-registerForm :: Monad m => D.Form H.Html m LoginRequest
+registerForm :: Monad m => D.Form Html m LoginRequest
 registerForm =
   LoginRequest <$> "email" .: emailFormlet Nothing
                   <*> "password" .: passwordFormlet Nothing
@@ -28,7 +28,7 @@ registerForm =
 url :: T.Text
 url = "/login"
 
-view :: D.View H.Html -> H.Html
+view :: D.View Html -> Html
 view v = do
  -- errorList "mail" view
   H.h2 "User Login"

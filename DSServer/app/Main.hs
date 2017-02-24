@@ -2,11 +2,10 @@
 
 module Main where
 
-import Data.Monoid ((<>))
 import Data.Maybe (fromMaybe)
-import Data.HVect
+--import Data.HVect
 import Control.Monad (join)
-import Control.Monad.IO.Class (MonadIO)
+--import Control.Monad.IO.Class (MonadIO)
 import Data.Text (Text, unpack)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
@@ -14,17 +13,17 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Web.Spock as W
 import qualified Web.Spock.Config as WC
+import Text.Digestive.Types (toPath)
+import Text.Digestive.View (View(..))
 import Web.Spock.Digestive (runForm)
---import DigestiveForm (runForm)
 import qualified Network.Wai.Middleware.Static as M
 import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 --import Data.Pool
 import qualified Database.PostgreSQL.Simple as PG
 
-import Config.Config (baseURL)
+--import Config.Config (baseURL)
 import Config.Server.Config (port, pgCreds)
 
-import Model.Question
 import Persistence.Question (getQuestion, getBookContents)
 import qualified Model.User as U
 import qualified Persistence.User as U
@@ -48,18 +47,17 @@ dbConn = WC.PCConn pcconn
 main :: IO ()
 main = do
   cfg <- WC.defaultSpockCfg WC.defaultSessionCfg dbConn ()
-  W.runSpock port $ W.spock cfg $
-    W.subcomponent "/" $ do
-      W.middleware M.static
-      W.middleware logStdoutDev
-      W.get W.root $ W.html $ TL.toStrict $ renderHtml $ V.makePage V.Main
-      W.getpost "api/getQuestion" getQuestionHandler
-      W.getpost "api/getBookContents" getBookContentsHandler
-    --  prehook guestOnlyHook $ do
-      W.getpost "/registration" registrationHandler
-      --  getpost "/login" loginHandler
-     -- prehook authHook $
-     --  get "/logout" logoutHandler
+  W.runSpock port $ W.spock cfg $ do
+    W.middleware M.static
+    W.middleware logStdoutDev
+    W.get W.root $ W.html $ TL.toStrict $ renderHtml $ V.makePage V.Main
+    W.getpost "api/getQuestion" getQuestionHandler
+    W.getpost "api/getBookContents" getBookContentsHandler
+  --  prehook guestOnlyHook $ do
+    W.getpost "/registration" registrationHandler
+    --  getpost "/login" loginHandler
+   -- prehook authHook $
+   --  get "/logout" logoutHandler
 
 -- * Utils
 
@@ -112,20 +110,29 @@ getBookContentsHandler = do
 
 -- ** User management
 
+addError :: View v -> Text -> v -> View v
+addError view ref err = view { viewErrors = viewErrors2}
+  where
+  viewErrors2 = viewErrors view ++ [(toPath ref, err)]
+
 -- registerHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 registrationHandler :: WizardAction ctx b a
 registrationHandler = do
   res <- runForm "registrationForm" registrationForm
   case res of
-    (view, Nothing) -> do
-      let view' = fmap H.toHtml view
-      W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration view'
+    (view, Nothing) ->
+      W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration (H.toHtml <$> view)
     (view, Just registrationReq) -> do
-      let view' = fmap H.toHtml view
-      -- TODO: check unique email
-      registerRes <- W.runQuery $ U.createUser (U.Email (rr_email registrationReq)) (U.Password (rr_password registrationReq)) (rr_name registrationReq) (rr_affiliation registrationReq)
-      -- TODO: send confirmation email
-      W.html $ TL.toStrict $ renderHtml $ V.makePage V.RegistrationSucc
+      mExisting <- W.runQuery $ U.getUserByEmail $ U.Email (rr_email registrationReq)
+      case mExisting of
+        Just _ -> do
+          let view2 = addError view "email" "Email already registered"
+          W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration (H.toHtml <$> view2)
+          -- signalise the error
+        Nothing -> do
+          _ <- W.runQuery $ U.createUser (U.Email (rr_email registrationReq)) (U.Password (rr_password registrationReq)) (rr_name registrationReq) (rr_affiliation registrationReq)
+          -- TODO: send confirmation email
+          W.html $ TL.toStrict $ renderHtml $ V.makePage V.RegistrationSucc
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 -- loginHandler =

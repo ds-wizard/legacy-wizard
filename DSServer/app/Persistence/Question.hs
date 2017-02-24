@@ -2,9 +2,7 @@
 
 module Persistence.Question where
 
-import           Data.Text (Text, pack)
-import           Data.Maybe (fromMaybe)
-import           Control.Monad.Trans
+import           Data.Text (Text)
 import qualified Database.PostgreSQL.Simple as PG
 import           Database.PostgreSQL.Simple.FromRow
 

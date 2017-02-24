@@ -2,7 +2,6 @@
 
 module Model.Session  where
 
-import qualified Data.ByteString as BS
 import qualified Data.Time.Clock as DTC
 import Data.UUID (UUID)
 import Model.User (UserId)
