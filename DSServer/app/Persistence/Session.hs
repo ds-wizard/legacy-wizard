@@ -10,12 +10,12 @@ module Persistence.Session
 
 import Control.Monad.Trans (liftIO)
 import qualified Data.Time.Clock as DTC
-import qualified Data.UUID.V4 as UUID
 import qualified Database.PostgreSQL.Simple as PG
 import Database.PostgreSQL.Simple.FromRow
 
 import Model.User (User(..))
 import Model.Session
+import Persistence.Utils (genKey)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
@@ -26,7 +26,7 @@ instance FromRow Session where
 createSession :: User -> PG.Connection -> IO (Maybe SessionId)
 createSession user conn = do
   now <- liftIO DTC.getCurrentTime
-  sessionId <- UUID.nextRandom
+  sessionId <- genKey
   let validUntil = DTC.addUTCTime (5 * 3600) now
   r <- PG.query conn "INSERT INTO \"Session\" (session_id, user_id, valid_until) VALUES (?, ?) RETURNING session_id"
          (sessionId, u_user_id user, validUntil) :: IO [PG.Only SessionId]

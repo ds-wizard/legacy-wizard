@@ -2,9 +2,11 @@
 
 module Main where
 
+import Data.Monoid ((<>))
 import Data.Maybe (fromMaybe)
 --import Data.HVect
 import Control.Monad (join)
+import Control.Monad.Trans (liftIO)
 --import Control.Monad.IO.Class (MonadIO)
 import Data.Text (Text, unpack)
 import qualified Data.Text as T
@@ -30,7 +32,9 @@ import qualified Persistence.User as U
 import qualified Model.Session as S
 import qualified Persistence.Session as S
 import qualified Views.Base as V
+import qualified Views.Pages.Info as V
 import Views.Forms.Registration (registrationForm, RegistrationRequest(..))
+import Mailing
 
 type SessionVal = Maybe W.SessionId
 type WizardAction ctx b a = W.ActionCtxT ctx (W.WebStateM PG.Connection b ()) a
@@ -50,11 +54,12 @@ main = do
   W.runSpock port $ W.spock cfg $ do
     W.middleware M.static
     W.middleware logStdoutDev
-    W.get W.root $ W.html $ TL.toStrict $ renderHtml $ V.makePage V.Main
+    W.get W.root $ W.html $ TL.toStrict $ renderHtml $ V.makePage V.Main V.NoMessage
     W.getpost "api/getQuestion" getQuestionHandler
     W.getpost "api/getBookContents" getBookContentsHandler
   --  prehook guestOnlyHook $ do
     W.getpost "/registration" registrationHandler
+    W.getpost "/confirmRegistration" confirmRegistrationHandler
     --  getpost "/login" loginHandler
    -- prehook authHook $
    --  get "/logout" logoutHandler
@@ -69,6 +74,12 @@ readInt str
      else Just $ fst $ Prelude.head readChid
   where
     readChid = reads (unpack str) :: [(Int, String)]
+
+infoResponse :: Text ->  WizardAction ctx b a
+infoResponse message = W.html $ TL.toStrict $ renderHtml $ V.makePage (V.InfoPage V.OKInfo (H.toHtml message)) V.NoMessage
+
+errorResponse :: Text ->  WizardAction ctx b a
+errorResponse message = W.html $ TL.toStrict $ renderHtml $ V.makePage (V.InfoPage V.ErrorInfo (H.toHtml message)) V.NoMessage
 
 -- * Authentication
 
@@ -121,18 +132,35 @@ registrationHandler = do
   res <- runForm "registrationForm" registrationForm
   case res of
     (view, Nothing) ->
-      W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration (H.toHtml <$> view)
-    (view, Just registrationReq) -> do
-      mExisting <- W.runQuery $ U.getUserByEmail $ U.Email (rr_email registrationReq)
+      W.html $ TL.toStrict $ renderHtml $ V.makePage (V.Registration (H.toHtml <$> view)) V.NoMessage
+    (view, Just regReq) -> do
+      mExisting <- W.runQuery $ U.getUserByEmail $ U.Email $ TL.fromStrict $ rr_email regReq
       case mExisting of
         Just _ -> do
           let view2 = addError view "email" "Email already registered"
-          W.html $ TL.toStrict $ renderHtml $ V.makePage $ V.Registration (H.toHtml <$> view2)
-          -- signalise the error
+          W.html $ TL.toStrict $ renderHtml $ V.makePage (V.Registration (H.toHtml <$> view2)) V.NoMessage
         Nothing -> do
-          _ <- W.runQuery $ U.createUser (U.Email (rr_email registrationReq)) (U.Password (rr_password registrationReq)) (rr_name registrationReq) (rr_affiliation registrationReq)
-          -- TODO: send confirmation email
-          W.html $ TL.toStrict $ renderHtml $ V.makePage V.RegistrationSucc
+          let email = U.Email $ TL.fromStrict $ rr_email regReq
+          userId <- W.runQuery $ U.createUser email (U.Password $ TL.fromStrict $ rr_password regReq) (rr_name regReq) (rr_affiliation regReq)
+          mUser <- W.runQuery $ U.getUserById userId
+          case mUser of
+            Nothing -> errorResponse "Registration failed. Please contact the administrator."
+            Just user -> do
+              liftIO $ mailRegistrationConfirmation user
+              infoResponse $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."
+
+confirmRegistrationHandler :: WizardAction ctx b a
+confirmRegistrationHandler = do
+  ps <- W.params
+  case lookup "key" ps of
+    Nothing -> errorResponse "Registration confirmation failed: incorrect URL parameter."
+    Just key -> do
+        res <- W.runQuery $ U.confirmRegistration key
+        if res then
+          infoResponse "Registration has been successfuly completed. You may now log in."
+        else
+          errorResponse "Invalid registration key."
+
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 -- loginHandler =

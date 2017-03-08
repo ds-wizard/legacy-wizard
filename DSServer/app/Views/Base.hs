@@ -2,6 +2,7 @@
 
 module Views.Base
   ( Page(..)
+  , Message(..)
   , makePage
   ) where
 
@@ -16,38 +17,42 @@ import qualified Text.Digestive as D
 import Config.Config (staticURL)
 
 import qualified Views.Pages.Main
+import Views.Pages.Info (InfoType)
+import qualified Views.Pages.Info
 import qualified Views.Forms.Login
 import qualified Views.Forms.Registration
-import qualified Views.Pages.RegistrationSucc
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 data Page = Main
+          | InfoPage InfoType H.Html
           | Login (D.View H.Html)
           | Registration (D.View H.Html)
-          | RegistrationSucc
 
 instance Eq Page where
   Main == Main = True
   Login _ == Login _ = True
   Registration _ == Registration _ = True
-  RegistrationSucc == RegistrationSucc = True
+  InfoPage _ _ == InfoPage _ _ = True
   _ == _ = False
+
+data Message = InfoMessage Html | ErrorMessage Html | NoMessage
 
 renderContents :: Page -> Html
 renderContents Main = Views.Pages.Main.view
 renderContents (Registration v) = Views.Forms.Registration.view v
-renderContents RegistrationSucc = Views.Pages.RegistrationSucc.view
+renderContents (InfoPage infoType message) = Views.Pages.Info.view infoType message
 renderContents (Login v) = Views.Forms.Login.view v
 
-makePage :: Page -> Html
-makePage page =
+makePage :: Page -> Message -> Html
+makePage page message =
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
     H.body $
       H.div ! A.id "container" $ do
         renderLogin
         renderBanner
+        renderMessage message
         H.div ! A.class_ "inside" $
           renderContents page
         renderFooter
@@ -78,9 +83,14 @@ renderBanner = H.div ! A.id "banner" $ do
   H.a ! A.href "https://www.elixir-europe.org/" $
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
   H.h1 ! A.class_ "title" $ do
-    "Data Stewardship Wizard"
+    _ <- "Data Stewardship Wizard (testing)"
     H.span ! A.class_ "version" $ " v0.2, "
     H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
+
+renderMessage :: Message -> Html
+renderMessage NoMessage = mempty
+renderMessage (InfoMessage msg) = H.div ! A.class_ "bar message" $ msg
+renderMessage (ErrorMessage msg) = H.div ! A.class_ "bar error" $ msg
 
 renderFooter :: Html
 renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $

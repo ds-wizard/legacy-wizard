@@ -2,13 +2,13 @@
 
 module Model.Session  where
 
+import qualified Data.Text.Lazy as T
 import qualified Data.Time.Clock as DTC
-import Data.UUID (UUID)
 import Model.User (UserId)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 
-type SessionId = UUID
+type SessionId = T.Text
 
 data Session = Session
   { s_session_id :: SessionId

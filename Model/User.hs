@@ -2,7 +2,7 @@
 
 module Model.User where
 
-import qualified Data.Text as T
+import qualified Data.Text.Lazy as T
 import qualified Data.ByteString as BS
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -18,5 +18,6 @@ data User = User
   , u_password_hash :: PasswordHash
   , u_name :: T.Text
   , u_affiliation :: T.Text
+  , u_registration_key :: T.Text
   }
 
