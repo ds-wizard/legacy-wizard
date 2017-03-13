@@ -12,7 +12,9 @@ import Data.Text (Text, unpack)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import Text.Blaze.Html.Renderer.Text (renderHtml)
+import Text.Blaze.Html5 (Html, (!), toHtml)
 import qualified Text.Blaze.Html5 as H
+import qualified Text.Blaze.Html5.Attributes as A
 import qualified Web.Spock as W
 import qualified Web.Spock.Config as WC
 import Text.Digestive.Types (toPath)
@@ -75,11 +77,11 @@ readInt str
   where
     readChid = reads (unpack str) :: [(Int, String)]
 
-infoResponse :: Text ->  WizardAction ctx b a
-infoResponse message = W.html $ TL.toStrict $ renderHtml $ V.makePage (V.InfoPage V.OKInfo (H.toHtml message)) V.NoMessage
+infoResponse :: Html ->  WizardAction ctx b a
+infoResponse msg = W.html $ TL.toStrict $ renderHtml $ V.makePage (V.InfoPage V.OKInfo msg) V.NoMessage
 
-errorResponse :: Text ->  WizardAction ctx b a
-errorResponse message = W.html $ TL.toStrict $ renderHtml $ V.makePage (V.InfoPage V.ErrorInfo (H.toHtml message)) V.NoMessage
+errorResponse :: Html ->  WizardAction ctx b a
+errorResponse msg = W.html $ TL.toStrict $ renderHtml $ V.makePage (V.InfoPage V.ErrorInfo msg) V.NoMessage
 
 -- * Authentication
 
@@ -132,13 +134,13 @@ registrationHandler = do
   res <- runForm "registrationForm" registrationForm
   case res of
     (view, Nothing) ->
-      W.html $ TL.toStrict $ renderHtml $ V.makePage (V.Registration (H.toHtml <$> view)) V.NoMessage
+      W.html $ TL.toStrict $ renderHtml $ V.makePage (V.Registration (toHtml <$> view)) V.NoMessage
     (view, Just regReq) -> do
       mExisting <- W.runQuery $ U.getUserByEmail $ U.Email $ TL.fromStrict $ rr_email regReq
       case mExisting of
         Just _ -> do
           let view2 = addError view "email" "Email already registered"
-          W.html $ TL.toStrict $ renderHtml $ V.makePage (V.Registration (H.toHtml <$> view2)) V.NoMessage
+          W.html $ TL.toStrict $ renderHtml $ V.makePage (V.Registration (toHtml <$> view2)) V.NoMessage
         Nothing -> do
           let email = U.Email $ TL.fromStrict $ rr_email regReq
           userId <- W.runQuery $ U.createUser email (U.Password $ TL.fromStrict $ rr_password regReq) (rr_name regReq) (rr_affiliation regReq)
@@ -147,7 +149,7 @@ registrationHandler = do
             Nothing -> errorResponse "Registration failed. Please contact the administrator."
             Just user -> do
               liftIO $ mailRegistrationConfirmation user
-              infoResponse $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."
+              infoResponse $ toHtml $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."
 
 confirmRegistrationHandler :: WizardAction ctx b a
 confirmRegistrationHandler = do
@@ -156,10 +158,13 @@ confirmRegistrationHandler = do
     Nothing -> errorResponse "Registration confirmation failed: incorrect URL parameter."
     Just key -> do
         res <- W.runQuery $ U.confirmRegistration key
-        if res then
-          infoResponse "Registration has been successfuly completed. You may now log in."
-        else
-          errorResponse "Invalid registration key."
+        case res of
+          U.InvalidRegistrationKey ->
+            errorResponse "Registration confirmation failed: invalid registration key."
+          U.UserAlreadyConfirmed ->
+            infoResponse $ "Registration was already confirmed. You may " <> (H.a ! A.href "/login" $ "log in") <> "."
+          U.UserOK ->
+            infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href "/login" $ "log in") <> "."
 
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a

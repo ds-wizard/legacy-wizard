@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Persistence.User
-  ( createUser
+  ( UserResult(..)
+  , createUser
   , getUserById
   , getUserByEmail
   , confirmRegistration
@@ -13,9 +14,6 @@ import qualified Data.Text.Lazy as TL
 import qualified Data.Text.Encoding as T
 import Crypto.PasswordStore (makePassword, verifyPassword)
 import qualified Database.PostgreSQL.Simple as PG
-import Database.PostgreSQL.Simple.FromRow
-import Database.PostgreSQL.Simple.FromField (FromField (fromField))
-import Database.PostgreSQL.Simple.ToField (ToField (toField))
 
 import Model.User
 import Persistence.Utils (genKey)
@@ -23,20 +21,7 @@ import Persistence.Utils (genKey)
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
 
-instance FromField Email where
-  fromField f mdata = Email <$> fromField f mdata
-
-instance ToField Email where
-  toField (Email e) = toField e
-
-instance FromField PasswordHash where
-  fromField f mdata = PasswordHash <$> fromField f mdata
-
-instance ToField PasswordHash where
-  toField (PasswordHash ph) = toField ph
-
-instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field
+data UserResult = UserOK | InvalidRegistrationKey | UserAlreadyConfirmed
 
 createUser :: Email -> Password -> T.Text -> T.Text -> PG.Connection -> IO Int
 createUser (Email email) (Password password) name affiliation conn = do
@@ -53,8 +38,7 @@ createUser (Email email) (Password password) name affiliation conn = do
 
 getUserById :: Int -> PG.Connection -> IO (Maybe User)
 getUserById userId conn = do
-  results <- PG.query conn "SELECT * FROM \"User\" WHERE user_id = ?" (PG.Only userId)
-  let r = results :: [User]
+  r <- PG.query conn "SELECT * FROM \"User\" WHERE user_id = ?" (PG.Only userId) :: IO [User]
   if null r
     then return Nothing
     else do
@@ -63,23 +47,24 @@ getUserById userId conn = do
 
 getUserByEmail :: Email -> PG.Connection -> IO (Maybe User)
 getUserByEmail (Email email) conn = do
-  results <- PG.query conn "SELECT * FROM \"User\" WHERE email = ?" (PG.Only email)
-  let r = results :: [User]
+  r <- PG.query conn "SELECT * FROM \"User\" WHERE email = ?" (PG.Only email) :: IO [User]
   if null r
     then return Nothing
     else do
       let user = head r
       return $ Just user
 
-confirmRegistration :: T.Text -> PG.Connection -> IO Bool
+confirmRegistration :: T.Text -> PG.Connection -> IO UserResult
 confirmRegistration key conn = do
-  r <- PG.query conn "UPDATE \"User\" SET registration_key = NULL WHERE registration_key = ? RETURNING user_id" (PG.Only key) :: IO [PG.Only Int]
-  let x =
-        case r of
-          (f:_) -> f
-          []    -> PG.Only 0
-  let (PG.Only i) = x
-  return $ i == 1
+  users <- PG.query conn "SELECT * FROM \"User\" WHERE registration_key = ?" (PG.Only key) :: IO [User]
+  if null users
+    then return InvalidRegistrationKey
+    else do
+      let user = head users
+      if u_registration_confirmed user then return UserAlreadyConfirmed
+      else do
+        _ <- PG.execute conn "UPDATE \"User\" SET registration_confirmed = 't' WHERE user_id = ?" (PG.Only $ u_user_id user)
+        return UserOK
 
 authUser :: Password -> User -> Bool
 authUser (Password password) user = let PasswordHash ph = u_password_hash user in

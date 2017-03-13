@@ -11,7 +11,6 @@ module Persistence.Session
 import Control.Monad.Trans (liftIO)
 import qualified Data.Time.Clock as DTC
 import qualified Database.PostgreSQL.Simple as PG
-import Database.PostgreSQL.Simple.FromRow
 
 import Model.User (User(..))
 import Model.Session
@@ -19,9 +18,6 @@ import Persistence.Utils (genKey)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
-
-instance FromRow Session where
-  fromRow = Session <$> field <*> field <*> field
 
 createSession :: User -> PG.Connection -> IO (Maybe SessionId)
 createSession user conn = do

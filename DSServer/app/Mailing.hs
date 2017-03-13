@@ -5,7 +5,7 @@ module Mailing where
 import qualified Data.Text.Lazy as T
 import Data.Monoid ((<>))
 import Network.Mail.SMTP
-import Text.Blaze.Html5 (Html, (!))
+import Text.Blaze.Html5 (Html, (!), toHtml)
 import Text.Blaze.Internal (textValue)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
@@ -31,10 +31,10 @@ message name registrationKey = H.docTypeHtml $ do
     H.meta ! A.charset "utf-8"
     H.title "DS Wizard registration confirmation"
   H.body $ do
-    H.p "Dear " <> H.toHtml name <> ","
+    H.p $ "Dear " <> toHtml name <> ","
     H.p $ do
       _ <- "you have registered in "
       H.a ! A.href ("http://" <>  textValue domainURL) $ "Data Stewardship Wizard."
     H.p "Please confirm your registration by clicking the link: "
     H.p $ H.a ! A.href ("http://" <> textValue domainURL <> "/confirmRegistration?key=" <> textValue (T.toStrict registrationKey)) $
-      "http://" <> H.toHtml domainURL <> "/confirmRegistration?key="
+      "http://" <> toHtml domainURL <> "/confirmRegistration?key="<> toHtml (T.toStrict registrationKey)

@@ -4,6 +4,8 @@ module Model.Session  where
 
 import qualified Data.Text.Lazy as T
 import qualified Data.Time.Clock as DTC
+import Database.PostgreSQL.Simple.FromRow
+
 import Model.User (UserId)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -16,3 +18,5 @@ data Session = Session
   , s_valid_until :: DTC.UTCTime
   } deriving (Show)
 
+instance FromRow Session where
+  fromRow = Session <$> field <*> field <*> field
