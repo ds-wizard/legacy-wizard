@@ -37,6 +37,7 @@ executable DSServer
     blaze-html,
     smtp-mail,
     email-validate,
+    reroute,
     Spock,
     digestive-functors,
     digestive-functors-blaze,

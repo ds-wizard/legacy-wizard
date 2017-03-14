@@ -3,7 +3,7 @@
 module Views.Forms.Login where
 
 import qualified Data.Text as T
-import Text.Blaze.Html5 (Html, toHtml, (!))
+import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Text.Digestive ((.:))
@@ -44,3 +44,23 @@ view v = do
         H.tr $ do
           H.td mempty
           H.td $ H.button ! A.type_ "submit" $ "Login"
+
+
+-- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
+-- loginHandler =
+--     do f <- runForm "loginForm" loginForm
+--        let formView mErr view =
+--                panelWithErrorView "Login" mErr $ renderForm loginFormSpec view
+--        case f of -- (View, Maybe LoginRequest)
+--          (view, Nothing) ->
+--              mkSite' (formView Nothing view)
+--          (view, Just loginReq) ->
+--              do loginRes <-
+--                     runQuery $ loginUser (lr_user loginReq) (lr_password loginReq)
+--                 case loginRes of
+--                   Just userId ->
+--                       do sid <- runQuery $ createSession userId
+--                          writeSession (Just sid)
+--                          redirect "/"
+--                   Nothing ->
+--                       mkSite' (formView (Just "Invalid login credentials!") view)

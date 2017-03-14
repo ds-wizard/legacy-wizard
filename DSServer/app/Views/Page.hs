@@ -1,51 +1,29 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Base
-  ( Page(..)
-  , Message(..)
-  , makePage
+module Views.Page
+  ( Message(..)
+  , render
   ) where
 
 import Data.Monoid ((<>))
-
+import qualified Data.Text.Lazy as TL
 import Text.Blaze.Internal (textValue)
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import qualified Text.Digestive as D
+import Text.Blaze.Html.Renderer.Text (renderHtml)
+import qualified Web.Spock as W
 
 import Config.Config (staticURL)
 
-import qualified Views.Pages.Main
-import Views.Pages.Info (InfoType)
-import qualified Views.Pages.Info
-import qualified Views.Forms.Login
-import qualified Views.Forms.Registration
+import App (WizardAction)
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
-data Page = Main
-          | InfoPage InfoType H.Html
-          | Login (D.View H.Html)
-          | Registration (D.View H.Html)
-
-instance Eq Page where
-  Main == Main = True
-  Login _ == Login _ = True
-  Registration _ == Registration _ = True
-  InfoPage _ _ == InfoPage _ _ = True
-  _ == _ = False
-
 data Message = InfoMessage Html | ErrorMessage Html | NoMessage
 
-renderContents :: Page -> Html
-renderContents Main = Views.Pages.Main.view
-renderContents (Registration v) = Views.Forms.Registration.view v
-renderContents (InfoPage infoType message) = Views.Pages.Info.view infoType message
-renderContents (Login v) = Views.Forms.Login.view v
-
-makePage :: Page -> Message -> Html
-makePage page message =
+render :: Bool -> Html -> Message -> WizardAction ctx b a
+render isMain page message = W.html $ TL.toStrict $ renderHtml $
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
     H.body $
@@ -54,10 +32,10 @@ makePage page message =
         renderBanner
         renderMessage message
         H.div ! A.class_ "inside" $
-          renderContents page
+          page
         renderFooter
         renderAcknowledgement
-        if page == Main then
+        if isMain then
           H.script ! A.src (textValue $ staticURL <> "js/main.js") $ mempty
         else
           mempty
@@ -74,9 +52,11 @@ renderHead = H.head $ do
 
 renderLogin :: Html
 renderLogin = H.div ! A.class_ "login-box" $ do
-  H.a ! A.href (textValue Views.Forms.Login.url) $ "Login"
+  --H.a ! A.href (textValue Views.Forms.Login.url) $ "Login"
+  H.a ! A.href "/login" $ "Login"
   _ <- " | "
-  H.a ! A.href (textValue Views.Forms.Registration.url) $ "Register"
+  --H.a ! A.href (textValue Views.Forms.Registration.url) $ "Register"
+  H.a ! A.href "/register" $ "Register"
 
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" $ do

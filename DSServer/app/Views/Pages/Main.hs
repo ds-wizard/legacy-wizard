@@ -1,22 +1,26 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DataKinds #-}
 
 module Views.Pages.Main
-  ( view
+  ( url
+  , view
+  , handler
   ) where
 
---import Data.Monoid ((<>))
-import Data.Text as T
-
---import Text.Blaze.Internal (textValue)
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
+import Web.Spock (Path, root)
+import Web.Routing.Combinators (PathState(..))
 
---import Config.Config (staticURL)
+import App (WizardAction)
+import qualified Views.Page as Page
 
-url :: T.Text
-url = "/"
+url :: Path '[] 'Open
+url = root
 
 view :: Html
 view = H.form ! A.id "form" ! A.method "post" $ mempty
+
+handler :: WizardAction ctx b a
+handler = Page.render True view Page.NoMessage
 
