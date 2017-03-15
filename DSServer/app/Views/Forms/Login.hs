@@ -1,66 +1,89 @@
-{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE OverloadedStrings, DataKinds #-}
 
-module Views.Forms.Login where
+module Views.Forms.Login
+  ( url
+  , handler
+  ) where
 
-import qualified Data.Text as T
+import Data.Text (Text)
+import qualified Data.Text.Lazy as TL
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
+import Web.Spock.Digestive (runForm)
+import Web.Spock (Path)
+import qualified Web.Spock as W
+import Web.Routing.Combinators (PathState(..))
 
-import Views.Forms.Common (emailFormlet, passwordFormlet)
+import App (WizardAction)
+import qualified Model.User as U
+import qualified Persistence.User as U
+import Views.Forms.Common (emailFormlet, passwordFormlet, addError, errorTr)
+import Views.Info (infoResponse, errorResponse)
+import qualified Views.Page as Page
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
+url :: Path '[] 'Open
+url = "/login"
+
 data LoginRequest = LoginRequest
-  { lr_password :: T.Text
-  , lr_passwordConfirm :: T.Text
+  { lr_email :: Text
+  , lr_password :: Text
   } deriving (Show)
 
-registerForm :: Monad m => D.Form Html m LoginRequest
-registerForm =
+loginForm :: Monad m => D.Form Html m LoginRequest
+loginForm =
   LoginRequest <$> "email" .: emailFormlet Nothing
                   <*> "password" .: passwordFormlet Nothing
 
-url :: T.Text
-url = "/login"
-
-view :: D.View Html -> Html
-view v = do
+formView :: D.View Html -> Html
+formView v = do
  -- errorList "mail" view
   H.h2 "User Login"
-  DH.form v url $ do
+  DH.form v (W.renderRoute url) $ do
     H.table ! A.class_ "form-table" $
       H.tbody $ do
         H.tr $ do
           H.td $ DH.label     "email" v "Email: "
           H.td $ DH.inputText "email" v
+        errorTr "email" v
         H.tr $ do
-          H.td $ DH.label     "password1" v "Password: "
-          H.td $ DH.inputPassword "password1" v
+          H.td $ DH.label         "password" v "Password: "
+          H.td $ DH.inputPassword "password" v
+        errorTr "password" v
         H.tr $ do
           H.td mempty
           H.td $ H.button ! A.type_ "submit" $ "Login"
 
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
--- loginHandler =
---     do f <- runForm "loginForm" loginForm
---        let formView mErr view =
---                panelWithErrorView "Login" mErr $ renderForm loginFormSpec view
---        case f of -- (View, Maybe LoginRequest)
---          (view, Nothing) ->
---              mkSite' (formView Nothing view)
---          (view, Just loginReq) ->
---              do loginRes <-
---                     runQuery $ loginUser (lr_user loginReq) (lr_password loginReq)
---                 case loginRes of
---                   Just userId ->
---                       do sid <- runQuery $ createSession userId
---                          writeSession (Just sid)
---                          redirect "/"
---                   Nothing ->
---                       mkSite' (formView (Just "Invalid login credentials!") view)
+handler :: WizardAction ctx b a
+handler = do
+  f <- runForm "loginForm" loginForm
+  case f of
+    (v, Nothing) -> Page.render False (formView v) Page.NoMessage
+    (v, Just loginReq) -> do
+      mUser <- W.runQuery $ U.getUserByEmail (U.Email $ TL.fromStrict $ lr_email loginReq)
+      case mUser of
+        Nothing -> do
+          let v2 = addError v "email" "Email not registered."
+          Page.render False (formView v2) Page.NoMessage
+        Just user -> do
+          if not (U.u_registration_confirmed user) then do
+            let v2 = addError v "email" "Email registration has not been confirmed."
+            Page.render False (formView v2) Page.NoMessage
+        -- todo
+          else do
+            if not $ U.authUser (U.Password $ TL.fromStrict $ lr_password loginReq) user then do
+              let v2 = addError v "password" "Incorrect password."
+              Page.render False (formView v2) Page.NoMessage
+            else
+              infoResponse "You are logged in."
+              --sid <- W.runQuery $ createSession userId
+              --writeSession (Just sid)
+              --redirect "/"

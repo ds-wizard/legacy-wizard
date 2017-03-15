@@ -16,6 +16,7 @@ import Config.Server.Config (port, pgCreds)
 import qualified Views.Pages.Main
 import qualified Views.Forms.Registration
 import qualified Views.Pages.ConfirmRegistration
+import qualified Views.Forms.Login
 import qualified API.Question.GetQuestion
 import qualified API.Book.GetContents
 
@@ -40,6 +41,7 @@ main = do
   --  prehook guestOnlyHook $ do
     W.getpost Views.Forms.Registration.url Views.Forms.Registration.handler
     W.getpost Views.Pages.ConfirmRegistration.url Views.Pages.ConfirmRegistration.handler
+    W.getpost Views.Forms.Login.url Views.Forms.Login.handler
    -- prehook authHook $
    --  get "/logout" logoutHandler
 

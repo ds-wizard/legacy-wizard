@@ -29,7 +29,7 @@ import Views.Info (infoResponse, errorResponse)
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 url :: Path '[] 'Open
-url = "/registration"
+url = "/register"
 
 data RegistrationRequest = RegistrationRequest
   { rr_email :: Text
@@ -42,11 +42,9 @@ data RegistrationRequest = RegistrationRequest
 registrationForm :: Monad m => D.Form Html m RegistrationRequest
 registrationForm =
   RegistrationRequest <$> "email" .: emailFormlet Nothing
-  --                <*> "password1" .: passwordFormlet Nothing
-  --                <*> "password2" .: passwordFormlet Nothing
-                  <*> "password" .: passwordConfirmer
-                  <*> "name" .: D.validate notEmpty (D.text Nothing)
-                  <*> "affiliation" .: D.validate notEmpty (D.text Nothing)
+                      <*> "password" .: passwordConfirmer
+                      <*> "name" .: D.validate notEmpty (D.text Nothing)
+                      <*> "affiliation" .: D.validate notEmpty (D.text Nothing)
     where
     passwordConfirmer =
       D.validate fst' $ (,) <$> ("p1" .: passwordFormlet Nothing)
@@ -89,8 +87,8 @@ formView v = do
 -- registerHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 handler :: WizardAction ctx b a
 handler = do
-  res <- runForm "registrationForm" registrationForm
-  case res of
+  f <- runForm "registrationForm" registrationForm
+  case f of
     (v, Nothing) -> Page.render False (formView v) Page.NoMessage
     (v, Just regReq) -> do
       mExisting <- W.runQuery $ U.getUserByEmail $ U.Email $ TL.fromStrict $ rr_email regReq

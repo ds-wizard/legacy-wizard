@@ -33,7 +33,7 @@ handler = do
           U.InvalidRegistrationKey ->
             errorResponse "Registration confirmation failed: invalid registration key."
           U.UserAlreadyConfirmed ->
-            infoResponse $ "Registration was already confirmed. You may " <> (H.a ! A.href (textValue Views.Forms.Login.url) $ "log in") <> "."
+            infoResponse $ "Registration was already confirmed. You may " <> (H.a ! A.href (textValue $ W.renderRoute Views.Forms.Login.url) $ "log in") <> "."
           U.UserOK ->
             infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href "/login" $ "log in") <> "."
 
