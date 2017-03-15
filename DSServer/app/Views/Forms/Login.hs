@@ -21,6 +21,7 @@ import Web.Routing.Combinators (PathState(..))
 import App (WizardAction)
 import qualified Model.User as U
 import qualified Persistence.User as U
+import Persistence.Session (getSessionByUser)
 import Views.Forms.Common (emailFormlet, passwordFormlet, addError, errorTr)
 import Views.Info (infoResponse, errorResponse)
 import qualified Views.Page as Page
@@ -78,12 +79,12 @@ handler = do
             let v2 = addError v "email" "Email registration has not been confirmed."
             Page.render False (formView v2) Page.NoMessage
         -- todo
-          else do
+          else
             if not $ U.authUser (U.Password $ TL.fromStrict $ lr_password loginReq) user then do
               let v2 = addError v "password" "Incorrect password."
               Page.render False (formView v2) Page.NoMessage
-            else
-              infoResponse "You are logged in."
-              --sid <- W.runQuery $ createSession userId
-              --writeSession (Just sid)
-              --redirect "/"
+            else do
+              mSession <- W.runQuery $ getSessionByUser user
+              case mSession of
+                Nothing -> errorResponse "Session management failed. Please contact the administrator."
+                Just session -> infoResponse "You are logged in."
