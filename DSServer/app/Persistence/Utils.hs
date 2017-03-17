@@ -8,5 +8,5 @@ import System.Random (randomRs, getStdGen)
 genKey :: IO T.Text
 genKey = do
   stdGen <- getStdGen
-  return $ T.pack $ take 10 $ randomRs ('a','z') stdGen
+  return $ T.pack $ take 30 $ randomRs ('a','z') stdGen
 

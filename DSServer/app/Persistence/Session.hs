@@ -4,6 +4,7 @@ module Persistence.Session
   ( createSession
   , getSessionById
   , getSessionByUser
+  , getUserFromSession
   , sessionIsValid
   , deleteSessionById
   , deleteSessionOfUser
@@ -63,6 +64,12 @@ getSessionByUser user conn = do
       case mSessionId of
         Nothing -> return Nothing
         Just sessionId -> getSessionById sessionId conn
+
+getUserFromSession :: SessionId -> PG.Connection -> IO (Maybe User)
+getUserFromSession sessionId conn = do
+  users <- PG.query conn "SELECT \"User\".* FROM \"Session\", \"User\" WHERE \"Session\".user_id = \"User\".user_id AND session_id = ?" (PG.Only sessionId)
+  if null users then return Nothing
+  else return $ Just $ head users
 
 sessionIsValid :: Session -> IO Bool
 sessionIsValid session = do

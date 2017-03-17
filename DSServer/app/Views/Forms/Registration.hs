@@ -88,13 +88,13 @@ handler :: PGPool -> ActionM ()
 handler pool = do
   f <- runForm "registrationForm" registrationForm
   case f of
-    (v, Nothing) -> Page.render False (formView v) Page.NoMessage
+    (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
     (v, Just regReq) -> do
       mExisting <- runQuery pool $ U.getUserByEmail $ U.Email $ TL.fromStrict $ rr_email regReq
       case mExisting of
         Just _ -> do
           let v2 = addError v "email" "Email already registered"
-          Page.render False (formView v2) Page.NoMessage
+          Page.render False (formView v2) Nothing Page.NoMessage
         Nothing -> do
           let email = U.Email $ TL.fromStrict $ rr_email regReq
           userId <- runQuery pool $ U.createUser email (U.Password $ TL.fromStrict $ rr_password regReq) (rr_name regReq) (rr_affiliation regReq)

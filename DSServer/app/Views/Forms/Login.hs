@@ -15,14 +15,15 @@ import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
 import Text.Digestive.Scotty (runForm)
-import Web.Scotty (ActionM)
+import Web.Scotty (ActionM, redirect)
 
-import App (PGPool, runQuery)
+import App (PGPool, setSession, runQuery)
 import qualified Model.User as U
 import qualified Persistence.User as U
+import qualified Model.Session as S
 import Persistence.Session (getSessionByUser)
 import Views.Forms.Common (emailFormlet, passwordFormlet, addError, errorTr)
-import Views.Info (infoResponse, errorResponse)
+import Views.Info (errorResponse)
 import qualified Views.Page as Page
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -66,24 +67,26 @@ handler :: PGPool -> ActionM ()
 handler pool = do
   f <- runForm "loginForm" loginForm
   case f of
-    (v, Nothing) -> Page.render False (formView v) Page.NoMessage
+    (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
     (v, Just loginReq) -> do
       mUser <- runQuery pool $ U.getUserByEmail (U.Email $ TL.fromStrict $ lr_email loginReq)
       case mUser of
         Nothing -> do
           let v2 = addError v "email" "Email not registered."
-          Page.render False (formView v2) Page.NoMessage
+          Page.render False (formView v2) Nothing Page.NoMessage
         Just user -> do
           if not (U.u_registration_confirmed user) then do
             let v2 = addError v "email" "Email registration has not been confirmed."
-            Page.render False (formView v2) Page.NoMessage
+            Page.render False (formView v2) Nothing Page.NoMessage
         -- todo
           else
             if not $ U.authUser (U.Password $ TL.fromStrict $ lr_password loginReq) user then do
               let v2 = addError v "password" "Incorrect password."
-              Page.render False (formView v2) Page.NoMessage
+              Page.render False (formView v2) Nothing  Page.NoMessage
             else do
               mSession <- runQuery pool $ getSessionByUser user
               case mSession of
                 Nothing -> errorResponse "Session management failed. Please contact the administrator."
-                Just session -> infoResponse "You are logged in."
+                Just session -> do
+                  setSession $ S.s_session_id session
+                  redirect "/"

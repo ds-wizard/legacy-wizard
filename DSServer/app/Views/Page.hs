@@ -18,18 +18,19 @@ import qualified Web.Scotty as W
 --  import App (ActionD, runQuery)
 
 import Config.Config (staticURL)
+import Model.User (User(..))
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 data Message = InfoMessage Html | ErrorMessage Html | NoMessage
 
-render :: Bool -> Html -> Message -> ActionM ()
-render isMain page message = W.html $ renderHtml $
+render :: Bool -> Html -> Maybe User -> Message -> ActionM ()
+render isMain page mUser message = W.html $ renderHtml $
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
     H.body $
       H.div ! A.id "container" $ do
-        renderLogin
+        renderLogin mUser
         renderBanner
         renderMessage message
         H.div ! A.class_ "inside" $
@@ -51,13 +52,19 @@ renderHead = H.head $ do
     H.link ! A.rel "stylesheet" ! A.href ( textValue $ staticURL <> "css/main.css")
     H.script ! A.src (textValue $ staticURL <> "js/vendor/jquery-3.1.1.min.js") $ mempty
 
-renderLogin :: Html
-renderLogin = H.div ! A.class_ "login-box" $ do
-  --H.a ! A.href (textValue Views.Forms.Login.url) $ "Login"
-  H.a ! A.href "/login" $ "Login"
-  _ <- " | "
-  --H.a ! A.href (textValue Views.Forms.Registration.url) $ "Register"
-  H.a ! A.href "/register" $ "Register"
+renderLogin :: Maybe User -> Html
+renderLogin mUser = H.div ! A.class_ "login-box" $ do
+  case mUser of
+    Just user -> do
+      H.span $ H.toHtml $ u_name user
+      _ <- " | "
+      H.a ! A.href "/logout" $ "Logout"
+    Nothing -> do
+      --H.a ! A.href (textValue Views.Forms.Login.url) $ "Login"
+      H.a ! A.href "/login" $ "Login"
+      _ <- " | "
+      --H.a ! A.href (textValue Views.Forms.Registration.url) $ "Register"
+      H.a ! A.href "/register" $ "Register"
 
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" $ do

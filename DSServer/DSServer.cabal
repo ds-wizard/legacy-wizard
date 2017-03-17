@@ -30,6 +30,7 @@ executable DSServer
     text,
     bytestring,
     mtl,
+    containers,
     time,
     random,
     pwstore-fast,

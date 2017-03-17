@@ -2,7 +2,7 @@
 
 module Model.Session  where
 
-import qualified Data.Text.Lazy as T
+import Data.Text (Text)
 import qualified Data.Time.Clock as DTC
 import Database.PostgreSQL.Simple.FromRow
 
@@ -10,7 +10,7 @@ import Model.User (UserId)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 
-type SessionId = T.Text
+type SessionId = Text
 
 data Session = Session
   { s_session_id :: SessionId

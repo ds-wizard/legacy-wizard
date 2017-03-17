@@ -27,8 +27,8 @@ view infoType message = do
   H.a ! A.href "/" $ H.button ! A.class_ "info" $ "OK"
 
 infoResponse :: Html ->  ActionM ()
-infoResponse msg = Page.render False (view OKInfo msg) Page.NoMessage
+infoResponse msg = Page.render False (view OKInfo msg) Nothing Page.NoMessage
 
 errorResponse :: Html ->  ActionM ()
-errorResponse msg = Page.render False (view ErrorInfo msg) Page.NoMessage
+errorResponse msg = Page.render False (view ErrorInfo msg) Nothing Page.NoMessage
 
