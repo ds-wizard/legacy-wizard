@@ -4,12 +4,8 @@ module Persistence.Question where
 
 import           Data.Text (Text)
 import qualified Database.PostgreSQL.Simple as PG
-import           Database.PostgreSQL.Simple.FromRow
 
 import Model.Question
-
-instance FromRow Question where
-  fromRow = Question <$> field <*> field <*> field <*> field
 
 getQuestion :: Int -> Int -> PG.Connection -> IO (Maybe Question)
 getQuestion chid qid conn = do

@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Views.Info
   ( url
@@ -9,13 +9,11 @@ module Views.Info
 import Text.Blaze.Html5 (Html,(!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Web.Spock (Path)
-import Web.Routing.Combinators (PathState(..))
+import Web.Scotty (RoutePattern, ActionM)
 
-import App (WizardAction)
 import qualified Views.Page as Page
 
-url :: Path '[] 'Open
+url :: RoutePattern
 url = "/info"
 
 data InfoType = OKInfo | ErrorInfo
@@ -28,9 +26,9 @@ view infoType message = do
       ErrorInfo -> A.class_ "bar error") $ message
   H.a ! A.href "/" $ H.button ! A.class_ "info" $ "OK"
 
-infoResponse :: Html ->  WizardAction ctx b a
+infoResponse :: Html ->  ActionM ()
 infoResponse msg = Page.render False (view OKInfo msg) Page.NoMessage
 
-errorResponse :: Html ->  WizardAction ctx b a
+errorResponse :: Html ->  ActionM ()
 errorResponse msg = Page.render False (view ErrorInfo msg) Page.NoMessage
 

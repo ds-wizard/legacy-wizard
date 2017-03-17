@@ -1,32 +1,34 @@
-{-# LANGUAGE OverloadedStrings, DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module API.Book.GetContents
   ( url
   , handler
   ) where
 
+import Data.Text.Lazy (toStrict)
 import Control.Monad (join)
+import qualified Data.Text.Lazy as TL
 import Data.Maybe (fromMaybe)
-import Web.Spock (Path)
-import qualified Web.Spock as W
-import Web.Routing.Combinators (PathState(..))
+import Web.Scotty (ActionM, params, text)
+--import qualified Database.PostgreSQL.Simple as PG
 
-import App (WizardAction)
+import App (PGPool, runQuery)
 import API.Utils (readInt)
 import Persistence.Question (getBookContents)
 
-url :: Path '[] 'Open
+url :: String
 url = "api/getBookContents"
 
-handler :: WizardAction ctx b a
-handler = do
-  ps <- W.params
-  case join $ readInt <$> lookup "chid" ps of
-    Nothing -> W.text "Missing chid"
+handler :: PGPool -> ActionM ()
+handler pool = do
+  ps <- params
+  case join $ readInt . toStrict <$> lookup "chid" ps of
+    Nothing -> text "Missing chid"
     Just chid ->
-      case join $ readInt <$> lookup "qid" ps of
-        Nothing -> W.text "Missing qid"
+      case join $ readInt . toStrict <$> lookup "qid" ps of
+        Nothing -> text "Missing qid"
         Just qid -> do
-          maybeText <- W.runQuery $ getBookContents chid qid
-          W.text $ fromMaybe "" maybeText
+          maybeText <- runQuery pool $ getBookContents chid qid
+          --maybeText <- liftIO $ withResource pool $ getBookContents chid qid
+          text $ TL.fromStrict $ fromMaybe "" maybeText
 

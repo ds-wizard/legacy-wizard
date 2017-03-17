@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Views.Pages.Main
   ( url
@@ -9,18 +9,17 @@ module Views.Pages.Main
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Web.Spock (Path, root)
-import Web.Routing.Combinators (PathState(..))
+import Web.Scotty (ActionM)
 
-import App (WizardAction)
+import App (PGPool)
 import qualified Views.Page as Page
 
-url :: Path '[] 'Open
-url = root
+url :: String
+url = "/"
 
 view :: Html
 view = H.form ! A.id "form" ! A.method "post" $ mempty
 
-handler :: WizardAction ctx b a
-handler = Page.render True view Page.NoMessage
+handler :: PGPool -> ActionM ()
+handler _ = Page.render True view Page.NoMessage
 

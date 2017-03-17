@@ -5,25 +5,26 @@ module Views.Page
   , render
   ) where
 
+--import Control.Monad.Trans (liftIO)
 import Data.Monoid ((<>))
-import qualified Data.Text.Lazy as TL
+--import qualified Data.Text.Lazy as TL
 import Text.Blaze.Internal (textValue)
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html.Renderer.Text (renderHtml)
-import qualified Web.Spock as W
+import Web.Scotty (ActionM)
+import qualified Web.Scotty as W
+--  import App (ActionD, runQuery)
 
 import Config.Config (staticURL)
-
-import App (WizardAction)
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 data Message = InfoMessage Html | ErrorMessage Html | NoMessage
 
-render :: Bool -> Html -> Message -> WizardAction ctx b a
-render isMain page message = W.html $ TL.toStrict $ renderHtml $
+render :: Bool -> Html -> Message -> ActionM ()
+render isMain page message = W.html $ renderHtml $
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
     H.body $

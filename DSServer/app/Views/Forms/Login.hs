@@ -1,4 +1,4 @@
-{-# LANGUAGE OverloadedStrings, DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Views.Forms.Login
   ( url
@@ -6,6 +6,7 @@ module Views.Forms.Login
   ) where
 
 import Data.Text (Text)
+import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
@@ -13,12 +14,10 @@ import qualified Text.Blaze.Html5.Attributes as A
 import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
-import Web.Spock.Digestive (runForm)
-import Web.Spock (Path)
-import qualified Web.Spock as W
-import Web.Routing.Combinators (PathState(..))
+import Text.Digestive.Scotty (runForm)
+import Web.Scotty (ActionM)
 
-import App (WizardAction)
+import App (PGPool, runQuery)
 import qualified Model.User as U
 import qualified Persistence.User as U
 import Persistence.Session (getSessionByUser)
@@ -29,7 +28,7 @@ import qualified Views.Page as Page
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
-url :: Path '[] 'Open
+url :: String
 url = "/login"
 
 data LoginRequest = LoginRequest
@@ -46,7 +45,7 @@ formView :: D.View Html -> Html
 formView v = do
  -- errorList "mail" view
   H.h2 "User Login"
-  DH.form v (W.renderRoute url) $ do
+  DH.form v (T.pack url) $ do
     H.table ! A.class_ "form-table" $
       H.tbody $ do
         H.tr $ do
@@ -63,13 +62,13 @@ formView v = do
 
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
-handler :: WizardAction ctx b a
-handler = do
+handler :: PGPool -> ActionM ()
+handler pool = do
   f <- runForm "loginForm" loginForm
   case f of
     (v, Nothing) -> Page.render False (formView v) Page.NoMessage
     (v, Just loginReq) -> do
-      mUser <- W.runQuery $ U.getUserByEmail (U.Email $ TL.fromStrict $ lr_email loginReq)
+      mUser <- runQuery pool $ U.getUserByEmail (U.Email $ TL.fromStrict $ lr_email loginReq)
       case mUser of
         Nothing -> do
           let v2 = addError v "email" "Email not registered."
@@ -84,7 +83,7 @@ handler = do
               let v2 = addError v "password" "Incorrect password."
               Page.render False (formView v2) Page.NoMessage
             else do
-              mSession <- W.runQuery $ getSessionByUser user
+              mSession <- runQuery pool $ getSessionByUser user
               case mSession of
                 Nothing -> errorResponse "Session management failed. Please contact the administrator."
                 Just session -> infoResponse "You are logged in."

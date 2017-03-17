@@ -1,11 +1,21 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module App
-  ( WizardAction
+  ( PGPool
+  , runQuery
   ) where
 
-import qualified Database.PostgreSQL.Simple as PG
-import qualified Web.Spock as W
+--import qualified Data.Text.Lazy as T
+--import qualified Data.Text.Lazy.Encoding as T
+--import           Data.Text.Lazy (Text)
+--import           Control.Monad.Reader
+--import           Web.Scotty.Trans (ReaderT, ScottyT, ActionT)
+import Control.Monad.IO.Class (MonadIO)
+import Control.Monad.Trans (liftIO)
+import           Data.Pool (Pool, withResource)
+import Database.PostgreSQL.Simple (Connection)
 
-type WizardAction ctx b a = W.ActionCtxT ctx (W.WebStateM PG.Connection b ()) a
+type PGPool = Pool Connection
 
+runQuery :: MonadIO m => Pool Connection -> (Connection -> IO a) -> m a
+runQuery pool query = liftIO $ withResource pool query

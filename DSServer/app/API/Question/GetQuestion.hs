@@ -1,33 +1,31 @@
-{-# LANGUAGE OverloadedStrings, DataKinds #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module API.Question.GetQuestion
   ( url
   , handler
   ) where
 
+import qualified Data.Text.Lazy as TL
 import Control.Monad (join)
 import Data.Maybe (fromMaybe)
-import qualified Data.Text as T
-import Web.Spock (Path)
-import qualified Web.Spock as W
-import Web.Routing.Combinators (PathState(..))
+import Web.Scotty (ActionM, params, text)
 
-import App (WizardAction)
+import App (PGPool, runQuery)
 import API.Utils (readInt)
 import Persistence.Question (getQuestion)
 
-url :: Path '[] 'Open
+url :: String
 url = "api/getQuestion"
 
-handler :: WizardAction ctx b a
-handler = do
-  ps <- W.params
-  case join $ readInt <$> lookup "chid" ps of
-    Nothing -> W.text "Missing chid"
+handler :: PGPool -> ActionM ()
+handler pool = do
+  ps <- params
+  case join $ (readInt . TL.toStrict) <$> lookup "chid" ps of
+    Nothing -> text "Missing chid"
     Just chid ->
-      case join $ readInt <$> lookup "qid" ps of
-        Nothing -> W.text "Missing qid"
+      case join $ (readInt . TL.toStrict) <$> lookup "qid" ps of
+        Nothing -> text "Missing qid"
         Just qid -> do
-          maybeQuestion <- W.runQuery $ getQuestion chid qid
-          W.text $ fromMaybe "" $ (T.pack . show) <$> maybeQuestion
+          maybeQuestion <- runQuery pool $ getQuestion chid qid
+          text $ fromMaybe "" $ (TL.pack . show) <$> maybeQuestion
 
