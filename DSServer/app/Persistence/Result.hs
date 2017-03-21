@@ -1,25 +1,26 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Persistence.Result
-  (
+  ( getResultId
+  , updateResult
+  , insertResult
+  , getResultForPlan
   ) where
 
-import qualified Data.Text as T
-import qualified Data.Text.Lazy as TL
-import qualified Data.Text.Encoding as T
+import Data.Text.Lazy (Text)
 import qualified Database.PostgreSQL.Simple as PG
 
-import Model.Result
 import Model.Plan
+import FormEngine.FormData (FieldValue)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
 
-resultId :: Plan -> Text -> PG.Connection -> IO Int
-resultId plan name1 conn = do
+getResultId :: Plan -> Text -> PG.Connection -> IO Int
+getResultId plan name1 conn = do
   r <- PG.query conn
         "SELECT id FROM \"Result\" WHERE plan_id = ? AND name = ?"
-        (R.id plan, name1) :: IO [PG.Only Int]
+        (p_id plan, name1) :: IO [PG.Only Int]
   let x =
         case r of
           (f:_) -> f
@@ -30,13 +31,13 @@ resultId plan name1 conn = do
 updateResult :: Plan -> Text -> Maybe Text -> PG.Connection -> IO Int
 updateResult plan name1 value1 conn = do
   r <- PG.execute conn "UPDATE \"Result\" SET value = ?\
-                     \ WHERE name = ? AND plan_id = ?" (value1, name1, r_plan_id plan)
+                     \ WHERE name = ? AND plan_id = ?" (value1, name1, p_id plan)
   return (fromIntegral r)
 
 insertResult :: Plan -> Text -> Maybe Text -> Maybe Text -> PG.Connection -> IO Int
 insertResult plan name1 text1 value1 conn = do
   r <- PG.query conn "INSERT INTO \"Result\" (plan_id, name, text, value) VALUES (?, ?, ?, ?) RETURNING id"
-         (r_plan_id plan, name1, text1, value1) :: IO [PG.Only Int]
+         (p_id plan, name1, text1, value1) :: IO [PG.Only Int]
   let x =
         case r of
           (f:_) -> f

@@ -12,13 +12,14 @@ module App
 
 --import qualified Data.Text.Lazy as TL
 --import qualified Data.Text.Lazy.Encoding as T
-import           Data.Text (Text)
+import Data.Text (Text)
+
+import Control.Monad.IO.Class (MonadIO)
+import Control.Monad.Trans (liftIO)
 --import           Control.Monad.Reader
 --import           Web.Scotty.Trans (ReaderT, ScottyT, ActionT)
 import Data.Map.Lazy (Map, member, (!))
-import Control.Monad.IO.Class (MonadIO)
-import Control.Monad.Trans (liftIO)
-import           Data.Pool (Pool, withResource)
+import Data.Pool (Pool, withResource)
 import Database.PostgreSQL.Simple (Connection)
 import Web.Scotty (ActionM)
 import Web.Scotty.Cookie (setSimpleCookie, deleteCookie)
@@ -27,10 +28,11 @@ import Model.Session (SessionId)
 import Persistence.Session (deleteSessionById)
 
 type Action = ActionM ()
+
 type PGPool = Pool Connection
+
 type Cookies = Map Text Text
 
-sessionCookie :: Text
 sessionCookie = "sessionId"
 
 paramVal :: Text -> Cookies -> Maybe Text
@@ -55,10 +57,10 @@ deleteSession pool cookies =
 
 --tl2t :: TL.Text -> Data.Text.Internal.Lazy.Text
 --t2t t = Data.Text.Lazy.pack $ tifName tif
-
 --tif2t :: TransactionInputField -> Data.Text.Text
 --tif2t tif = Data.Text.pack $ tifName tif
 
-runQuery :: MonadIO m => Pool Connection -> (Connection -> IO a) -> m a
+runQuery
+  :: MonadIO m
+  => Pool Connection -> (Connection -> IO a) -> m a
 runQuery pool query = liftIO $ withResource pool query
-
