@@ -1,16 +1,18 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Info
+module Actions.Responses
   ( url
   , infoResponse
   , errorResponse
+  , logInResponse
   ) where
 
 import Text.Blaze.Html5 (Html,(!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Web.Scotty (RoutePattern, ActionM)
+import Web.Scotty (RoutePattern)
 
+import App (Action)
 import qualified Page
 
 url :: RoutePattern
@@ -26,9 +28,11 @@ view infoType message = do
       ErrorInfo -> A.class_ "bar error") $ message
   H.a ! A.href "/" $ H.button ! A.class_ "info" $ "OK"
 
-infoResponse :: Html ->  ActionM ()
+infoResponse :: Html ->  Action
 infoResponse msg = Page.render False (view OKInfo msg) Nothing Page.NoMessage
 
-errorResponse :: Html ->  ActionM ()
+errorResponse :: Html ->  Action
 errorResponse msg = Page.render False (view ErrorInfo msg) Nothing Page.NoMessage
 
+logInResponse :: Action
+logInResponse = errorResponse "Please log in first."

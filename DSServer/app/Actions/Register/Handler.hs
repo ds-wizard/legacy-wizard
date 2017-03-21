@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Registration.Handler
+module Actions.Register.Handler
   ( url
   , handler
   ) where
@@ -17,15 +17,14 @@ import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
 import Text.Digestive.Scotty (runForm)
-import Web.Scotty (ActionM)
 
-import App (PGPool, runQuery)
+import App (Action, PGPool, runQuery)
 import qualified Model.User as U
 import qualified Persistence.User as U
 import Mailing
 import Actions.FormUtils (notEmpty, emailFormlet, passwordFormlet, addError, errorTr)
 import qualified Page
-import Actions.Info (infoResponse, errorResponse)
+import Actions.Responses (infoResponse, errorResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
@@ -87,7 +86,7 @@ formView v = do
 
 
 -- registerHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
-handler :: PGPool -> ActionM ()
+handler :: PGPool -> Action
 handler pool = do
   f <- runForm "registrationForm" registrationForm
   case f of

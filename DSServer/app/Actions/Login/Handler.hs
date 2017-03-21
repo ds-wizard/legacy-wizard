@@ -15,15 +15,15 @@ import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
 import Text.Digestive.Scotty (runForm)
-import Web.Scotty (ActionM, redirect)
+import Web.Scotty (redirect)
 
-import App (PGPool, setSession, runQuery)
+import App (Action, PGPool, setSession, runQuery)
 import qualified Model.User as U
 import qualified Persistence.User as U
 import qualified Model.Session as S
 import Persistence.Session (getSessionByUser)
 import Actions.FormUtils (emailFormlet, passwordFormlet, addError, errorTr)
-import Actions.Info (errorResponse)
+import Actions.Responses (errorResponse)
 import qualified Page
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -63,7 +63,7 @@ formView v = do
 
 
 -- loginHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
-handler :: PGPool -> ActionM ()
+handler :: PGPool -> Action
 handler pool = do
   f <- runForm "loginForm" loginForm
   case f of

@@ -8,16 +8,16 @@ module API.Question.GetQuestion.Handler
 import qualified Data.Text.Lazy as TL
 import Control.Monad (join)
 import Data.Maybe (fromMaybe)
-import Web.Scotty (ActionM, params, text)
+import Web.Scotty (params, text)
 
-import App (PGPool, runQuery)
+import App (Action, PGPool, runQuery)
 import API.Utils (readInt)
 import Persistence.Question (getQuestion)
 
 url :: String
 url = "api/getQuestion"
 
-handler :: PGPool -> ActionM ()
+handler :: PGPool -> Action
 handler pool = do
   ps <- params
   case join $ (readInt . TL.toStrict) <$> lookup "chid" ps of

@@ -1,7 +1,8 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module App
-  ( PGPool
+  ( Action
+  , PGPool
   , Cookies
   , setSession
   , getSession
@@ -25,6 +26,7 @@ import Web.Scotty.Cookie (setSimpleCookie, deleteCookie)
 import Model.Session (SessionId)
 import Persistence.Session (deleteSessionById)
 
+type Action = ActionM ()
 type PGPool = Pool Connection
 type Cookies = Map Text Text
 
@@ -37,13 +39,13 @@ paramVal key cookies =
     then Just $ cookies ! key
     else Nothing
 
-setSession :: SessionId -> ActionM ()
+setSession :: SessionId -> Action
 setSession = setSimpleCookie sessionCookie
 
 getSession :: Cookies -> Maybe SessionId
 getSession = paramVal sessionCookie
 
-deleteSession :: PGPool -> Cookies -> ActionM ()
+deleteSession :: PGPool -> Cookies -> Action
 deleteSession pool cookies =
   case getSession cookies of
     Nothing -> return ()
@@ -59,3 +61,4 @@ deleteSession pool cookies =
 
 runQuery :: MonadIO m => Pool Connection -> (Connection -> IO a) -> m a
 runQuery pool query = liftIO $ withResource pool query
+

@@ -9,17 +9,17 @@ import Data.Text.Lazy (toStrict)
 import Control.Monad (join)
 import qualified Data.Text.Lazy as TL
 import Data.Maybe (fromMaybe)
-import Web.Scotty (ActionM, params, text)
+import Web.Scotty (params, text)
 --import qualified Database.PostgreSQL.Simple as PG
 
-import App (PGPool, runQuery)
+import App (Action, PGPool, runQuery)
 import API.Utils (readInt)
 import Persistence.Question (getBookContents)
 
 url :: String
 url = "api/getBookContents"
 
-handler :: PGPool -> ActionM ()
+handler :: PGPool -> Action
 handler pool = do
   ps <- params
   case join $ readInt . toStrict <$> lookup "chid" ps of

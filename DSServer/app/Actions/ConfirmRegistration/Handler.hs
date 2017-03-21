@@ -11,12 +11,12 @@ import Data.Monoid ((<>))
 import Text.Blaze.Html5 ((!), textValue)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
-import Web.Scotty (ActionM, params)
+import Web.Scotty (params)
 
 import qualified Persistence.User as U
 
-import App (PGPool, runQuery)
-import Actions.Info (infoResponse, errorResponse)
+import App (Action, PGPool, runQuery)
+import Actions.Responses (infoResponse, errorResponse)
 import qualified Actions.Login.Handler
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -25,7 +25,7 @@ import qualified Actions.Login.Handler
 url :: String
 url = "/confirmRegistration"
 
-handler :: PGPool -> ActionM ()
+handler :: PGPool -> Action
 handler pool = do
   ps <- params
   case lookup "key" ps of

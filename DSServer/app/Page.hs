@@ -13,9 +13,8 @@ import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Text.Blaze.Html.Renderer.Text (renderHtml)
-import Web.Scotty (ActionM)
 import qualified Web.Scotty as W
---  import App (ActionD, runQuery)
+import App (Action)
 
 import Config.Config (staticURL)
 import Model.User (User(..))
@@ -24,7 +23,7 @@ import Model.User (User(..))
 
 data Message = InfoMessage Html | ErrorMessage Html | NoMessage
 
-render :: Bool -> Html -> Maybe User -> Message -> ActionM ()
+render :: Bool -> Html -> Maybe User -> Message -> Action
 render isMain page mUser message = W.html $ renderHtml $
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
@@ -82,8 +81,8 @@ renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
   case mUser of
     Nothing -> mempty
     Just _ -> do
-      H.button ! A.class_ "action-button" $ "Load"
-      H.button ! A.class_ "action-button" $ "Save"
+      H.button ! A.class_ "action-button" ! A.onclick "location.href='/load'" $ "Load"
+      H.button ! A.class_ "action-button" ! A.onclick "location.href='/save'" $ "Save"
 
 renderMessage :: Message -> Html
 renderMessage NoMessage = mempty

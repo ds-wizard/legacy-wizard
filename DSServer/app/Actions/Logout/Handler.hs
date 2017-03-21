@@ -6,14 +6,14 @@ module Actions.Logout.Handler
   ) where
 
 --import qualified Data.Text.Lazy as TL
-import Web.Scotty (ActionM, redirect)
+import Web.Scotty (redirect)
 
-import App (PGPool, Cookies, deleteSession)
+import App (Action, PGPool, Cookies, deleteSession)
 
 url :: String
 url = "/logout"
 
-handler :: PGPool -> Cookies -> ActionM ()
+handler :: PGPool -> Cookies -> Action
 handler pool cookies = do
   deleteSession pool cookies
   redirect "/"
