@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.Question.GetQuestion
+module API.Question.GetQuestion.Handler
   ( url
   , handler
   ) where

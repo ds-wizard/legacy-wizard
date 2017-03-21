@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Page
+module Page
   ( Message(..)
   , render
   ) where
@@ -31,7 +31,9 @@ render isMain page mUser message = W.html $ renderHtml $
     H.body $
       H.div ! A.id "container" $ do
         renderLogin mUser
-        renderBanner
+        H.div ! A.class_ "banner-bar" $ do
+          renderBanner
+          renderControlPanel mUser
         renderMessage message
         H.div ! A.class_ "inside" $
           page
@@ -67,13 +69,21 @@ renderLogin mUser = H.div ! A.class_ "login-box" $ do
       H.a ! A.href "/register" $ "Register"
 
 renderBanner :: Html
-renderBanner = H.div ! A.id "banner" $ do
+renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.a ! A.href "https://www.elixir-europe.org/" $
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
   H.h1 ! A.class_ "title" $ do
     _ <- "Data Stewardship Wizard (testing)"
     H.span ! A.class_ "version" $ " v0.2, "
     H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
+
+renderControlPanel :: Maybe User -> Html
+renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
+  case mUser of
+    Nothing -> mempty
+    Just _ -> do
+      H.button ! A.class_ "action-button" $ "Load"
+      H.button ! A.class_ "action-button" $ "Save"
 
 renderMessage :: Message -> Html
 renderMessage NoMessage = mempty

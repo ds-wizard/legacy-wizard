@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Forms.Common
+module Actions.FormUtils
   ( notEmpty
   , emailFormlet
   , passwordFormlet

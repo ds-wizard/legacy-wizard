@@ -10,25 +10,25 @@ import Network.Wai.Middleware.RequestLogger (logStdoutDev)
 
 import App (PGPool)
 
-import qualified Views.Pages.Main
-import qualified Views.Forms.Registration
-import qualified Views.Pages.ConfirmRegistration
-import qualified Views.Forms.Login
-import qualified Views.Logout
-import qualified API.Question.GetQuestion
-import qualified API.Book.GetContents
+import qualified Actions.Main.Handler
+import qualified Actions.Registration.Handler
+import qualified Actions.ConfirmRegistration.Handler
+import qualified Actions.Login.Handler
+import qualified Actions.Logout.Handler
+import qualified API.Question.GetQuestion.Handler
+import qualified API.Book.GetContents.Handler
 
 routes :: PGPool -> ScottyM ()
 routes pool = do
   middleware M.static
   middleware logStdoutDev
-  get  (capture Views.Pages.Main.url) (getCookies >>= Views.Pages.Main.handler pool)
-  post (capture API.Question.GetQuestion.url) (API.Question.GetQuestion.handler pool)
-  post (capture API.Book.GetContents.url) (API.Book.GetContents.handler pool)
-  get  (capture Views.Forms.Registration.url) (Views.Forms.Registration.handler pool)
-  post (capture Views.Forms.Registration.url) (Views.Forms.Registration.handler pool)
-  get  (capture Views.Pages.ConfirmRegistration.url) (Views.Pages.ConfirmRegistration.handler pool)
-  post (capture Views.Pages.ConfirmRegistration.url) (Views.Pages.ConfirmRegistration.handler pool)
-  get  (capture Views.Forms.Login.url) (Views.Forms.Login.handler pool)
-  post (capture Views.Forms.Login.url) (Views.Forms.Login.handler pool)
-  get  (capture Views.Logout.url) (getCookies >>= Views.Logout.handler pool)
+  get  (capture Actions.Main.Handler.url) (getCookies >>= Actions.Main.Handler.handler pool)
+  post (capture API.Question.GetQuestion.Handler.url) (API.Question.GetQuestion.Handler.handler pool)
+  post (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
+  get  (capture Actions.Registration.Handler.url) (Actions.Registration.Handler.handler pool)
+  post (capture Actions.Registration.Handler.url) (Actions.Registration.Handler.handler pool)
+  get  (capture Actions.ConfirmRegistration.Handler.url) (Actions.ConfirmRegistration.Handler.handler pool)
+  post (capture Actions.ConfirmRegistration.Handler.url) (Actions.ConfirmRegistration.Handler.handler pool)
+  get  (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
+  post (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
+  get  (capture Actions.Logout.Handler.url) (getCookies >>= Actions.Logout.Handler.handler pool)

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Pages.Main
+module Actions.Main.Handler
   ( url
   , handler
   ) where
@@ -13,7 +13,7 @@ import Web.Scotty (ActionM)
 
 import App (PGPool, Cookies, getSession, runQuery)
 import Persistence.Session (getUserFromSession)
-import qualified Views.Page as Page
+import qualified Page
 
 url :: String
 url = "/"

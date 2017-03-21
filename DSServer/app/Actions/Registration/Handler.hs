@@ -1,6 +1,9 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Forms.Registration where
+module Actions.Registration.Handler
+  ( url
+  , handler
+  ) where
 
 import Data.Monoid ((<>))
 import Control.Monad.Trans (liftIO)
@@ -20,9 +23,9 @@ import App (PGPool, runQuery)
 import qualified Model.User as U
 import qualified Persistence.User as U
 import Mailing
-import Views.Forms.Common (notEmpty, emailFormlet, passwordFormlet, addError, errorTr)
-import qualified Views.Page as Page
-import Views.Info (infoResponse, errorResponse)
+import Actions.FormUtils (notEmpty, emailFormlet, passwordFormlet, addError, errorTr)
+import qualified Page
+import Actions.Info (infoResponse, errorResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}

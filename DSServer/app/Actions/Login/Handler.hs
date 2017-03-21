@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Forms.Login
+module Actions.Login.Handler
   ( url
   , handler
   ) where
@@ -22,9 +22,9 @@ import qualified Model.User as U
 import qualified Persistence.User as U
 import qualified Model.Session as S
 import Persistence.Session (getSessionByUser)
-import Views.Forms.Common (emailFormlet, passwordFormlet, addError, errorTr)
-import Views.Info (errorResponse)
-import qualified Views.Page as Page
+import Actions.FormUtils (emailFormlet, passwordFormlet, addError, errorTr)
+import Actions.Info (errorResponse)
+import qualified Page
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}

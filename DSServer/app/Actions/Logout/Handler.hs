@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Logout
+module Actions.Logout.Handler
   ( url
   , handler
   ) where

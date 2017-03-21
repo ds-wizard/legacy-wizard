@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Views.Info
+module Actions.Info
   ( url
   , infoResponse
   , errorResponse
@@ -11,7 +11,7 @@ import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Web.Scotty (RoutePattern, ActionM)
 
-import qualified Views.Page as Page
+import qualified Page
 
 url :: RoutePattern
 url = "/info"

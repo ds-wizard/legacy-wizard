@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.Book.GetContents
+module API.Book.GetContents.Handler
   ( url
   , handler
   ) where
