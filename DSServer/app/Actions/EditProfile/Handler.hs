@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.ave.Handler
+module Actions.Handler
   ( url
   , handler
   ) where
@@ -39,15 +39,15 @@ data ProfileData = ProfileData
   , pd_affiliation :: Text
   } deriving (Show)
 
-registrationForm :: Monad m => D.Form Html m ProfileData
-registrationForm =
+profileForm :: Monad m => D.Form Html m ProfileData
+profileForm =
   ProfileData <$> "email" .: emailFormlet Nothing
               <*> "name" .: D.validate notEmpty (D.text Nothing)
               <*> "affiliation" .: D.validate notEmpty (D.text Nothing)
 
 formView :: D.View Html -> Html
 formView v = do
-  H.h2 "New User Registration"
+  H.h2 "Profile update"
   DH.form v (T.pack url) $ do
     H.table ! A.class_ "form-table" $
       H.tbody $ do
@@ -67,10 +67,9 @@ formView v = do
           H.td mempty
           H.td $ H.button ! A.type_ "submit" $ "ave"
 
--- registerHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 handler :: PGPool -> Action
 handler pool = do
-  f <- runForm "registrationForm" registrationForm
+  f <- runForm "profileForm" profileForm
   case f of
     (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
     (v, Just regReq) -> do
