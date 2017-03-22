@@ -5,7 +5,7 @@ drop table "Questions" cascade;
 create table "Questions" (
 	chapterId int,
 	questionId int,
-	bookRef varchar(10) null,
+	bookRef text null,
 	otherInfo text null,
         primary key (chapterId, questionId)
 );

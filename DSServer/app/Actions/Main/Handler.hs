@@ -18,7 +18,7 @@ url :: String
 url = "/"
 
 view :: Html
-view = H.form ! A.id "form" ! A.method "post" $ mempty
+view = H.form ! A.id "form" ! A.method "post" ! A.action "/save" $ mempty
 
 handler :: PGPool -> Cookies -> Action
 handler pool cookies =

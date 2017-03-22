@@ -33,4 +33,4 @@ routes pool = do
   get  (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
   post (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
   get  (capture Actions.Logout.Handler.url) (getCookies >>= Actions.Logout.Handler.handler pool)
-  get  (capture Actions.Save.Handler.url) (getCookies >>= Actions.Save.Handler.handler pool)
+  post  (capture Actions.Save.Handler.url) (getCookies >>= Actions.Save.Handler.handler pool)

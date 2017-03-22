@@ -33,6 +33,7 @@ type PGPool = Pool Connection
 
 type Cookies = Map Text Text
 
+sessionCookie :: Text
 sessionCookie = "sessionId"
 
 paramVal :: Text -> Cookies -> Maybe Text

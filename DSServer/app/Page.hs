@@ -82,7 +82,7 @@ renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
     Nothing -> mempty
     Just _ -> do
       H.button ! A.class_ "action-button" ! A.onclick "location.href='/load'" $ "Load"
-      H.button ! A.class_ "action-button" ! A.onclick "location.href='/save'" $ "Save"
+      H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save"
 
 renderMessage :: Message -> Html
 renderMessage NoMessage = mempty

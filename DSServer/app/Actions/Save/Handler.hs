@@ -3,9 +3,14 @@
 module Actions.Save.Handler
   ( url
   , handler
+  , baseName
   ) where
 
-import Web.Scotty (params)
+
+import Data.Text.Lazy (Text)
+import qualified Data.Text.Lazy as TL
+import qualified Control.Monad as M
+import Web.Scotty (Param, params)
 
 import App (Action, PGPool, Cookies, runQuery)
 import Auth (checkLogged)
@@ -15,29 +20,37 @@ import Model.Plan
 import Persistence.Plan (getPlanByUser)
 import Persistence.Result (getResultId, insertResult, updateResult)
 import Questionnaire (formItems)
-import FormEngine.FormData (FieldValue, getFieldInfos)
+import FormEngine.FormData (FieldInfo, getFieldInfos)
+
+baseName :: Text -> Text -- strip the multiple group "_Gx" suffix
+baseName fullName = if null br then fullName else TL.dropEnd 1 n2
+  where
+  br = TL.breakOnAll "G" fullName
+  (n2, _) = head br
 
 url :: String
 url = "/save"
 
 handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do
-  ps <- params
-  let fieldValues = map (getValue ps) (getFieldInfos formItems)
+  let fieldInfos = getFieldInfos formItems
   mPlan <- runQuery pool $ getPlanByUser user
   case mPlan of
     Nothing -> errorResponse "Failed getting plan of a user. Please contact an administrator."
     Just plan -> do
-      mapM_ (storeValue plan) fieldValues
+      ps <- params
+      mapM_ (storeValue plan fieldInfos) ps
       infoResponse "Data has been saved.")
   where
-    getValue ps (name1, text1) = (name1, text1, lookup name1 ps)
-    storeValue :: Plan -> FieldValue -> Action
-    storeValue plan (name1, text1, value1) = do
-      resId <- runQuery pool $ getResultId plan name1
+    storeValue :: Plan -> [FieldInfo] -> Param -> Action
+    storeValue plan fieldInfos (name, value) = do
+      let mText = M.join $ lookup (baseName name) fieldInfos
+      resId <- runQuery pool $ getResultId plan name
       _ <- if resId == 0 then
-        runQuery pool $ insertResult plan name1 text1 value1
+        runQuery pool $ insertResult plan name mText (Just value)
       else
-        runQuery pool $ updateResult plan name1 value1
+        runQuery pool $ updateResult plan name (Just value)
       return ()
+      --where
+
 
