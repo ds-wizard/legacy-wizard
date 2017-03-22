@@ -3,12 +3,8 @@
 module Actions.Save.Handler
   ( url
   , handler
-  , baseName
   ) where
 
-
-import Data.Text.Lazy (Text)
-import qualified Data.Text.Lazy as TL
 import qualified Control.Monad as M
 import Web.Scotty (Param, params)
 
@@ -20,13 +16,7 @@ import Model.Plan
 import Persistence.Plan (getPlanByUser)
 import Persistence.Result (getResultId, insertResult, updateResult)
 import Questionnaire (formItems)
-import FormEngine.FormData (FieldInfo, getFieldInfos)
-
-baseName :: Text -> Text -- strip the multiple group "_Gx" suffix
-baseName fullName = if null br then fullName else TL.dropEnd 1 n2
-  where
-  br = TL.breakOnAll "G" fullName
-  (n2, _) = head br
+import FormEngine.FormData (FieldInfo, getFieldInfos, baseName)
 
 url :: String
 url = "/save"

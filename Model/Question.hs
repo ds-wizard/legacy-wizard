@@ -2,12 +2,12 @@
 
 module Model.Question where
 
-import Database.PostgreSQL.Simple.FromRow
 
 #ifdef __HASTE__
 type Text = String
 #else
 import Data.Text (Text)
+import Database.PostgreSQL.Simple.FromRow
 #endif
 
 data Question = Question
@@ -17,6 +17,7 @@ data Question = Question
   , otherInfo :: Maybe Text
   } deriving (Show, Read)
 
+#ifndef __HASTE__
 instance FromRow Question where
   fromRow = Question <$> field <*> field <*> field <*> field
-
+#endif

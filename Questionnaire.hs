@@ -4,6 +4,7 @@ module Questionnaire
   ( formItems
   ) where
 
+--import Data.Text.Lazy (Text)
 import FormEngine.FormItem
 
 formItems :: [FormItem]
@@ -929,7 +930,7 @@ formItems =
                                                                               FIDescriptor
                                                                               { iLabel =
                                                                                   Just
-                                                                                    "Is extension of any consent for privacy sensitive data needed?"
+                                                                                    "Is extenstion of any consent for privacy sensitive data needed?"
                                                                               , iNumbering = NoNumbering
                                                                               , iIdent = Nothing
                                                                               , iTags = []
