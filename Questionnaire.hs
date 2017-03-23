@@ -7,10 +7,45 @@ module Questionnaire
 --import Data.Text.Lazy (Text)
 import FormEngine.FormItem
 
+description :: FormItem
+description = Chapter
+      { chDescriptor =
+          FIDescriptor
+          { iLabel = Just "Basic information"
+          , iNumbering = NoNumbering
+          , iIdent = Nothing
+          , iTags = []
+          , iShortDescription = Nothing
+          , iLongDescription = Nothing
+          , chapterId = Just 0
+          , questionId = Nothing
+          , iLink = Nothing
+          , iMandatory = True
+          , iRules = []
+          }
+      , chItems = [ TextFI
+                { tfiDescriptor = FIDescriptor
+                  { iLabel = Just "Description of your case"
+                  , iNumbering = NoNumbering
+                  , iIdent = Nothing
+                  , iTags = []
+                  , iShortDescription = Nothing
+                  , iLongDescription = Nothing
+                  , chapterId = Nothing
+                  , questionId = Nothing
+                  , iLink = Nothing
+                  , iRules = []
+                  , iMandatory = True
+                  }
+                }
+              ]
+      }
+
 formItems :: [FormItem]
 formItems =
   prepareForm
-    [ Chapter
+    [ description
+    , Chapter
       { chDescriptor =
           FIDescriptor
           { iLabel = Just "Design of experiment"

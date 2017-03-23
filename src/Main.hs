@@ -18,16 +18,17 @@ import Overlay (initOverlay)
 main :: IO ()
 main = ready $ do
   _ <- initOverlay
-  ajaxRequest POST "api/getData" [("" :: JSString, "" :: JSString)] buildQuestionnaire
-    where
-    buildQuestionnaire :: Maybe String -> IO ()
-    buildQuestionnaire maybeDataString = do
-      let maybeFormData = readMaybe (fromMaybe "" maybeDataString) :: Maybe FormData
-      let tabMaybes = map (Element.makeChapter maybeFormData) Questionnaire.formItems
-      errorIO . show $ tabMaybes {- DEBUG -}
-      if any isNothing tabMaybes then do
-        errorIO "Error generating tabs"
-        return ()
-      else do
-        let tabs = catMaybes tabMaybes
-        generateForm tabs
+--  ajaxRequest POST "api/getData" [("" :: JSString, "" :: JSString)] buildQuestionnaire
+--    where
+--    buildQuestionnaire :: Maybe String -> IO ()
+--    buildQuestionnaire maybeDataString = do
+--      let maybeFormData = readMaybe (fromMaybe "" maybeDataString) :: Maybe FormData
+--      let tabMaybes = map (Element.makeChapter maybeFormData) Questionnaire.formItems
+  let tabMaybes = map (Element.makeChapter Nothing) Questionnaire.formItems
+--    errorIO . show $ tabMaybes {- DEBUG -}
+  if any isNothing tabMaybes then do
+    errorIO "Error generating tabs"
+    return ()
+  else do
+    let tabs = catMaybes tabMaybes
+    generateForm tabs
