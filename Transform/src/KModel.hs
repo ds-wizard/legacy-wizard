@@ -4,7 +4,7 @@ module KModel where
 
 import Data.Aeson
 import Data.Aeson.Types
-import Data.Text
+import Data.Text.Lazy
 
 data Reference = Reference
   { refType :: !Text

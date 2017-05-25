@@ -5,11 +5,11 @@ module KMTransform
   , distillQuestionnaire
   ) where
 
-import Prelude hiding (concat)
 import Data.Monoid ((<>))
 import Data.Maybe
 import Data.List (find)
-import Data.Text (Text, null, concat)
+import Data.Text.Lazy (Text)
+import qualified Data.Text.Lazy as T
 import qualified Database.PostgreSQL.Simple as PG
 
 import FormEngine.FormItem
@@ -47,7 +47,7 @@ transformReference r =
 
 buildLongDesc :: Model.Question -> Maybe Text
 buildLongDesc q =
-  if Data.Text.null longDesc
+  if T.null longDesc
     then Nothing
     else Just longDesc
   where
@@ -323,14 +323,14 @@ storeDetails pgConn ch q = do
   where
     otherInfo :: Maybe Text
     otherInfo =
-      if Data.Text.null info
+      if T.null info
         then Nothing
         else Just info
       where
         info = Prelude.foldl (<>) "" (catMaybes infoParts)
         infoParts = [fmap wrapExps (questExps q), fmap wrapRefs (questRefs q)]
-        wrapExps exps = "<p class=\"question-experts\">Experts:<ul>" <> concat (expertItems exps) <> "</ul></p>"
-        wrapRefs refs = "<p class=\"question-references\">References:<ul>" <> concat (referItems refs) <> "</ul></p>"
+        wrapExps exps = "<p class=\"question-experts\">Experts:<ul>" <> T.concat (expertItems exps) <> "</ul></p>"
+        wrapRefs refs = "<p class=\"question-references\">References:<ul>" <> T.concat (referItems refs) <> "</ul></p>"
         expertItems = fmap (enlist . transformExpert)
         referItems = fmap (enlist . transformReference)
         enlist item = "<li>" <> item <> "</li>"
