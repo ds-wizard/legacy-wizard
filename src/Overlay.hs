@@ -4,13 +4,13 @@ module Overlay (initOverlay, overlayOn, overlayOff) where
 
 import Prelude
 
-import FormEngine.JQuery 
+import FormEngine.JQuery
 
 overlayId :: String
 overlayId = "overlay"
 
 getBox :: JQuery -> IO JQuery
-getBox = findSelector "div" 
+getBox = findSelector "div"
 
 setBoxTopMargin :: JQuery -> IO JQuery
 setBoxTopMargin jq = do
@@ -21,7 +21,7 @@ setBoxTopMargin jq = do
 
 setOverlaySize :: JQuery -> IO JQuery
 setOverlaySize jq = do
-  h <- select "body" >>= getHeight 
+  h <- select "body" >>= getHeight
   _ <- setHeight h jq
   return jq
 
@@ -31,7 +31,7 @@ initOverlay = selectById overlayId >>= onClick (\_ -> do _ <- overlayOff; return
 setContents :: String -> JQuery -> IO JQuery
 setContents html jq = do
   box <- getBox jq
-  _ <- if null html then 
+  _ <- if null html then
     setText "No details available" box
   else
     setHtml html box
@@ -42,4 +42,4 @@ overlayOn txt = selectById overlayId >>= setContents txt >>= setOverlaySize >>= 
 
 overlayOff :: IO JQuery
 overlayOff = selectById overlayId >>= hideJq
-  
+
