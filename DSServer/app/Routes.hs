@@ -24,7 +24,9 @@ routes pool = do
   middleware M.static
   middleware logStdoutDev
   get  (capture Actions.Main.Handler.url) (getCookies >>= Actions.Main.Handler.handler pool)
+  get  (capture API.Question.GetQuestion.Handler.url) (API.Question.GetQuestion.Handler.handler pool)
   post (capture API.Question.GetQuestion.Handler.url) (API.Question.GetQuestion.Handler.handler pool)
+  get  (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
   post (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
   get  (capture Actions.Register.Handler.url) (Actions.Register.Handler.handler pool)
   post (capture Actions.Register.Handler.url) (Actions.Register.Handler.handler pool)
