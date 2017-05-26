@@ -12,7 +12,7 @@ formItems =
     [ Chapter
       { chDescriptor =
           FIDescriptor
-          { iLabel = Just "Design of experiment"
+          { iLabel = Just "Design of the experiment"
           , iNumbering = NoNumbering
           , iIdent = Nothing
           , iTags = []
