@@ -28,3 +28,4 @@ handler pool cookies =
       mUser <- runQuery pool $ getUserFromSession sessionId
       Page.render True view mUser Page.NoMessage
 
+

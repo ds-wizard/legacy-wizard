@@ -15,7 +15,7 @@ import API.Utils (readInt)
 import Persistence.Question (getQuestion)
 
 url :: String
-url = "api/getQuestion"
+url = "/api/getQuestion"
 
 handler :: PGPool -> Action
 handler pool = do

@@ -17,7 +17,7 @@ import API.Utils (readInt)
 import Persistence.Question (getBookContents)
 
 url :: String
-url = "api/getBookContents"
+url = "/api/getBookContents"
 
 handler :: PGPool -> Action
 handler pool = do
