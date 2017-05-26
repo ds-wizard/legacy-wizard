@@ -36,6 +36,7 @@ render isMain page mUser message = W.html $ renderHtml $
         renderMessage message
         H.div ! A.class_ "inside" $
           page
+        H.div ! A.id "overlay" ! A.class_ "overlay" $ H.div "overlay"
         renderFooter
         renderAcknowledgement
         if isMain then
@@ -72,8 +73,8 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.a ! A.href "https://www.elixir-europe.org/" $
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
   H.h1 ! A.class_ "title" $ do
-    _ <- "Data Stewardship Wizard (testing)"
-    H.span ! A.class_ "version" $ " v0.2, "
+    _ <- "Data Stewardship Wizard"
+    H.span ! A.class_ "version" $ " v0.3, "
     H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
 
 renderControlPanel :: Maybe User -> Html
@@ -81,8 +82,7 @@ renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
   case mUser of
     Nothing -> mempty
     Just _ -> do
-      H.button ! A.class_ "action-button" ! A.onclick "location.href='/load'" $ "Load"
-      H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save"
+      H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save (just at the end!)"
 
 renderMessage :: Message -> Html
 renderMessage NoMessage = mempty
