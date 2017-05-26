@@ -154,7 +154,20 @@ aboutTabPaneJq =
     "\
 \  <div>\
 \    <p>\
-\      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>.\
+\      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>. This is a proof-of-concept work not intended for serious use, yet.\
+\    </p>\
+\    <p>\
+\      Right now, saving the data is implemented for the ELIXIR All-hands workshop. Please register to receive updates. The functionality coming soon:\
+\    <ul>\
+\      <li>Loading of stored data :-)</li>\
+\      <li>Profile editing</li>\
+\      <li>Password recovery (right now, send us an email)</li>\
+\      <li>Multiple plans management</li>\
+\      <li>Linking with <a href='https://www.crcpress.com/Data-Stewardship-for-Discovery-A-Practical-Guide-for-Data-Experts/Mons/p/book/9781498753173'>the book</a></li>\
+\    </ul>\
+\    </p>\
+\    <p>\
+\      Privacy notice: Your personal and all other data are considered private and will not be shared with any third parties. Statistical information based on your data may be shared and published. \
 \    </p>\
 \  </div>\
 \ "
