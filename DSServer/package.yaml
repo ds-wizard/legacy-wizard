@@ -1,0 +1,52 @@
+name: DSServer
+version: '0.1.0.0'
+synopsis: Initial project template from stack
+description: Please see README.md
+category: Web
+author: Robert Pergl
+maintainer: perglr@fit.cvut.cz
+copyright: 2017 Robert Pergl here
+license: Apache-2.0
+github: DataStewardshipPortal/ds-wizard
+other-extensions:
+- OverloadedStrings
+- CPP
+- NamedFieldPuns
+- RecordWildCards
+- FlexibleInstances
+- TypeSynonymInstances
+- QuasiQuotes
+ghc-options:
+- -threaded
+- -rtsopts
+- -with-rtsopts=-N
+- -Wall
+dependencies:
+- base
+- utf8-string
+- text
+- bytestring
+- mtl
+- containers
+- time
+- random
+- pwstore-fast
+- blaze-markup
+- blaze-html
+- smtp-mail
+- email-validate
+- reroute
+- scotty
+- scotty-cookie
+- digestive-functors
+- digestive-functors-blaze
+- digestive-functors-scotty
+- wai-middleware-static
+- wai-extra
+- postgresql-simple
+- resource-pool
+- raw-strings-qq
+executables:
+  DSServer:
+    main: Main.hs
+    source-dirs: app
