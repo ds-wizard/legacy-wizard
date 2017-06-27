@@ -129,18 +129,9 @@ aboutTab =
   { chfi =
     Chapter
     { chDescriptor =
-      FIDescriptor
+      defaultFIDescriptor
       { iLabel = Just "About"
       , iNumbering = Numbering [1000] 0
-      , iIdent = Nothing
-      , iTags = []
-      , iShortDescription = Nothing
-      , iLongDescription = Nothing
-      , FI.chapterId = Nothing
-      , FI.questionId = Nothing
-      , iLink = Nothing
-      , iRules = []
-      , iMandatory = False
       }
     , chItems = []
     }
