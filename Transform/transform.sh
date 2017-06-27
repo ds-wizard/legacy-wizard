@@ -1,5 +1,5 @@
 #!/bin/bash
-NEW_DSKM=$(dist/build/Transform/Transform $1)
+NEW_DSKM=`stack exec Transform $1`
 
 rm -f Questionnaire.hs
 echo "{-# LANGUAGE OverloadedStrings #-}" > dist/Questionnaire.hs

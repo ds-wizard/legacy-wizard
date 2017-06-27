@@ -1,14 +1,14 @@
 all: src/Main.hs
-	cabal build
+	stack build
 
 generate: all
 	./transform.sh data/current.json
 
 configure:
-	rm -rf .cabal* cabal.sandbox.config dist
-	cabal sandbox init
-	cabal update
-	cabal install --dependencies-only
+	stack clean --full
+	stack setup
 
-clean:	
-	rm -rf dist
+clean:
+	stack clean
+	find -L . -name "*.swp" -exec rm -rf {} \;
+

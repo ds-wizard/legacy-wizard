@@ -12,9 +12,9 @@ other-extensions:
 - OverloadedStrings
 dependencies:
 - base >=4.9 && <4.10
-- text >=1.2 && <1.3
-- aeson >=0.11 && <0.12
-- bytestring >=0.10 && <0.11
+- text
+- aeson
+- bytestring
 - postgresql-simple
 executables:
   Transform:
