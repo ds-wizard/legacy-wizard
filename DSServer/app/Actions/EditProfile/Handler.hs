@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Handler
+module Actions.EditProfile.Handler
   ( url
   , handler
   ) where

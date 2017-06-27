@@ -1,5 +1,3 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Routes (routes) where
 
 --import Data.HVect
@@ -28,6 +26,7 @@ routes pool = do
   post (capture API.Question.GetQuestion.Handler.url) (API.Question.GetQuestion.Handler.handler pool)
   get  (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
   post (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
+  --post (capture API.Plan.GetData.Handler.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
   get  (capture Actions.Register.Handler.url) (Actions.Register.Handler.handler pool)
   post (capture Actions.Register.Handler.url) (Actions.Register.Handler.handler pool)
   get  (capture Actions.ConfirmRegistration.Handler.url) (Actions.ConfirmRegistration.Handler.handler pool)
@@ -35,4 +34,4 @@ routes pool = do
   get  (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
   post (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
   get  (capture Actions.Logout.Handler.url) (getCookies >>= Actions.Logout.Handler.handler pool)
-  post  (capture Actions.Save.Handler.url) (getCookies >>= Actions.Save.Handler.handler pool)
+  post (capture Actions.Save.Handler.url) (getCookies >>= Actions.Save.Handler.handler pool)
