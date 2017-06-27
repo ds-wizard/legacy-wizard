@@ -5,9 +5,9 @@ module KMTransform
   , distillQuestionnaire
   ) where
 
-import Data.Monoid ((<>))
-import Data.Maybe
 import Data.List (find)
+import Data.Maybe
+import Data.Monoid ((<>))
 import Data.Text.Lazy (Text)
 import qualified Data.Text.Lazy as T
 import qualified Database.PostgreSQL.Simple as PG
@@ -69,61 +69,20 @@ transformQuestionnaire = map transformChapter
 transformChapter :: Model.Chapter -> FormItem
 transformChapter ch =
   FormEngine.FormItem.Chapter
-  { chDescriptor =
-    FIDescriptor
-    { iLabel = Just (chapTitle ch)
-    , iNumbering = NoNumbering
-    , iIdent = Nothing
-    , iTags = []
-    , iShortDescription = Nothing
-    , iLongDescription = Nothing
-    , chapterId = Just $ chapID ch
-    , questionId = Nothing
-    , iLink = Nothing
-    , iMandatory = False
-    , iRules = []
-    }
+  { chDescriptor = defaultFIDescriptor {iLabel = Just (chapTitle ch), chapterId = Just $ chapID ch}
   , chItems = intro ++ map (transformQuestion ch) (chapQuests ch)
   }
   where
-      intro = case chapText ch of
-              Just introText -> [InfoFI
-                                  { ifiDescriptor =
-                                      FIDescriptor
-                                      { iLabel = Nothing
-                                      , iNumbering = NoNumbering
-                                      , iIdent = Nothing
-                                      , iTags = []
-                                      , iShortDescription = Nothing
-                                      , iLongDescription = Nothing
-                                      , chapterId = Just $ chapID ch
-                                      , questionId = Nothing
-                                      , iLink = Nothing
-                                      , iMandatory = True
-                                      , iRules = []
-                                      }
-                                  , ifiText = introText
-                                  }
-                                ]
-              _ -> []
+    intro =
+      case chapText ch of
+        Just introText ->
+          [InfoFI {ifiDescriptor = defaultFIDescriptor {chapterId = Just $ chapID ch}, ifiText = introText}]
+        _ -> []
 
 transformQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformQuestion ch q =
   SimpleGroup
-  { sgDescriptor =
-    FIDescriptor
-    { iLabel = Nothing
-    , iNumbering = NoNumbering
-    , iIdent = Nothing
-    , iTags = []
-    , iShortDescription = Nothing
-    , iLongDescription = Nothing
-    , chapterId = Just $ chapID ch
-    , questionId = Just $ questID q
-    , iLink = Nothing
-    , iMandatory = True
-    , iRules = []
-    }
+  { sgDescriptor = defaultFIDescriptor {chapterId = Just $ chapID ch, questionId = Just $ questID q}
   , sgLevel = 0
   , sgItems = question : follows
   }
@@ -133,7 +92,8 @@ transformQuestion ch q =
         "option" -> transformOptionQuestion ch q
         "list" -> transformListQuestion ch q
         _ -> transformFieldQuestion ch q
-    follows = case questType q of
+    follows =
+      case questType q of
         "list" -> []
         _ -> map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
 
@@ -141,27 +101,21 @@ transformOptionQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformOptionQuestion ch q =
   ChoiceFI
   { chfiDescriptor =
-    FIDescriptor
-    { iLabel = Just (questTitle q)
-    , iNumbering = NoNumbering
-    , iIdent = Nothing
-    , iTags = []
-    , iShortDescription = Nothing
-    , iLongDescription = buildLongDesc q
-    , chapterId = Just $ chapID ch
-    , questionId = Just $ questID q
-    , iLink = Nothing
-    , iMandatory = True
-    , iRules = []
-    }
+      defaultFIDescriptor
+      { iLabel = Just (questTitle q)
+      , iLongDescription = buildLongDesc q
+      , chapterId = Just $ chapID ch
+      , questionId = Just $ questID q
+      , iMandatory = True
+      }
   , chfiAvailableOptions = map transformAnswer (fromMaybe [] . questAnswers $ q)
   }
   where
     transformAnswer :: Model.Answer -> Option
     transformAnswer a =
-      if hasFollows then
-        DetailedOption NoNumbering (answerLabel a) [followsGroup] else
-        SimpleOption (answerLabel a)
+      if hasFollows
+        then DetailedOption NoNumbering (answerLabel a) [followsGroup]
+        else SimpleOption (answerLabel a)
       where
         hasFollows :: Bool
         hasFollows = (isJust . answerFollow $ a) || (isJust . answerAdvice $ a)
@@ -169,123 +123,70 @@ transformOptionQuestion ch q =
         followsGroup =
           SimpleGroup
           { sgDescriptor =
-            FIDescriptor
-            { iLabel = Nothing
-            , iNumbering = NoNumbering
-            , iIdent = Nothing
-            , iTags = []
-            , iShortDescription = Nothing
-            , iLongDescription = Nothing
-            , chapterId = Just $ chapID ch
-            , questionId = Just $ questID q
-            , iLink = Nothing
-            , iMandatory = True
-            , iRules = []
-            }
+              defaultFIDescriptor {chapterId = Just $ chapID ch, questionId = Just $ questID q, iMandatory = True}
           , sgLevel = 0
           , sgItems = followAdvice ++ followsQuestions
           }
         followsQuestions :: [FormItem]
         followsQuestions = map (transformQuestion ch) (fromMaybe [] . answerFollow $ a)
         followAdvice :: [FormItem]
-        followAdvice = case answerAdvice a of
-            Just advice -> [InfoFI
-                            { ifiDescriptor =
-                                FIDescriptor
-                                { iLabel = Nothing
-                                , iNumbering = NoNumbering
-                                , iIdent = Nothing
-                                , iTags = []
-                                , iShortDescription = Nothing
-                                , iLongDescription = Nothing
-                                , chapterId = Just $ chapID ch
-                                , questionId = Just $ questID q
-                                , iLink = Nothing
-                                , iMandatory = True
-                                , iRules = []
-                                }
-                            , ifiText = advice
-                            }
-                           ]
+        followAdvice =
+          case answerAdvice a of
+            Just advice ->
+              [ InfoFI
+                { ifiDescriptor =
+                    defaultFIDescriptor {chapterId = Just $ chapID ch, questionId = Just $ questID q, iMandatory = True}
+                , ifiText = advice
+                }
+              ]
             _ -> []
 
 transformListQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformListQuestion ch q =
   MultipleGroup
   { mgDescriptor =
-    FIDescriptor
-    { iLabel = Just (questTitle q)
-    , iNumbering = NoNumbering
-    , iIdent = Nothing
-    , iTags = []
-    , iShortDescription = Just "List all the items bellow."
-    , iLongDescription = buildLongDesc q
-    , chapterId = Just $ chapID ch
-    , questionId = Just $ questID q
-    , iLink = Nothing
-    , iMandatory = True
-    , iRules = []
-    }
+      defaultFIDescriptor
+      { iLabel = Just (questTitle q)
+      , iShortDescription = Just "List all the items bellow."
+      , iLongDescription = buildLongDesc q
+      , chapterId = Just $ chapID ch
+      , questionId = Just $ questID q
+      , iMandatory = True
+      }
   , mgLevel = 0
   , mgItems =
-    StringFI
+      StringFI
       { sfiDescriptor =
-        FIDescriptor
-        { iLabel = Just "Item"
-        , iNumbering = NoNumbering
-        , iIdent = Nothing
-        , iTags = []
-        , iShortDescription = Nothing
-        , iLongDescription = buildLongDesc q
-        , chapterId = Just $ chapID ch
-        , questionId = Just $ questID q
-        , iLink = Nothing
-        , iMandatory = False
-        , iRules = []
-        }
-      }
-    : follows
+          defaultFIDescriptor
+          { iLabel = Just "Item"
+          , iLongDescription = buildLongDesc q
+          , chapterId = Just $ chapID ch
+          , questionId = Just $ questID q
+          }
+      } :
+      follows
   }
-  where follows = map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
+  where
+    follows = map (transformQuestion ch) (fromMaybe [] . questFollow $ q)
 
 transformFieldQuestion :: Model.Chapter -> Model.Question -> FormItem
 transformFieldQuestion ch q =
   case questType q of
-    "text" ->
-      TextFI
-      { tfiDescriptor = qFI
-      }
-    "number" ->
-      NumberFI
-      { nfiDescriptor = qFI
-      , nfiUnit = NoUnit
-      }
-    "email" ->
-      EmailFI
-      { efiDescriptor = qFI
-      }
-    _ ->
-      StringFI
-      { sfiDescriptor = qFI
-      }
+    "text" -> TextFI {tfiDescriptor = qFI}
+    "number" -> NumberFI {nfiDescriptor = qFI, nfiUnit = NoUnit}
+    "email" -> EmailFI {efiDescriptor = qFI}
+    _ -> StringFI {sfiDescriptor = qFI}
   where
     qFI =
-      FIDescriptor
+      defaultFIDescriptor
       { iLabel = Just (questTitle q)
-      , iNumbering = NoNumbering
-      , iIdent = Nothing
-      , iTags = []
-      , iShortDescription = Nothing
       , iLongDescription = questText q
       , chapterId = Just $ chapID ch
       , questionId = Just $ questID q
-      , iLink = Nothing
       , iMandatory = True
-      , iRules = []
       }
 
 -- Generating details
-
 distillQuestionnaire :: PG.Connection -> [Model.Chapter] -> IO ()
 distillQuestionnaire pgConn = mapM_ (distillChapter pgConn)
 
@@ -315,10 +216,11 @@ distillOptionQuestion pgConn ch q = do
 
 storeDetails :: PG.Connection -> Model.Chapter -> Model.Question -> IO ()
 storeDetails pgConn ch q = do
-  _ <- PG.execute
-    pgConn
-    "INSERT INTO \"Questions\" (chapterId, questionId, bookRef, otherInfo) VALUES (?, ?, ?, ?)"
-    (chapID ch, questID q, getBookRef q, otherInfo)
+  _ <-
+    PG.execute
+      pgConn
+      "INSERT INTO \"Questions\" (chapterId, questionId, bookRef, otherInfo) VALUES (?, ?, ?, ?)"
+      (chapID ch, questID q, getBookRef q, otherInfo)
   return ()
   where
     otherInfo :: Maybe Text
