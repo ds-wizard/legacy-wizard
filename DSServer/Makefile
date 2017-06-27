@@ -7,6 +7,7 @@ configure:
 
 clean:
 	stack clean
+	find -L . -name "*.swp" -exec rm -rf {} \;
 
 run: all
 	stack exec DSServer
