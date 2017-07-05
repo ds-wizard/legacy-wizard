@@ -4,23 +4,25 @@ module Persistence.Result
   ( getResultId
   , updateResult
   , insertResult
-  , getResultForPlan
+  , getResultsForPlan
   ) where
 
 import Data.Text.Lazy (Text)
+import qualified Control.Monad as M
 import qualified Database.PostgreSQL.Simple as PG
 
 import Model.Plan
-import FormEngine.FormData (FieldValue)
+import qualified Questionnaire as Q
+import FormEngine.FormData (FieldValue, getFieldInfos, getName)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
 
 getResultId :: Plan -> Text -> PG.Connection -> IO Int
-getResultId plan name1 conn = do
+getResultId plan key conn = do
   r <- PG.query conn
         "SELECT id FROM \"Result\" WHERE plan_id = ? AND name = ?"
-        (p_id plan, name1) :: IO [PG.Only Int]
+        (p_id plan, key) :: IO [PG.Only Int]
   let x =
         case r of
           (f:_) -> f
@@ -28,16 +30,18 @@ getResultId plan name1 conn = do
   let (PG.Only i) = x
   return i
 
-updateResult :: Plan -> Text -> Maybe Text -> PG.Connection -> IO Int
-updateResult plan name1 value1 conn = do
+updateResult :: Plan -> (Text, Maybe Text) -> PG.Connection -> IO Int
+updateResult plan (key, value) conn = do
   r <- PG.execute conn "UPDATE \"Result\" SET value = ?\
-                     \ WHERE name = ? AND plan_id = ?" (value1, name1, p_id plan)
+    \ WHERE plan_id = ? AND name = ?" (value, p_id plan, key)
   return (fromIntegral r)
 
-insertResult :: Plan -> Text -> Maybe Text -> Maybe Text -> PG.Connection -> IO Int
-insertResult plan name1 text1 value1 conn = do
+insertResult :: Plan -> (Text, Maybe Text) -> PG.Connection -> IO Int
+insertResult plan (key, value) conn = do
+  let fieldInfos = getFieldInfos Q.formItems
+      mText = M.join $ lookup (getName key) fieldInfos
   r <- PG.query conn "INSERT INTO \"Result\" (plan_id, name, text, value) VALUES (?, ?, ?, ?) RETURNING id"
-         (p_id plan, name1, text1, value1) :: IO [PG.Only Int]
+         (p_id plan, key, mText, value) :: IO [PG.Only Int]
   let x =
         case r of
           (f:_) -> f
@@ -45,8 +49,8 @@ insertResult plan name1 text1 value1 conn = do
   let (PG.Only i) = x
   return i
 
-getResultForPlan :: Text -> PG.Connection -> IO [FieldValue]
-getResultForPlan planKey conn = PG.query conn
-                                          "SELECT name, text, value FROM \"Result\" WHERE plan_id = (SELECT id from \"Plan\" WHERE =?)"
-                                          (PG.Only planKey)
+getResultsForPlan :: Plan -> PG.Connection -> IO [FieldValue]
+getResultsForPlan plan conn = PG.query conn
+                                          "SELECT name, text, value FROM \"Result\" WHERE plan_id = ?"
+                                          (PG.Only $ p_id plan)
 

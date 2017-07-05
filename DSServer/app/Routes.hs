@@ -16,6 +16,7 @@ import qualified Actions.Logout.Handler
 import qualified Actions.Save.Handler
 import qualified API.Question.GetQuestion.Handler
 import qualified API.Book.GetContents.Handler
+import qualified API.Plan.GetData.Handler
 
 routes :: PGPool -> ScottyM ()
 routes pool = do
@@ -26,7 +27,7 @@ routes pool = do
   post (capture API.Question.GetQuestion.Handler.url) (API.Question.GetQuestion.Handler.handler pool)
   get  (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
   post (capture API.Book.GetContents.Handler.url) (API.Book.GetContents.Handler.handler pool)
-  --post (capture API.Plan.GetData.Handler.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
+  post (capture API.Plan.GetData.Handler.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
   get  (capture Actions.Register.Handler.url) (Actions.Register.Handler.handler pool)
   post (capture Actions.Register.Handler.url) (Actions.Register.Handler.handler pool)
   get  (capture Actions.ConfirmRegistration.Handler.url) (Actions.ConfirmRegistration.Handler.handler pool)
