@@ -74,7 +74,7 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
   H.h1 ! A.class_ "title" $ do
     _ <- "Data Stewardship Wizard"
-    H.span ! A.class_ "version" $ " v0.3, "
+    H.span ! A.class_ "version" $ " v0.4, "
     H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
 
 renderControlPanel :: Maybe User -> Html
@@ -82,7 +82,7 @@ renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
   case mUser of
     Nothing -> mempty
     Just _ -> do
-      H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save (just at the end!)"
+      H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save the plan"
 
 renderMessage :: Message -> Html
 renderMessage NoMessage = mempty
@@ -123,8 +123,5 @@ renderAcknowledgement =
       H.span ! A.class_ "colophon-text" $ ", powered by "
       H.a ! A.href "http://hackage.haskell.org/package/scotty" ! A.class_ "colophon-text" $ "Scotty"
       H.img ! A.src (textValue $ staticURL <> "img/haskell.png") ! A.alt "Haskell logo" ! A.class_ "logo"
-
-
-
 
 
