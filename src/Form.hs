@@ -144,13 +144,11 @@ aboutTabPaneJq =
   select
     "\
 \  <div>\
-\    <p>\
 \      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>. This is a proof-of-concept work not intended for serious use, yet.\
 \    </p>\
 \    <p>\
-\      Right now, saving the data is implemented for the ELIXIR All-hands workshop. Please register to receive updates. The functionality coming soon:\
+\      Please register to receive updates. The functionality coming soon:\
 \    <ul>\
-\      <li>Loading of stored data :-)</li>\
 \      <li>Profile editing</li>\
 \      <li>Password recovery (right now, send us an email)</li>\
 \      <li>Multiple plans management</li>\
