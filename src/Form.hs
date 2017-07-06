@@ -149,7 +149,6 @@ aboutTabPaneJq =
 \    <p>\
 \      Please register to receive updates. The functionality coming soon:\
 \    <ul>\
-\      <li>Profile editing</li>\
 \      <li>Password recovery (right now, send us an email)</li>\
 \      <li>Multiple plans management</li>\
 \      <li>Linking with <a href='https://www.crcpress.com/Data-Stewardship-for-Discovery-A-Practical-Guide-for-Data-Experts/Mons/p/book/9781498753173'>the book</a></li>\

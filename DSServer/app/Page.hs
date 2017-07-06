@@ -58,7 +58,7 @@ renderLogin :: Maybe User -> Html
 renderLogin mUser = H.div ! A.class_ "login-box" $ do
   case mUser of
     Just user -> do
-      H.span $ H.toHtml $ u_name user
+      H.span $ H.a ! A.href "/editProfile" $ H.toHtml $ u_name user
       _ <- " | "
       H.a ! A.href "/logout" $ "Logout"
     Nothing -> do
@@ -74,7 +74,7 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
   H.h1 ! A.class_ "title" $ do
     _ <- "Data Stewardship Wizard"
-    H.span ! A.class_ "version" $ " v0.4, "
+    H.span ! A.class_ "version" $ " v0.5, "
     H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
 
 renderControlPanel :: Maybe User -> Html
