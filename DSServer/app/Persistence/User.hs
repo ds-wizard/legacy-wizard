@@ -3,6 +3,8 @@
 module Persistence.User
   ( UserResult(..)
   , createUser
+  , isExistingEmail
+  , updateUser
   , getUserById
   , getUserByEmail
   , confirmRegistration
@@ -35,6 +37,17 @@ createUser (Email email) (Password password) name affiliation conn = do
           []    -> PG.Only 0
   let (PG.Only i) = x
   return i
+
+isExistingEmail :: User -> Email -> PG.Connection -> IO Bool
+isExistingEmail user (Email email) conn = do
+  r <- PG.query conn "SELECT * FROM \"User\" WHERE email = ?" (PG.Only email) :: IO [User]
+  if null r || head r == user then return False else return True
+
+updateUser :: User -> Email -> T.Text -> T.Text -> PG.Connection -> IO Int
+updateUser user (Email email) name affiliation conn = do
+  r <- PG.execute conn "UPDATE \"User\" set email = ?, name = ?, affiliation = ? WHERE user_id = ?"
+         (email, name, affiliation, u_user_id user)
+  return (fromIntegral r)
 
 getUserById :: Int -> PG.Connection -> IO (Maybe User)
 getUserById userId conn = do

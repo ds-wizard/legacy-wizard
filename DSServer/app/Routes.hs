@@ -14,6 +14,7 @@ import qualified Actions.ConfirmRegistration.Handler
 import qualified Actions.Login.Handler
 import qualified Actions.Logout.Handler
 import qualified Actions.Save.Handler
+import qualified Actions.EditProfile.Handler
 import qualified API.Question.GetQuestion.Handler
 import qualified API.Book.GetContents.Handler
 import qualified API.Plan.GetData.Handler
@@ -36,3 +37,5 @@ routes pool = do
   post (capture Actions.Login.Handler.url) (Actions.Login.Handler.handler pool)
   get  (capture Actions.Logout.Handler.url) (getCookies >>= Actions.Logout.Handler.handler pool)
   post (capture Actions.Save.Handler.url) (getCookies >>= Actions.Save.Handler.handler pool)
+  get (capture Actions.EditProfile.Handler.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)
+  post (capture Actions.EditProfile.Handler.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)

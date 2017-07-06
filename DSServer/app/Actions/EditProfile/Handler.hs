@@ -5,12 +5,10 @@ module Actions.EditProfile.Handler
   , handler
   ) where
 
-import Data.Monoid ((<>))
-import Control.Monad.Trans (liftIO)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
-import Text.Blaze.Html5 (Html, toHtml, (!))
+import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Text.Digestive ((.:))
@@ -18,20 +16,19 @@ import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
 import Text.Digestive.Scotty (runForm)
 
-import App (Action, PGPool, runQuery)
-import qualified Model.User as U
+import App (Action, PGPool, Cookies, runQuery)
+import Auth (checkLogged)
+import Model.User
 import qualified Persistence.User as U
-import Persistence.Plan (createPlan)
-import Mailing
-import Actions.FormUtils (notEmpty, emailFormlet, passwordFormlet, addError, errorTr)
+import Actions.FormUtils (notEmpty, emailFormlet, addError, errorTr)
 import qualified Page
-import Actions.Responses (infoResponse, errorResponse)
+import Actions.Responses (infoResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
 url :: String
-url = "/profile"
+url = "/editProfile"
 
 data ProfileData = ProfileData
   { pd_email :: Text
@@ -39,11 +36,11 @@ data ProfileData = ProfileData
   , pd_affiliation :: Text
   } deriving (Show)
 
-profileForm :: Monad m => D.Form Html m ProfileData
-profileForm =
-  ProfileData <$> "email" .: emailFormlet Nothing
-              <*> "name" .: D.validate notEmpty (D.text Nothing)
-              <*> "affiliation" .: D.validate notEmpty (D.text Nothing)
+profileForm :: Monad m => User -> D.Form Html m ProfileData
+profileForm user =
+  ProfileData <$> "email" .: emailFormlet (Just $ TL.toStrict $ runEmail $ u_email user)
+              <*> "name" .: D.validate notEmpty (D.text $ Just $ TL.toStrict $ u_name user)
+              <*> "affiliation" .: D.validate notEmpty (D.text $ Just $ TL.toStrict $ u_affiliation user)
 
 formView :: D.View Html -> Html
 formView v = do
@@ -65,27 +62,23 @@ formView v = do
         errorTr "affiliation" v
         H.tr $ do
           H.td mempty
-          H.td $ H.button ! A.type_ "submit" $ "ave"
+          H.td $ do
+            H.button ! A.type_ "submit" ! A.style "margin-right: 15px;" $ "Save"
+            H.button ! A.type_ "button" ! A.onclick "window.location.href='/'" $ "Cancel"
 
-handler :: PGPool -> Action
-handler pool = do
-  f <- runForm "profileForm" profileForm
+handler :: PGPool -> Cookies -> Action
+handler pool cookies = checkLogged pool cookies (\user -> do
+  f <- runForm "profileForm" $ profileForm user
   case f of
-    (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
-    (v, Just regReq) -> do
-      mExisting <- runQuery pool $ U.getUserByEmail $ U.Email $ TL.fromStrict $ pd_email regReq
-      case mExisting of
-        Just _ -> do
-          let v2 = addError v "email" "Email already registered"
-          Page.render False (formView v2) Nothing Page.NoMessage
-        Nothing -> do
-          let email = U.Email $ TL.fromStrict $ pd_email regReq
-          userId <- runQuery pool $ U.createUser email (U.Password $ TL.fromStrict $ pd_password regReq) (pd_name regReq) (pd_affiliation regReq)
-          mUser <- runQuery pool $ U.getUserById userId
-          case mUser of
-            Nothing -> errorResponse "Registration failed. Please contact the administrator."
-            Just user -> do
-              _ <- runQuery pool $ createPlan user "Default" (Just "Automatically created plan")
-              liftIO $ mailRegistrationConfirmation user
-              infoResponse $ toHtml $ "Registration successful. A confirmation email has been sent to " <> pd_email regReq <> "."
+    (v, Nothing) -> Page.render False (formView v) (Just user) Page.NoMessage
+    (v, Just profileData) -> do
+      let email = Email $ TL.fromStrict $ pd_email profileData
+      isExisting <- runQuery pool $ U.isExistingEmail user email
+      if isExisting then do
+        let v2 = addError v "email" "Email already taken"
+        Page.render False (formView v2) (Just user) Page.NoMessage
+      else do
+        _ <- runQuery pool $ U.updateUser user email (pd_name profileData) (pd_affiliation profileData)
+        infoResponse "Your profile has been updated."
+  )
 

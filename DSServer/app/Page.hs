@@ -58,7 +58,7 @@ renderLogin :: Maybe User -> Html
 renderLogin mUser = H.div ! A.class_ "login-box" $ do
   case mUser of
     Just user -> do
-      H.span $ H.toHtml $ u_name user
+      H.span $ H.a ! A.href "/editProfile" $ H.toHtml $ u_name user
       _ <- " | "
       H.a ! A.href "/logout" $ "Logout"
     Nothing -> do
