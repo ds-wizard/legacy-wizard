@@ -5,6 +5,7 @@ module Persistence.User
   , createUser
   , isExistingEmail
   , updateUser
+  , changePassword
   , getUserById
   , getUserByEmail
   , confirmRegistration
@@ -47,6 +48,13 @@ updateUser :: User -> Email -> T.Text -> T.Text -> PG.Connection -> IO Int
 updateUser user (Email email) name affiliation conn = do
   r <- PG.execute conn "UPDATE \"User\" set email = ?, name = ?, affiliation = ? WHERE user_id = ?"
          (email, name, affiliation, u_user_id user)
+  return (fromIntegral r)
+
+changePassword :: User -> Password -> PG.Connection -> IO Int
+changePassword user (Password password) conn = do
+  passwordHash <- makePassword (T.encodeUtf8 $ TL.toStrict password) 18
+  r <- PG.execute conn "UPDATE \"User\" set password_hash = ? WHERE user_id = ?"
+         (passwordHash, u_user_id user)
   return (fromIntegral r)
 
 getUserById :: Int -> PG.Connection -> IO (Maybe User)

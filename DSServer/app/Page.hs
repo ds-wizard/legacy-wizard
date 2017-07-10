@@ -77,7 +77,7 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
     H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
   H.h1 ! A.class_ "title" $ do
     _ <- "Data Stewardship Wizard"
-    H.span ! A.class_ "version" $ " v0.5, "
+    H.span ! A.class_ "version" $ " v0.6, "
     H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
 
 renderControlPanel :: Maybe User -> Html

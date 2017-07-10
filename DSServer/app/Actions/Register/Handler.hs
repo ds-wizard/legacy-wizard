@@ -20,7 +20,7 @@ import qualified Model.User as U
 import qualified Persistence.User as U
 import Persistence.Plan (createPlan)
 import Mailing
-import Actions.FormUtils (notEmpty, emailFormlet, passwordFormlet, addError, errorTr)
+import Actions.FormUtils (notEmpty, emailFormlet, passwordConfirmer, addError, errorTr)
 import qualified Page
 import Actions.Register.Url (url)
 import Actions.Responses (infoResponse, errorResponse)
@@ -31,7 +31,6 @@ import Actions.Responses (infoResponse, errorResponse)
 data RegistrationRequest = RegistrationRequest
   { rr_email :: Text
   , rr_password :: Text
-  ---, rr_password2 :: T.Text
   , rr_name :: Text
   , rr_affiliation :: Text
   } deriving (Show)
@@ -42,12 +41,6 @@ registrationForm =
                       <*> "password" .: passwordConfirmer
                       <*> "name" .: D.validate notEmpty (D.text Nothing)
                       <*> "affiliation" .: D.validate notEmpty (D.text Nothing)
-    where
-    passwordConfirmer =
-      D.validate fst' $ (,) <$> ("p1" .: passwordFormlet Nothing)
-                          <*> ("p2" .: passwordFormlet Nothing)
-    fst' (p1, p2) | p1 == p2  = D.Success p1
-                  | otherwise = D.Error "Passwords do not match"
 
 formView :: D.View Html -> Html
 formView v = do

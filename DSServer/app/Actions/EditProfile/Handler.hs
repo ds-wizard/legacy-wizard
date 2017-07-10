@@ -2,6 +2,7 @@
 
 module Actions.EditProfile.Handler (handler) where
 
+import Data.Monoid ((<>))
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
@@ -20,6 +21,7 @@ import qualified Persistence.User as U
 import Actions.FormUtils (notEmpty, emailFormlet, addError, errorTr)
 import qualified Page
 import Actions.EditProfile.Url (url)
+import qualified Actions.ChangePassword.Url as Actions.ChangePassword
 import Actions.Responses (infoResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -43,6 +45,9 @@ formView v = do
   DH.form v (T.pack url) $ do
     H.table ! A.class_ "form-table" $
       H.tbody $ do
+        H.tr $ do
+          H.td mempty
+          H.td $ H.button ! A.type_ "button" ! A.onclick (H.textValue $ T.pack $ "window.location.href='" <> Actions.ChangePassword.url <> "'") $ "Change password"
         H.tr $ do
           H.td $ DH.label     "email" v "Email: "
           H.td $ DH.inputText "email" v

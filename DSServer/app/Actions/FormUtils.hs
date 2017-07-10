@@ -4,6 +4,7 @@ module Actions.FormUtils
   ( notEmpty
   , emailFormlet
   , passwordFormlet
+  , passwordConfirmer
   , addError
   , errorTr
   ) where
@@ -15,8 +16,11 @@ import qualified Text.Digestive as D
 import Text.Blaze.Html5 ((!))
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
+import Text.Digestive ((.:))
 import qualified Text.Digestive.Blaze.Html5 as DH
 import qualified Text.Email.Validate as V
+
+type MyForm m = D.Form H.Html m Text
 
 notEmpty :: Text -> D.Result H.Html Text
 notEmpty t
@@ -33,16 +37,20 @@ minMaxLen (minLen, maxLen) t =
     stripped = T.strip t
     len = T.length stripped
 
-emailFormlet
-  :: Monad m
-  => Maybe Text -> D.Form H.Html m Text
+emailFormlet :: Monad m => Maybe Text -> MyForm m
 emailFormlet mTxt =
   D.check "Not a valid email address" (V.isValid . encodeUtf8) (D.text mTxt)
 
-passwordFormlet
-  :: Monad m
-  => Maybe Text -> D.Form H.Html m Text
+passwordFormlet :: Monad m => Maybe Text -> MyForm m
 passwordFormlet mTxt = D.validate (minMaxLen (6, 40)) (D.text mTxt)
+
+passwordConfirmer :: Monad m => MyForm m
+passwordConfirmer  =
+  D.validate fst' $ (,) <$> ("p1" .: passwordFormlet Nothing)
+                      <*> ("p2" .: passwordFormlet Nothing)
+  where
+    fst' (p1, p2) | p1 == p2  = D.Success p1
+                  | otherwise = D.Error "Passwords do not match"
 
 addError :: D.View v -> Text -> v -> D.View v
 addError view ref err = view { D.viewErrors = viewErrors2}
