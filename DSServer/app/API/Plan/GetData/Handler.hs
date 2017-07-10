@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.Plan.GetData.Handler
-  ( url
-  , handler
-  ) where
+module API.Plan.GetData.Handler (handler) where
 
 import qualified Data.Text.Lazy as TL
 import Web.Scotty (text)
@@ -13,9 +10,6 @@ import Auth (checkLogged)
 import Persistence.Plan (getPlanByUser)
 import Persistence.Result (getResultsForPlan)
 import FormEngine.FormData (values2Data)
-
-url :: String
-url = "/api/plan/getData"
 
 handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do

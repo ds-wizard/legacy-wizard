@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.Question.GetQuestion.Handler
-  ( url
-  , handler
-  ) where
+module API.Question.GetQuestion.Handler (handler) where
 
 import qualified Data.Text.Lazy as TL
 import Control.Monad (join)
@@ -13,9 +10,6 @@ import Web.Scotty (params, text)
 import App (Action, PGPool, runQuery)
 import API.Utils (readInt)
 import Persistence.Question (getQuestion)
-
-url :: String
-url = "/api/getQuestion"
 
 handler :: PGPool -> Action
 handler pool = do

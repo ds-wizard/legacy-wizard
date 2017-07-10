@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Save.Handler
-  ( url
-  , handler
-  ) where
+module Actions.Save.Handler (handler) where
 
 import Web.Scotty (Param, params)
 
@@ -14,9 +11,6 @@ import Actions.Responses (infoResponse, errorResponse)
 import Model.Plan
 import Persistence.Plan (getPlanByUser)
 import Persistence.Result (getResultId, insertResult, updateResult)
-
-url :: String
-url = "/save"
 
 handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do

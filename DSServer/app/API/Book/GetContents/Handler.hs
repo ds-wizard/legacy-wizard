@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module API.Book.GetContents.Handler
-  ( url
-  , handler
-  ) where
+module API.Book.GetContents.Handler (handler) where
 
 import Data.Text.Lazy (toStrict)
 import Control.Monad (join)
@@ -15,9 +12,6 @@ import Web.Scotty (params, text)
 import App (Action, PGPool, runQuery)
 import API.Utils (readInt)
 import Persistence.Question (getBookContents)
-
-url :: String
-url = "/api/getBookContents"
 
 handler :: PGPool -> Action
 handler pool = do

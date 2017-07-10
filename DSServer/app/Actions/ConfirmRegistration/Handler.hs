@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.ConfirmRegistration.Handler
-  ( url
-  , handler
-  ) where
+module Actions.ConfirmRegistration.Handler (handler) where
 
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
@@ -17,13 +14,10 @@ import qualified Persistence.User as U
 
 import App (Action, PGPool, runQuery)
 import Actions.Responses (infoResponse, errorResponse)
-import qualified Actions.Login.Handler
+import qualified Actions.Login.Url as Actions.Login
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
-
-url :: String
-url = "/confirmRegistration"
 
 handler :: PGPool -> Action
 handler pool = do
@@ -36,7 +30,7 @@ handler pool = do
           U.InvalidRegistrationKey ->
             errorResponse "Registration confirmation failed: invalid registration key."
           U.UserAlreadyConfirmed ->
-            infoResponse $ "Registration was already confirmed. You may " <> (H.a ! A.href (textValue $ T.pack Actions.Login.Handler.url) $ "log in") <> "."
+            infoResponse $ "Registration was already confirmed. You may " <> (H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "log in") <> "."
           U.UserOK ->
-            infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href "/login" $ "log in") <> "."
+            infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "log in") <> "."
 

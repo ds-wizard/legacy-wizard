@@ -7,7 +7,7 @@ module Page
 
 --import Control.Monad.Trans (liftIO)
 import Data.Monoid ((<>))
---import qualified Data.Text.Lazy as TL
+import qualified Data.Text as T
 import Text.Blaze.Internal (textValue)
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
@@ -18,6 +18,11 @@ import App (Action)
 
 import Config.Config (staticURL)
 import Model.User (User(..))
+
+import qualified Actions.Register.Url as Actions.Register
+import qualified Actions.Login.Url as Actions.Login
+import qualified Actions.Logout.Url as Actions.Logout
+import qualified Actions.EditProfile.Url as Actions.EditProfile
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
@@ -58,15 +63,13 @@ renderLogin :: Maybe User -> Html
 renderLogin mUser = H.div ! A.class_ "login-box" $ do
   case mUser of
     Just user -> do
-      H.span $ H.a ! A.href "/editProfile" $ H.toHtml $ u_name user
+      H.span $ H.a ! A.href (textValue $ T.pack Actions.EditProfile.url) $ H.toHtml $ u_name user
       _ <- " | "
-      H.a ! A.href "/logout" $ "Logout"
+      H.a ! A.href (textValue $ T.pack Actions.Logout.url) $ "Logout"
     Nothing -> do
-      --H.a ! A.href (textValue Views.Forms.Login.url) $ "Login"
-      H.a ! A.href "/login" $ "Login"
+      H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "Login"
       _ <- " | "
-      --H.a ! A.href (textValue Views.Forms.Registration.url) $ "Register"
-      H.a ! A.href "/register" $ "Register"
+      H.a ! A.href (textValue $ T.pack Actions.Register.url) $ "Register"
 
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do

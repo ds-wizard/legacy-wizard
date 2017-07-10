@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Register.Handler
-  ( url
-  , handler
-  ) where
+module Actions.Register.Handler (handler) where
 
 import Data.Monoid ((<>))
 import Control.Monad.Trans (liftIO)
@@ -25,13 +22,11 @@ import Persistence.Plan (createPlan)
 import Mailing
 import Actions.FormUtils (notEmpty, emailFormlet, passwordFormlet, addError, errorTr)
 import qualified Page
+import Actions.Register.Url (url)
 import Actions.Responses (infoResponse, errorResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
-
-url :: String
-url = "/register"
 
 data RegistrationRequest = RegistrationRequest
   { rr_email :: Text

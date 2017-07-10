@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Login.Handler
-  ( url
-  , handler
-  ) where
+module Actions.Login.Handler (handler) where
 
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -24,13 +21,12 @@ import qualified Model.Session as S
 import Persistence.Session (getSessionByUser)
 import Actions.FormUtils (emailFormlet, passwordFormlet, addError, errorTr)
 import Actions.Responses (errorResponse)
+import Actions.Login.Url (url)
+import qualified Actions.Main.Url as Actions.Main
 import qualified Page
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
-
-url :: String
-url = "/login"
 
 data LoginRequest = LoginRequest
   { lr_email :: Text
@@ -89,4 +85,4 @@ handler pool = do
                 Nothing -> errorResponse "Session management failed. Please contact the administrator."
                 Just session -> do
                   setSession $ S.s_session_id session
-                  redirect "/"
+                  redirect $ TL.pack Actions.Main.url

@@ -1,9 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.EditProfile.Handler
-  ( url
-  , handler
-  ) where
+module Actions.EditProfile.Handler (handler) where
 
 import Data.Text (Text)
 import qualified Data.Text as T
@@ -22,13 +19,11 @@ import Model.User
 import qualified Persistence.User as U
 import Actions.FormUtils (notEmpty, emailFormlet, addError, errorTr)
 import qualified Page
+import Actions.EditProfile.Url (url)
 import Actions.Responses (infoResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
-
-url :: String
-url = "/editProfile"
 
 data ProfileData = ProfileData
   { pd_email :: Text
