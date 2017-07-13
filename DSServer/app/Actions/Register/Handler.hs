@@ -18,6 +18,8 @@ import Text.Digestive.Scotty (runForm)
 import App (Action, PGPool, runQuery)
 import qualified Model.User as U
 import qualified Persistence.User as U
+import qualified Model.ActionKey as AC
+import qualified Persistence.ActionKey as AC
 import Persistence.Plan (createPlan)
 import Mailing
 import Actions.FormUtils (notEmpty, emailFormlet, passwordConfirmer, addError, errorTr)
@@ -93,7 +95,8 @@ handler pool = do
           case mUser of
             Nothing -> errorResponse "Registration failed. Please contact the administrator."
             Just user -> do
+              actionKeyKey <- runQuery pool $ AC.createActionKey user AC.ConfirmRegistration
               _ <- runQuery pool $ createPlan user "Default" (Just "Automatically created plan")
-              liftIO $ mailRegistrationConfirmation user
+              liftIO $ mailRegistrationConfirmation user actionKeyKey
               infoResponse $ toHtml $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."
 

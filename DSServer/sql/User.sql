@@ -8,7 +8,6 @@ create table "User" (
 	password_hash text,
 	name text,
         affiliation text,
-	registration_key text unique,
 	registration_confirmed boolean DEFAULT 'f'
 );
 alter table "User" owner to elixir;

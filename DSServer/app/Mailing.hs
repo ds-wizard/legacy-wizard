@@ -13,15 +13,16 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 
 import Config.Config (domainURL)
 import Model.User
+import Model.ActionKey
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 
-mailRegistrationConfirmation :: User -> IO ()
-mailRegistrationConfirmation User{ u_email, u_name, u_registration_key, .. }  = let Email email = u_email in
+mailRegistrationConfirmation :: User -> ActionKeyKey -> IO ()
+mailRegistrationConfirmation User{ u_email, u_name, .. } key =
   let
     from = Address (Just "DS Wizard") "info@dmp.fairdata.solutions"
-    body = htmlPart $ renderHtml $ message u_name u_registration_key
-    mail = simpleMail from [Address Nothing (T.toStrict email)] [] [] "Registration confirmation" [body]
+    body = htmlPart $ renderHtml $ message u_name (T.pack $ show key)
+    mail = simpleMail from [Address Nothing (T.toStrict $ runEmail u_email)] [] [] "Registration confirmation" [body]
   in
     renderSendMail mail
 

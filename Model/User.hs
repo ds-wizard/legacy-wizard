@@ -24,7 +24,6 @@ data User = User
   , u_password_hash :: PasswordHash
   , u_name :: T.Text
   , u_affiliation :: T.Text
-  , u_registration_key :: T.Text
   , u_registration_confirmed :: Bool
   } deriving (Show, Eq)
 
@@ -41,6 +40,6 @@ instance ToField PasswordHash where
   toField (PasswordHash ph) = toField ph
 
 instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field
 
 

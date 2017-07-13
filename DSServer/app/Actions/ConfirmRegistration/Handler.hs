@@ -11,6 +11,8 @@ import qualified Text.Blaze.Html5.Attributes as A
 import Web.Scotty (params)
 
 import qualified Persistence.User as U
+import qualified Model.ActionKey as AC
+import qualified Persistence.ActionKey as AC
 
 import App (Action, PGPool, runQuery)
 import Actions.Responses (infoResponse, errorResponse)
@@ -23,14 +25,11 @@ handler :: PGPool -> Action
 handler pool = do
   ps <- params
   case lookup "key" ps of
-    Nothing -> errorResponse "Registration confirmation failed: incorrect URL parameter."
+    Nothing -> errorResponse "Registration confirmation failed: incorrect key in the URL."
     Just key -> do
-        res <- runQuery pool $ U.confirmRegistration $ TL.toStrict key
-        case res of
-          U.InvalidRegistrationKey ->
-            errorResponse "Registration confirmation failed: invalid registration key."
-          U.UserAlreadyConfirmed ->
-            infoResponse $ "Registration was already confirmed. You may " <> (H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "log in") <> "."
-          U.UserOK ->
+        mActionKey <- runQuery pool $ AC.useActionKey (TL.toStrict key) AC.ConfirmRegistration
+        case mActionKey of
+          Nothing -> errorResponse "Invalid registration key or the registration has been already confirmed."
+          Just actionKey -> do
+            runQuery pool $ U.confirmRegistration (AC.ac_user_id actionKey)
             infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "log in") <> "."
-
