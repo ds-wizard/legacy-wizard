@@ -16,7 +16,7 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import qualified Web.Scotty as W
 import App (Action)
 
-import Config.Config (staticURL)
+import Config.Config (rootURL, staticURL)
 import Model.User (User(..))
 
 import qualified Actions.Register.Url as Actions.Register
@@ -45,7 +45,7 @@ render isMain page mUser message = W.html $ renderHtml $
         renderFooter
         renderAcknowledgement
         if isMain then
-          H.script ! A.src (textValue $ staticURL <> "js/main.js") $ mempty
+          H.script ! A.src (textValue $ T.pack staticURL <> "js/main.js") $ mempty
         else
           mempty
 
@@ -55,9 +55,9 @@ renderHead = H.head $ do
     H.meta ! A.httpEquiv "X-UA-Compatible" ! A.content "IE=edge"
     H.title "DS Wizard"
     H.meta ! A.name "viewport" ! A.content "width=device-width, initial-scale=1"
-    H.link ! A.rel "stylesheet" ! A.href (textValue $ staticURL <> "css/normalize.min.css")
-    H.link ! A.rel "stylesheet" ! A.href ( textValue $ staticURL <> "css/main.css")
-    H.script ! A.src (textValue $ staticURL <> "js/vendor/jquery-3.1.1.min.js") $ mempty
+    H.link ! A.rel "stylesheet" ! A.href (textValue $ T.pack staticURL <> "css/normalize.min.css")
+    H.link ! A.rel "stylesheet" ! A.href ( textValue $ T.pack staticURL <> "css/main.css")
+    H.script ! A.src (textValue $ T.pack staticURL <> "js/vendor/jquery-3.1.1.min.js") $ mempty
 
 renderLogin :: Maybe User -> Html
 renderLogin mUser = H.div ! A.class_ "login-box" $ do
@@ -73,12 +73,15 @@ renderLogin mUser = H.div ! A.class_ "login-box" $ do
 
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
-  H.a ! A.href "https://www.elixir-europe.org/" $
-    H.img ! A.src (textValue $ staticURL <> "img/logo.png") ! A.id "logo" ! A.alt "Elixir logo"
-  H.h1 ! A.class_ "title" $ do
-    _ <- "Data Stewardship Wizard"
-    H.span ! A.class_ "version" $ " v0.6, "
-    H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
+  H.div ! A.class_ "banner-element" $
+    H.a ! A.href (textValue $ T.pack rootURL) $
+      H.img ! A.class_ "dsplogo" ! A.src (textValue $ T.pack staticURL <> "img/DSP-logo.png") ! A.alt "DSP logo"
+  H.div ! A.class_ "banner-element" $ do
+    H.h1 ! A.class_ "title" $ do
+      _ <- "Data Stewardship Wizard"
+      H.span ! A.class_ "version" $ " v0.7, "
+      H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
+    H.div ! A.class_ "subtitle" $ "Data Management Plans for FAIR Open Science"
 
 renderControlPanel :: Maybe User -> Html
 renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
@@ -103,12 +106,12 @@ renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
         H.a ! A.href "mailto:suchama4@fit.cvut.cz" $ "Marek Suchánek"
       H.td ! A.style "text-align: center; " $ do
         H.h3 "Data stewardship action team"
-        H.a ! A.href "http://elixir-czech.cz" $ H.img ! A.src (textValue $ staticURL <> "img/logo-elixir-cz.jpg") ! A.class_ "logo" ! A.alt "ELIXIR-CZ logo"
-        H.a ! A.href "https://www.uochb.cz" $ H.img ! A.src (textValue $ staticURL <> "img/logo-uochb.png") ! A.class_ "logo" ! A.alt "FIT logo"
-        H.a ! A.href "http://ccmi.fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/logo-ccmi.png") ! A.class_ "logo" ! A.alt "CCMi logo"
-        H.a ! A.href "http://fit.cvut.cz/en" $ H.img ! A.src (textValue $ staticURL <> "img/logo-fit.png") ! A.class_ "logo" ! A.alt "FIT logo"
-        H.a ! A.href "http://www.dtls.nl/elixir-nl/elixir-nl-2/" $ H.img ! A.src (textValue $ staticURL <> "img/logo-elixir-nl.png") ! A.class_ "logo" ! A.alt "ELIXIR-NL logo"
-        H.a ! A.href "http://www.dtls.nl/" $ H.img ! A.src (textValue $ staticURL <> "img/logo-dtl.png") ! A.class_ "logo" ! A.alt "DTL logo"
+        H.a ! A.href "http://elixir-czech.cz" $ H.img ! A.src (textValue $ T.pack staticURL <> "img/logo-elixir-cz.jpg") ! A.class_ "logo" ! A.alt "ELIXIR-CZ logo"
+        H.a ! A.href "https://www.uochb.cz" $ H.img ! A.src (textValue $ T.pack staticURL <> "img/logo-uochb.png") ! A.class_ "logo" ! A.alt "FIT logo"
+        H.a ! A.href "http://ccmi.fit.cvut.cz/en" $ H.img ! A.src (textValue $ T.pack staticURL <> "img/logo-ccmi.png") ! A.class_ "logo" ! A.alt "CCMi logo"
+        H.a ! A.href "http://fit.cvut.cz/en" $ H.img ! A.src (textValue $ T.pack staticURL <> "img/logo-fit.png") ! A.class_ "logo" ! A.alt "FIT logo"
+        H.a ! A.href "http://www.dtls.nl/elixir-nl/elixir-nl-2/" $ H.img ! A.src (textValue $ T.pack staticURL <> "img/logo-elixir-nl.png") ! A.class_ "logo" ! A.alt "ELIXIR-NL logo"
+        H.a ! A.href "http://www.dtls.nl/" $ H.img ! A.src (textValue $ T.pack staticURL <> "img/logo-dtl.png") ! A.class_ "logo" ! A.alt "DTL logo"
       H.td $ do
         H.h3 "Links"
         H.a ! A.href "http://www.elixir-europe.org/" $ "ELIXIR Europe"
@@ -125,6 +128,6 @@ renderAcknowledgement =
       H.a ! A.href "http://haste-lang.org/" ! A.class_ "colophon-text" $ "Haste"
       H.span ! A.class_ "colophon-text" $ ", powered by "
       H.a ! A.href "http://hackage.haskell.org/package/scotty" ! A.class_ "colophon-text" $ "Scotty"
-      H.img ! A.src (textValue $ staticURL <> "img/haskell.png") ! A.alt "Haskell logo" ! A.class_ "logo"
+      H.img ! A.src (textValue $ T.pack staticURL <> "img/haskell.png") ! A.alt "Haskell logo" ! A.class_ "logo"
 
 

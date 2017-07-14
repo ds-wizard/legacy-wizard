@@ -5,13 +5,22 @@ body {
 }
 h1 {
   color: #544F4C;
-  margin: 0.5em;
+  margin: 0;
   max-height: 3em;
-  padding: 1em 0 0 1em;
+  padding: 20px 0 0 20px;
   font-variant: small-caps;
+  text-align: left;
 }
 h1 > span.version {
   font-size: 50%;
+}
+.subtitle {
+  margin: 0;
+  padding: 10px 0 0 20px;
+  color: #f47d20;
+  font-size: 150%;
+  font-family: sans-serif;
+  text-align: left;
 }
 img#logo {
   float: left;
@@ -20,7 +29,15 @@ img#logo {
 }
 .banner {
   width: 900px;
+  margin: 10px 0 10px 10px;
   float: left;
+}
+.banner-element {
+  float: left;
+}
+.dsplogo {
+  width: 150px;
+  height: 150px;
 }
 .control-panel {
   width: 400px;
@@ -208,6 +225,7 @@ textarea {
 }
 input[type="text"],
 input[type="email"],
+input[type="password"],
 textarea {
   width: 300px;
 }
