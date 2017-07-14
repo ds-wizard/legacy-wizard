@@ -5,4 +5,4 @@ extra-deps:
 - digestive-functors-blaze-0.6.1.0
 - digestive-functors-scotty-0.2.0.2
 - scotty-cookie-0.1.0.3
-resolver: lts-8.21
+resolver: lts-8.22
