@@ -16,6 +16,10 @@ import qualified Actions.ConfirmRegistration.Url
 import qualified Actions.ConfirmRegistration.Handler
 import qualified Actions.Login.Url
 import qualified Actions.Login.Handler
+import qualified Actions.ForgottenPassword.Url
+import qualified Actions.ForgottenPassword.Handler
+import qualified Actions.ResetPassword.Url
+import qualified Actions.ResetPassword.Handler
 import qualified Actions.Logout.Url
 import qualified Actions.Logout.Handler
 import qualified Actions.Save.Url
@@ -47,6 +51,10 @@ routes pool = do
   post (capture Actions.ConfirmRegistration.Url.url) (Actions.ConfirmRegistration.Handler.handler pool)
   get  (capture Actions.Login.Url.url) (Actions.Login.Handler.handler pool)
   post (capture Actions.Login.Url.url) (Actions.Login.Handler.handler pool)
+  get  (capture Actions.ForgottenPassword.Url.url) (Actions.ForgottenPassword.Handler.handler pool)
+  post (capture Actions.ForgottenPassword.Url.url) (Actions.ForgottenPassword.Handler.handler pool)
+  get  (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
+  post (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   get  (capture Actions.Logout.Url.url) (getCookies >>= Actions.Logout.Handler.handler pool)
   post (capture Actions.Save.Url.url) (getCookies >>= Actions.Save.Handler.handler pool)
   get  (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)

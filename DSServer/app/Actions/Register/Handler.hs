@@ -25,6 +25,7 @@ import Mailing
 import Actions.FormUtils (notEmpty, emailFormlet, passwordConfirmer, addError, errorTr)
 import qualified Page
 import Actions.Register.Url (url)
+import qualified Actions.ConfirmRegistration.Url as Actions.ConfirmRegistration
 import Actions.Responses (infoResponse, errorResponse)
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
@@ -97,6 +98,6 @@ handler pool = do
             Just user -> do
               actionKeyKey <- runQuery pool $ AC.createActionKey user AC.ConfirmRegistration
               _ <- runQuery pool $ createPlan user "Default" (Just "Automatically created plan")
-              liftIO $ mailRegistrationConfirmation user actionKeyKey
+              liftIO $ mailRegistrationConfirmation user Actions.ConfirmRegistration.url actionKeyKey
               infoResponse $ toHtml $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."
 

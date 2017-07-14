@@ -2,12 +2,14 @@
 
 module Auth
   ( checkLogged
+  , doLoginAction
   ) where
 
-import App (Action, PGPool, Cookies, getSession, runQuery)
+import App (Action, PGPool, Cookies, getSession, setSession, runQuery)
 import Model.User
-import Persistence.Session (getUserFromSession)
-import Actions.Responses (logInResponse)
+import Model.Session
+import Persistence.Session (getUserFromSession, getSessionByUser)
+import Actions.Responses (logInResponse, errorResponse)
 
 checkLogged :: PGPool -> Cookies -> (User -> Action) -> Action
 checkLogged pool cookies action =
@@ -18,3 +20,12 @@ checkLogged pool cookies action =
       case mUser of
         Nothing  -> logInResponse
         Just user -> action user
+
+doLoginAction :: PGPool -> User -> Action -> Action
+doLoginAction pool user action = do
+  mSession <- runQuery pool $ getSessionByUser user
+  case mSession of
+    Nothing -> errorResponse "We are sorry, internal error happened. Please contact the administrator."
+    Just session -> do
+      setSession $ s_session_id session
+      action

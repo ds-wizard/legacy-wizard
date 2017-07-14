@@ -18,7 +18,7 @@ import Data.Text (Text)
 
 type ActionKeyKey = Text
 
-data Action = ConfirmRegistration | RecoverPassword deriving (Show, Read)
+data Action = ConfirmRegistration | ResetPassword deriving (Show, Read)
 
 instance PG.FromField Action where
   fromField f bs =

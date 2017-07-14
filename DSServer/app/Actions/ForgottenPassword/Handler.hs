@@ -1,28 +1,32 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Login.Handler (handler) where
+module Actions.ForgottenPassword.Handler (handler) where
 
+import Data.Monoid ((<>))
+import Control.Monad.Trans (liftIO)
 import Data.Text (Text)
 import qualified Data.Text as T
 import qualified Data.Text.Lazy as TL
-import Text.Blaze.Html5 (Html, (!))
+import Text.Blaze.Html5 (Html, (!), toHtml)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
 import Text.Digestive ((.:))
 import qualified Text.Digestive as D
 import qualified Text.Digestive.Blaze.Html5 as DH
 import Text.Digestive.Scotty (runForm)
-import Web.Scotty (redirect)
 
 import App (Action, PGPool, runQuery)
-import Auth (doLoginAction)
 import qualified Model.User as U
 import qualified Persistence.User as U
-import Actions.FormUtils (emailFormlet, passwordFormlet, addError, errorTr)
-import Actions.Login.Url (url)
-import qualified Actions.Main.Url as Actions.Main
-import qualified Actions.ForgottenPassword.Url as Actions.ForgottenPassword
+import qualified Model.ActionKey as AC
+import qualified Persistence.ActionKey as AC
+import Actions.FormUtils (emailFormlet, addError, errorTr)
+import Actions.Responses (infoResponse)
+import Actions.ForgottenPassword.Url (url)
+import qualified Actions.ResetPassword.Url as Actions.ResetPassword
+import qualified Actions.Login.Url as Actions.Login
 import qualified Page
+import Mailing
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
@@ -35,12 +39,12 @@ data LoginRequest = LoginRequest
 loginForm :: Monad m => D.Form Html m LoginRequest
 loginForm =
   LoginRequest <$> "email" .: emailFormlet Nothing
-                  <*> "password" .: passwordFormlet Nothing
+                  <*> "password" .: D.text Nothing
 
 formView :: D.View Html -> Html
 formView v = do
  -- errorList "mail" view
-  H.h2 "User Login"
+  H.h2 "Forgotten Password"
   DH.form v (T.pack url) $ do
     H.table ! A.class_ "form-table" $
       H.tbody $ do
@@ -52,12 +56,13 @@ formView v = do
           H.td $ DH.label         "password" v "Password: "
           H.td $ do
             DH.inputPassword "password" v
-            H.button ! A.type_ "submit" ! A.formaction (H.textValue $ T.pack Actions.ForgottenPassword.url) $ "Forgotten password"
+            H.button ! A.type_ "submit" $ "Forgotten password"
             --H.a ! A.href (H.textValue $ T.pack Actions.ForgottenPassword.url) $ "Forgotten password"
         errorTr "password" v
         H.tr $ do
           H.td mempty
-          H.td $ H.button ! A.type_ "submit" $ "Login"
+          H.td $ H.button ! A.type_ "submit" ! A.formaction (H.textValue $ T.pack Actions.Login.url) $ "Login"
+
 
 handler :: PGPool -> Action
 handler pool = do
@@ -74,11 +79,7 @@ handler pool = do
           if not (U.u_registration_confirmed user) then do
             let v2 = addError v "email" "Email registration has not been confirmed."
             Page.render False (formView v2) Nothing Page.NoMessage
-        -- todo
-          else
-            if not $ U.authUser (U.Password $ TL.fromStrict $ lr_password loginReq) user then do
-              let v2 = addError v "password" "Incorrect password."
-              Page.render False (formView v2) Nothing  Page.NoMessage
-            else
-              doLoginAction pool user $ redirect $ TL.pack Actions.Main.url
-
+          else do
+            actionKeyKey <- runQuery pool $ AC.createActionKey user AC.ResetPassword
+            liftIO $ mailResetPasswordLink user Actions.ResetPassword.url actionKeyKey
+            infoResponse $ toHtml $ "The reset password link has been sent to " <> U.runEmail (U.u_email user) <> "."

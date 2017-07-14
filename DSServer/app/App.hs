@@ -4,6 +4,7 @@ module App
   ( Action
   , PGPool
   , Cookies
+  , noCookies
   , setSession
   , getSession
   , deleteSession
@@ -18,7 +19,7 @@ import Control.Monad.IO.Class (MonadIO)
 import Control.Monad.Trans (liftIO)
 --import           Control.Monad.Reader
 --import           Web.Scotty.Trans (ReaderT, ScottyT, ActionT)
-import Data.Map.Lazy (Map, member, (!))
+import Data.Map.Lazy (Map, empty, member, (!))
 import Data.Pool (Pool, withResource)
 import Database.PostgreSQL.Simple (Connection)
 import Web.Scotty (ActionM)
@@ -32,6 +33,9 @@ type Action = ActionM ()
 type PGPool = Pool Connection
 
 type Cookies = Map Text Text
+
+noCookies :: Cookies
+noCookies = empty
 
 sessionCookie :: Text
 sessionCookie = "sessionId"

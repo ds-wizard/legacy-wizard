@@ -4,18 +4,15 @@ module Config.Config where
 
 import  Data.Monoid ((<>))
 
-#ifdef __HASTE__
-type Text = String
-#else
-import           Data.Text (Text)
-#endif
-
-domainURL :: Text
+domainURL :: String
 domainURL = "dmp.fairdata.solutions"
 
-baseURL :: Text
+rootURL :: String
+rootURL = "http://" <> domainURL
+
+baseURL :: String
 baseURL = "/"
 
-staticURL :: Text
+staticURL :: String
 staticURL = baseURL <> "static/"
 
