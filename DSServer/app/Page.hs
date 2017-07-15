@@ -23,6 +23,7 @@ import qualified Actions.Register.Url as Actions.Register
 import qualified Actions.Login.Url as Actions.Login
 import qualified Actions.Logout.Url as Actions.Logout
 import qualified Actions.EditProfile.Url as Actions.EditProfile
+import qualified Actions.ManagePlans.Url as Actions.ManagePlans
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
@@ -48,6 +49,7 @@ render isMain page mUser message = W.html $ renderHtml $
           H.script ! A.src (textValue $ T.pack staticURL <> "js/main.js") $ mempty
         else
           mempty
+        H.script ! A.src (textValue $ T.pack staticURL <> "js/analytics.js") $ mempty
 
 renderHead :: Html
 renderHead = H.head $ do
@@ -89,6 +91,7 @@ renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
     Nothing -> mempty
     Just _ -> do
       H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save the plan"
+      --H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ "Manage plans"
 
 renderMessage :: Message -> Html
 renderMessage NoMessage = mempty
