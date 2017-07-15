@@ -1,17 +1,19 @@
+@elixir-orange: #f47d20;
+@elixir-blue: #023452;
+@elixir-lblue: #047eaa;
 //common
 @common-bg: white;
 @common-fg: black;
 //nav
-@tabs-current-bg: lightblue;
-@tabs-current-fg: black;
-@tabs-hover-bg: blue;
+@tabs-current-bg: @elixir-lblue;
+@tabs-current-fg: @elixir-blue;
+@tabs-hover-bg: @elixir-blue;
 @tabs-hover-fg: white;
 @tabs-common-bg: white;
 @tabs-common-fg: black;
 //footer
 @footer-bg: white;
 @footer-fg: black;
-@elixir-orange: #f47d20;
 
 body{
     padding: 0 1em 1em 1em;
@@ -31,6 +33,15 @@ h1 > span.version {
   font-size: 50%;
 }
 
+a {
+    color: @elixir-lblue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .subtitle {
     margin: 0;
     padding: 10px 0 0 20px;
@@ -47,7 +58,7 @@ img#logo{
 }
 
 .banner {
-    width: 900px;
+    width: 750px;
     margin: 10px 0 10px 10px;
     float: left;
 }
@@ -90,23 +101,39 @@ ul.nav > li{
     display: block;
     border: 1px solid black;
     padding: 0.2em 1em;
-    margin: 0.2em;
+    margin: 0 0 0.5em 0;
+    //margin: 0.2em;
     cursor: pointer;
     float: left;
     color: @tabs-common-fg;
     background: @tabs-common-bg;
 }
 
+//ul.nav > li > a {
+//    color: @tabs-common-fg;
+//    background: @tabs-common-bg;
+//}
+//
+//ul.nav > li > a:hover {
+//    color: @tabs-hover-fg;
+//    background: @tabs-hover-bg;
+//}
+
 ul.nav > li:hover{
     color: @tabs-hover-fg;
     background: @tabs-hover-bg;
 }
 
+ul.nav > li.notcurrent {
+    .action-button;
+}
+
+ul.nav > li.notcurrent:hover {
+    .action-button-hover;
+}
 
 ul.nav > li.current{
-    color: @tabs-current-fg;
-    background: @tabs-current-bg;
-    font-weight: bold;
+    .action-button-hover;
 }
 
 .login-box {
@@ -206,9 +233,28 @@ div#footer td img.logo{
   background-color: #e2ffd7;
 }
 
-.action-button {
+.action-button-common {
     padding: 5px 10px;
-    margin: 5px 10px;
+    margin: 0 0 1em 0;
+    float: left;
+    border: 1px solid @tabs-current-fg;
+    text-decoration: none;
+}
+
+.action-button {
+    .action-button-common;
+    background: @common-bg;
+    color: @common-fg;
+}
+
+.action-button-hover {
+    .action-button-common;
+    background: @tabs-hover-bg;
+    color: @tabs-hover-fg;
+}
+
+.action-button:hover {
+    .action-button-hover
 }
 
 .button-add, .button-remove {
