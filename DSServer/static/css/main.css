@@ -35,7 +35,7 @@ img#logo {
   margin: 0.5em;
 }
 .banner {
-  width: 750px;
+  width: 800px;
   margin: 10px 0 10px 10px;
   float: left;
 }
@@ -47,6 +47,7 @@ img#logo {
   height: 150px;
 }
 .control-panel {
+  margin-top: 50px;
   width: 400px;
   float: left;
 }
