@@ -14,11 +14,13 @@ import FormEngine.FormData (FormData)
 import FormEngine.FormElement.FormElement as Element
 import Form (generateForm)
 import Overlay (initOverlay)
+import qualified Actions
 
 --import Debug.Trace
 
 main :: IO ()
 main = ready $ do
+  Actions.doExports
   _ <- initOverlay
   ajaxRequest POST "api/plan/getData" [("" :: JSString, "" :: JSString)] buildQuestionnaire
     where

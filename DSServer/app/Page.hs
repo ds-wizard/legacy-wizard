@@ -28,6 +28,8 @@ import qualified Actions.Logout.Url as Actions.Logout
 import qualified Actions.EditProfile.Url as Actions.EditProfile
 import qualified Actions.ManagePlans.Url as Actions.ManagePlans
 
+import qualified Bridge as B
+
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 
@@ -107,7 +109,7 @@ renderControlPanel pConfig = case pc_mUser pConfig of
             H.div ! A.class_ "control-panel-label" $ do
               _ <- "Plan: "
               H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
-            H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $
+            H.button ! A.class_ "action-button" ! A.onclick (textValue $ T.pack $ B.call0 B.SavePlan) $
               H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
           Nothing -> do
             H.div ! A.class_ "control-panel-label no-plan" $ "No plan opened"
