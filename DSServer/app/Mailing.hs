@@ -61,3 +61,4 @@ mailResetPasswordLink User{ u_email, u_name, .. } actionUrl actionKey = let
           H.a ! A.href (textValue $ T.pack $ "http://" <> domainURL) $ "Data Stewardship Wizard."
         H.p "You may do so by following this link: "
         H.p $ H.a ! A.href (textValue $ fullUrl actionUrl actionKey) $ toHtml $ fullUrl actionUrl actionKey
+        H.p "Please note that this link expires in 24 hours."
