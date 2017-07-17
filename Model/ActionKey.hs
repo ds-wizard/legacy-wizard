@@ -7,6 +7,7 @@ import qualified Data.ByteString.Char8 as BS
 import qualified Database.PostgreSQL.Simple.FromRow as PG
 import qualified Database.PostgreSQL.Simple.FromField as PG
 import qualified Database.PostgreSQL.Simple.ToField as PG
+import qualified Data.Time.Clock as DTC
 
 #ifdef __HASTE__
 type Text = String
@@ -33,8 +34,9 @@ data ActionKey = ActionKey
   { ac_user_id :: Int
   , ac_action :: Action
   , ac_key :: ActionKeyKey
+  , ac_created :: DTC.UTCTime
   } deriving (Show)
 
 instance PG.FromRow ActionKey where
-  fromRow = ActionKey <$> PG.field <*> PG.field <*> PG.field
+  fromRow = ActionKey <$> PG.field <*> PG.field <*> PG.field <*> PG.field
 

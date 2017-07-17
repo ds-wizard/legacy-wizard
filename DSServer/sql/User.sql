@@ -8,7 +8,8 @@ create table "User" (
 	password_hash text,
 	name text,
         affiliation text,
-	registration_confirmed boolean DEFAULT 'f'
+	registration_confirmed boolean DEFAULT 'f',
+        open_plan_id integer null references "Plan" (id)
 );
 alter table "User" owner to elixir;
 

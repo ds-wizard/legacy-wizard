@@ -25,6 +25,7 @@ data User = User
   , u_name :: T.Text
   , u_affiliation :: T.Text
   , u_registration_confirmed :: Bool
+  , u_open_plan_id :: Maybe Int
   } deriving (Show, Eq)
 
 instance FromField Email where
@@ -40,6 +41,6 @@ instance ToField PasswordHash where
   toField (PasswordHash ph) = toField ph
 
 instance FromRow User where
-  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field
+  fromRow = User <$> field <*> field <*> field <*> field <*> field <*> field <*> field
 
 
