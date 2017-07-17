@@ -5,7 +5,9 @@ module Persistence.ActionKey
   , useActionKey
   ) where
 
+import Control.Monad.Trans (liftIO)
 import qualified Database.PostgreSQL.Simple as PG
+import qualified Data.Time.Clock as DTC
 
 import Persistence.Utils (genKey)
 import Model.ActionKey
@@ -17,8 +19,9 @@ import Model.User
 createActionKey :: User -> Action -> PG.Connection -> IO ActionKeyKey
 createActionKey user action conn = do
   actionKey <- genKey
-  _ <- PG.execute conn "INSERT INTO \"ActionKey\" (user_id, action, action_key) VALUES (?, ?, ?)"
-         (u_user_id user, action, actionKey)
+  ts <- liftIO DTC.getCurrentTime
+  _ <- PG.execute conn "INSERT INTO \"ActionKey\" (user_id, action, action_key, created) VALUES (?, ?, ?, ?)"
+         (u_user_id user, action, actionKey, ts)
   return actionKey
 
 useActionKey :: ActionKeyKey -> Action -> PG.Connection -> IO (Maybe ActionKey)

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.EditProfile.Handler (handler) where
+module Actions.ManagePlans.Handler (handler) where
 
 import Data.Monoid ((<>))
 import Data.Text (Text)
@@ -70,7 +70,7 @@ handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do
   f <- runForm "profileForm" $ profileForm user
   case f of
-    (v, Nothing) -> Page.render (formView v) $ Page.defaultPageConfig { Page.pc_mUser = Just user }
+    (v, Nothing) -> Page.render (formView v) Page.defaultPageConfig { Page.pc_mUser = Just user }
     (v, Just profileData) -> do
       let email = Email $ TL.fromStrict $ pd_email profileData
       isExisting <- runQuery pool $ U.isExistingEmail user email

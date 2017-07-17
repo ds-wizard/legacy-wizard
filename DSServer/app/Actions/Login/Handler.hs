@@ -50,35 +50,33 @@ formView v = do
         errorTr "email" v
         H.tr $ do
           H.td $ DH.label         "password" v "Password: "
-          H.td $ do
-            DH.inputPassword "password" v
-            H.button ! A.type_ "submit" ! A.formaction (H.textValue $ T.pack Actions.ForgottenPassword.url) $ "Forgotten password"
-            --H.a ! A.href (H.textValue $ T.pack Actions.ForgottenPassword.url) $ "Forgotten password"
+          H.td $ DH.inputPassword "password" v
         errorTr "password" v
         H.tr $ do
           H.td mempty
-          H.td $ H.button ! A.type_ "submit" $ "Login"
+          H.td $ do
+            H.button ! A.type_ "submit" $ "Login"
+            H.button ! A.type_ "submit" ! A.style "margin-left: 10px;" ! A.formaction (H.textValue $ T.pack Actions.ForgottenPassword.url) $ "Forgotten password"
 
 handler :: PGPool -> Action
 handler pool = do
   f <- runForm "loginForm" loginForm
   case f of
-    (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
+    (v, Nothing) -> Page.render (formView v) Page.defaultPageConfig
     (v, Just loginReq) -> do
       mUser <- runQuery pool $ U.getUserByEmail (U.Email $ TL.fromStrict $ lr_email loginReq)
       case mUser of
         Nothing -> do
           let v2 = addError v "email" "Email not registered."
-          Page.render False (formView v2) Nothing Page.NoMessage
+          Page.render (formView v2) Page.defaultPageConfig
         Just user -> do
           if not (U.u_registration_confirmed user) then do
             let v2 = addError v "email" "Email registration has not been confirmed."
-            Page.render False (formView v2) Nothing Page.NoMessage
-        -- todo
+            Page.render (formView v2) Page.defaultPageConfig
           else
             if not $ U.authUser (U.Password $ TL.fromStrict $ lr_password loginReq) user then do
               let v2 = addError v "password" "Incorrect password."
-              Page.render False (formView v2) Nothing  Page.NoMessage
+              Page.render (formView v2) Page.defaultPageConfig
             else
               doLoginAction pool user $ redirect $ TL.pack Actions.Main.url
 

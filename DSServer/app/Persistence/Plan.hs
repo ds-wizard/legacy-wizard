@@ -27,7 +27,7 @@ createPlan user name mDescription conn = do
 
 getPlanByUser :: User -> PG.Connection -> IO (Maybe Plan)
 getPlanByUser user conn = do
-  r <- PG.query conn "SELECT * FROM \"Plan\" WHERE user_id = ?" (PG.Only (u_user_id user)) :: IO [Plan]
+  r <- PG.query conn "SELECT * FROM \"Plan\" WHERE id = ?" (PG.Only (u_open_plan_id user)) :: IO [Plan]
   if null r
     then return Nothing
     else do

@@ -56,29 +56,29 @@ formView v = do
           H.td $ DH.label         "password" v "Password: "
           H.td $ do
             DH.inputPassword "password" v
-            H.button ! A.type_ "submit" $ "Forgotten password"
-            --H.a ! A.href (H.textValue $ T.pack Actions.ForgottenPassword.url) $ "Forgotten password"
         errorTr "password" v
         H.tr $ do
           H.td mempty
-          H.td $ H.button ! A.type_ "submit" ! A.formaction (H.textValue $ T.pack Actions.Login.url) $ "Login"
+          H.td $ do
+            H.button ! A.type_ "submit" ! A.formaction (H.textValue $ T.pack Actions.Login.url) $ "Login"
+            H.button ! A.type_ "submit" ! A.style "margin-left: 10px;" $ "Forgotten password"
 
 
 handler :: PGPool -> Action
 handler pool = do
   f <- runForm "loginForm" loginForm
   case f of
-    (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
+    (v, Nothing) -> Page.render (formView v) Page.defaultPageConfig
     (v, Just loginReq) -> do
       mUser <- runQuery pool $ U.getUserByEmail (U.Email $ TL.fromStrict $ lr_email loginReq)
       case mUser of
         Nothing -> do
           let v2 = addError v "email" "Email not registered."
-          Page.render False (formView v2) Nothing Page.NoMessage
+          Page.render (formView v2) Page.defaultPageConfig
         Just user -> do
           if not (U.u_registration_confirmed user) then do
             let v2 = addError v "email" "Email registration has not been confirmed."
-            Page.render False (formView v2) Nothing Page.NoMessage
+            Page.render (formView v2) Page.defaultPageConfig
           else do
             actionKeyKey <- runQuery pool $ AC.createActionKey user AC.ResetPassword
             liftIO $ mailResetPasswordLink user Actions.ResetPassword.url actionKeyKey

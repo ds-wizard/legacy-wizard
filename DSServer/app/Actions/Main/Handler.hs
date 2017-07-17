@@ -10,18 +10,22 @@ import qualified Text.Blaze.Html5.Attributes as A
 
 import App (Action, PGPool, Cookies, getSession, runQuery)
 import Persistence.Session (getUserFromSession)
-import qualified Page
+import Persistence.Plan (getPlanByUser)
+import Page (render, PageConfig(..), defaultPageConfig)
 import qualified Actions.Save.Url as Actions.Save
 
 view :: Html
 view = H.form ! A.id "form" ! A.method "post" ! A.action (textValue $ T.pack Actions.Save.url) $ mempty
 
 handler :: PGPool -> Cookies -> Action
-handler pool cookies =
+handler pool cookies = let config = defaultPageConfig { pc_isMain = True } in
   case getSession cookies of
-    Nothing -> Page.render True view Nothing Page.NoMessage
+    Nothing -> render view config
     Just sessionId -> do
       mUser <- runQuery pool $ getUserFromSession sessionId
-      Page.render True view mUser Page.NoMessage
+      mPlan <- case mUser of
+        Nothing -> return Nothing
+        Just user -> runQuery pool $ getPlanByUser user
+      render view $ config { pc_mUser = mUser, pc_mPlan = mPlan }
 
 

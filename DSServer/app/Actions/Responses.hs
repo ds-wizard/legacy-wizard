@@ -29,10 +29,10 @@ view infoType message = do
   H.a ! A.href "/" $ H.button ! A.class_ "info" $ "OK"
 
 infoResponse :: Html ->  Action
-infoResponse msg = Page.render False (view OKInfo msg) Nothing Page.NoMessage
+infoResponse msg = Page.render (view OKInfo msg) Page.defaultPageConfig
 
 errorResponse :: Html ->  Action
-errorResponse msg = Page.render False (view ErrorInfo msg) Nothing Page.NoMessage
+errorResponse msg = Page.render (view ErrorInfo msg) Page.defaultPageConfig
 
 logInResponse :: Action
 logInResponse = errorResponse "Please log in first."

@@ -55,7 +55,7 @@ handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do
   f <- runForm "changePasswordForm" changePasswordForm
   case f of
-    (v, Nothing) -> Page.render False (formView v) Nothing Page.NoMessage
+    (v, Nothing) -> Page.render (formView v) Page.defaultPageConfig { Page.pc_mUser = Just user }
     (_, Just changePasswordReq) -> do
       _ <- runQuery pool $ U.changePassword user (Password $ TL.fromStrict $ chp_password changePasswordReq)
       infoResponse "Your password has been changed."

@@ -4,7 +4,7 @@ body {
   color: black;
 }
 h1 {
-  color: #544F4C;
+  color: #4d4948;
   margin: 0;
   max-height: 3em;
   padding: 20px 0 0 20px;
@@ -47,8 +47,19 @@ img#logo {
   height: 150px;
 }
 .control-panel {
-  margin-top: 50px;
-  width: 400px;
+  position: fixed;
+  top: 20px;
+  right: 10px;
+  margin-top: 10px;
+  padding: 0 10px;
+  float: left;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+  background: white;
+  opacity: 0.8;
+}
+.control-panel-label {
+  padding-top: 11px;
   float: left;
 }
 .inside {
@@ -83,30 +94,33 @@ ul.nav > li:hover {
   background: #023452;
 }
 ul.nav > li.notcurrent {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 0 0 0.6em 0;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
   background: white;
-  color: black;
+  color: #4d4948;
 }
 ul.nav > li.notcurrent:hover {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 0 0 0.6em 0;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
-  background: #023452;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+  background: #047eaa;
   color: white;
 }
 ul.nav > li.current {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 0 0 0.6em 0;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
-  background: #023452;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+  background: #047eaa;
   color: white;
 }
 .login-box {
@@ -194,37 +208,89 @@ div#footer td img.logo {
   background-color: #e2ffd7;
 }
 .action-button-common {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 5px;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
+  border: none;
+  border-radius: 5px;
 }
 .action-button {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 5px;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
+  border: none;
+  border-radius: 5px;
   background: white;
-  color: black;
+  color: #4d4948;
 }
 .action-button-hover {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 5px;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
-  background: #023452;
+  border: none;
+  border-radius: 5px;
+  background: #047eaa;
   color: white;
 }
 .action-button:hover {
-  padding: 5px 10px;
-  margin: 0 0 1em 0;
+  padding: 5px;
+  margin: 5px;
   float: left;
-  border: 1px solid #023452;
   text-decoration: none;
-  background: #023452;
+  border: none;
+  border-radius: 5px;
+  background: #047eaa;
+  color: white;
+}
+.action-button-disabled:hover {
+  background: white;
+  cursor: default;
+}
+.action-icon-disabled {
+  opacity: 0.5;
+}
+.no-plan {
+  font-style: italic;
+}
+.tab-button-common {
+  padding: 5px;
+  margin: 0 0 0.6em 0;
+  float: left;
+  text-decoration: none;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+}
+.tab-button {
+  padding: 5px;
+  margin: 0 0 0.6em 0;
+  float: left;
+  text-decoration: none;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+  background: white;
+  color: #4d4948;
+}
+.tab-button-hover {
+  padding: 5px;
+  margin: 0 0 0.6em 0;
+  float: left;
+  text-decoration: none;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+  background: #047eaa;
+  color: white;
+}
+.tab-button:hover {
+  padding: 5px;
+  margin: 0 0 0.6em 0;
+  float: left;
+  text-decoration: none;
+  border: 1px solid #047eaa;
+  border-radius: 3px;
+  background: #047eaa;
   color: white;
 }
 .button-add,

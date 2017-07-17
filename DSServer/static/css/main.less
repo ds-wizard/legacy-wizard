@@ -1,9 +1,11 @@
+@elixir-black: #4d4948;
 @elixir-orange: #f47d20;
 @elixir-blue: #023452;
 @elixir-lblue: #047eaa;
 //common
 @common-bg: white;
 @common-fg: black;
+@command-fg: @elixir-black;
 //nav
 @tabs-current-bg: @elixir-lblue;
 @tabs-current-fg: @elixir-blue;
@@ -22,7 +24,7 @@ body{
 }
 
 h1{
-    color: #544F4C;
+    color: @elixir-black;
     margin: 0;
     max-height: 3em;
     padding: 20px 0 0 20px;
@@ -73,13 +75,25 @@ img#logo{
 }
 
 .control-panel {
-    margin-top: 50px;
-    width: 400px;
+    position: fixed;
+    top: 20px;
+    right: 10px;
+    margin-top: 10px;
+    padding: 0 10px;
+    float: left;
+    border: 1px solid @elixir-lblue;
+    border-radius: 3px;
+    background: @common-bg;
+    opacity: 0.8;
+}
+
+.control-panel-label {
+    padding-top: 11px;
     float: left;
 }
 
 .inside{
-clear: both;
+    clear: both;
     overflow: hidden;
 }
 
@@ -126,15 +140,15 @@ ul.nav > li:hover{
 }
 
 ul.nav > li.notcurrent {
-    .action-button;
+    .tab-button;
 }
 
 ul.nav > li.notcurrent:hover {
-    .action-button-hover;
+    .tab-button-hover;
 }
 
 ul.nav > li.current{
-    .action-button-hover;
+    .tab-button-hover;
 }
 
 .login-box {
@@ -235,27 +249,66 @@ div#footer td img.logo{
 }
 
 .action-button-common {
-    padding: 5px 10px;
-    margin: 0 0 1em 0;
+    padding: 5px;
+    margin: 5px;
     float: left;
-    border: 1px solid @tabs-current-fg;
     text-decoration: none;
+    border: none;
+    border-radius: 5px;
 }
 
 .action-button {
     .action-button-common;
     background: @common-bg;
-    color: @common-fg;
+    color: @command-fg;
 }
 
 .action-button-hover {
     .action-button-common;
-    background: @tabs-hover-bg;
+    background: @elixir-lblue;
     color: @tabs-hover-fg;
 }
 
 .action-button:hover {
     .action-button-hover
+}
+
+.action-button-disabled:hover {
+    background: @common-bg;
+    cursor: default;
+}
+
+.action-icon-disabled {
+    opacity: 0.5;
+}
+
+.no-plan {
+    font-style: italic;
+}
+
+.tab-button-common {
+    padding: 5px;
+    margin: 0 0 0.6em 0;
+    float: left;
+    text-decoration: none;
+    border: 1px solid @elixir-lblue;
+    border-radius: 3px;
+}
+
+.tab-button {
+    .tab-button-common;
+    background: @common-bg;
+    color: @command-fg;
+}
+
+.tab-button-hover {
+    .tab-button-common;
+    background: @elixir-lblue;
+    color: @tabs-hover-fg;
+}
+
+.tab-button:hover {
+    .tab-button-hover
 }
 
 .button-add, .button-remove {

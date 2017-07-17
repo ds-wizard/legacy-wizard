@@ -2,6 +2,8 @@
 
 module Page
   ( Message(..)
+  , PageConfig(..)
+  , defaultPageConfig
   , render
   ) where
 
@@ -18,6 +20,7 @@ import App (Action)
 
 import Config.Config (rootURL, staticURL)
 import Model.User (User(..))
+import Model.Plan (Plan(..))
 
 import qualified Actions.Register.Url as Actions.Register
 import qualified Actions.Login.Url as Actions.Login
@@ -26,26 +29,35 @@ import qualified Actions.EditProfile.Url as Actions.EditProfile
 import qualified Actions.ManagePlans.Url as Actions.ManagePlans
 
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 
 data Message = InfoMessage Html | ErrorMessage Html | NoMessage
 
-render :: Bool -> Html -> Maybe User -> Message -> Action
-render isMain page mUser message = W.html $ renderHtml $
+data PageConfig = PageConfig
+  { pc_isMain :: Bool
+  , pc_mUser :: Maybe User
+  , pc_mPlan :: Maybe Plan
+  }
+
+defaultPageConfig :: PageConfig
+defaultPageConfig = PageConfig { pc_isMain = False, pc_mUser = Nothing, pc_mPlan = Nothing }
+
+render :: Html -> PageConfig -> Action
+render page pConfig = W.html $ renderHtml $
   H.docTypeHtml ! A.class_ "no-js" ! A.lang "" $ do
     renderHead
     H.body $
       H.div ! A.id "container" $ do
-        renderLogin mUser
+        renderLogin (pc_mUser pConfig)
         H.div ! A.class_ "banner-bar" $ do
           renderBanner
-          renderControlPanel mUser
-        renderMessage message
+          renderControlPanel pConfig
         H.div ! A.class_ "inside" $
           page
         H.div ! A.id "overlay" ! A.class_ "overlay" $ H.div "overlay"
         renderFooter
         renderAcknowledgement
-        if isMain then
+        if pc_isMain pConfig then
           H.script ! A.src (textValue $ T.pack staticURL <> "js/main.js") $ mempty
         else
           mempty
@@ -85,18 +97,24 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
       H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
     H.div ! A.class_ "subtitle" $ "Data Management Plans for FAIR Open Science"
 
-renderControlPanel :: Maybe User -> Html
-renderControlPanel mUser =  H.div ! A.class_ "control-panel" $ do
-  case mUser of
+renderControlPanel :: PageConfig -> Html
+renderControlPanel pConfig = case pc_mUser pConfig of
     Nothing -> mempty
     Just _ -> do
-      H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $ "Save the plan"
-      --H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ "Manage plans"
-
-renderMessage :: Message -> Html
-renderMessage NoMessage = mempty
-renderMessage (InfoMessage msg) = H.div ! A.class_ "bar message" $ msg
-renderMessage (ErrorMessage msg) = H.div ! A.class_ "bar error" $ msg
+      H.div ! A.class_ "control-panel" $ do
+        case pc_mPlan pConfig of
+          Just plan -> do
+            H.div ! A.class_ "control-panel-label" $ do
+              _ <- "Plan: "
+              H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
+            H.button ! A.class_ "action-button" ! A.onclick "document.getElementById('form').submit();" $
+              H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
+          Nothing -> do
+            H.div ! A.class_ "control-panel-label no-plan" $ "No plan opened"
+            H.button ! A.class_ "action-button action-button-disabled" $
+              H.img ! A.class_ "action-icon action-icon-disabled" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
+        H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
+          H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
 
 renderFooter :: Html
 renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
