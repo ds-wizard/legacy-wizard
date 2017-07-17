@@ -28,6 +28,8 @@ import Web.Scotty.Cookie (setSimpleCookie, deleteCookie)
 import Model.Session (SessionId)
 import Persistence.Session (deleteSessionById)
 
+{-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
+
 type Action = ActionM ()
 
 type PGPool = Pool Connection
