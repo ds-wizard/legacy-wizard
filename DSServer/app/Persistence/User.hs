@@ -10,6 +10,7 @@ module Persistence.User
   , getUserByEmail
   , confirmRegistration
   , authUser
+  , getOpenPlan
   ) where
 
 import qualified Data.Text as T
@@ -19,6 +20,7 @@ import Crypto.PasswordStore (makePassword, verifyPassword)
 import qualified Database.PostgreSQL.Simple as PG
 
 import Model.User
+import Model.Plan
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
@@ -69,9 +71,7 @@ getUserByEmail (Email email) conn = do
   r <- PG.query conn "SELECT * FROM \"User\" WHERE email = ?" (PG.Only email) :: IO [User]
   if null r
     then return Nothing
-    else do
-      let user = head r
-      return $ Just user
+    else return $ Just $ head r
 
 confirmRegistration :: UserId -> PG.Connection -> IO ()
 confirmRegistration userId conn = do
@@ -81,3 +81,12 @@ confirmRegistration userId conn = do
 authUser :: Password -> User -> Bool
 authUser (Password password) user = let PasswordHash ph = u_password_hash user in
   verifyPassword (T.encodeUtf8 $ TL.toStrict password) ph
+
+getOpenPlan :: User -> PG.Connection -> IO (Maybe Plan)
+getOpenPlan user conn = case u_open_plan_id user of
+  Nothing -> return Nothing
+  Just planId -> do
+    r <- PG.query conn "SELECT * FROM \"Plan\" WHERE id = ?" (PG.Only planId) :: IO [Plan]
+    if null r
+      then return Nothing
+      else return $ Just $ head r
