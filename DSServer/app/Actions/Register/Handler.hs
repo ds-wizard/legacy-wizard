@@ -77,7 +77,6 @@ formView v = do
           H.td $ H.button ! A.type_ "submit" $ "Register"
 
 
--- registerHandler :: (ListContains n IsGuest xs, NotInList (UserId, User) xs ~ 'True) => WizardAction (HVect xs) a
 handler :: PGPool -> Action
 handler pool = do
   f <- runForm "registrationForm" registrationForm
@@ -97,7 +96,8 @@ handler pool = do
             Nothing -> errorResponse "Registration failed. Please contact the administrator."
             Just user -> do
               actionKeyKey <- runQuery pool $ AC.createActionKey user AC.ConfirmRegistration
-              _ <- runQuery pool $ createPlan user "Default" (Just "Automatically created plan")
+              planId <- runQuery pool $ createPlan user "Default" (Just "Automatically created plan")
+              runQuery pool $ U.openPlan user planId
               liftIO $ mailRegistrationConfirmation user Actions.ConfirmRegistration.url actionKeyKey
               infoResponse $ toHtml $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."
 

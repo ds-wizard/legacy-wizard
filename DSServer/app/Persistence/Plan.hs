@@ -33,4 +33,3 @@ getPlanByUser user conn = do
     else do
       let plan = head r
       return $ Just plan
-

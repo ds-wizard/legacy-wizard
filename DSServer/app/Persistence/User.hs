@@ -11,6 +11,7 @@ module Persistence.User
   , confirmRegistration
   , authUser
   , getOpenPlan
+  , openPlan
   ) where
 
 import qualified Data.Text as T
@@ -90,3 +91,8 @@ getOpenPlan user conn = case u_open_plan_id user of
     if null r
       then return Nothing
       else return $ Just $ head r
+
+openPlan :: User -> Int -> PG.Connection -> IO ()
+openPlan user planId conn = do
+  _ <- PG.execute conn "UPDATE \"User\" SET open_plan_id = ? WHERE user_id = ?" (planId, u_user_id user)
+  return ()
