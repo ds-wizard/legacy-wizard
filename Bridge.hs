@@ -16,6 +16,7 @@ import Haste
 data ClientAction
   = SavePlan
   | ManagePlans
+  | ShowMessage
   deriving (Show)
 
 toFnName :: ClientAction -> String
@@ -24,3 +25,6 @@ toFnName action = let s = show action in
 
 call0 :: ClientAction -> JSString
 call0 action = toJSString $ "Haste['" ++ toFnName action ++ "']()"
+
+call1 :: ClientAction -> String -> JSString
+call1 action param = toJSString $ "Haste['" ++ toFnName action ++ "'](" ++ param ++ ")"

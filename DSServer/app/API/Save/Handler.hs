@@ -1,12 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
-module Actions.Save.Handler (handler) where
+module API.Save.Handler (handler) where
 
-import Web.Scotty (Param, params)
+import Web.Scotty (Param, params, text)
 
 import App (Action, PGPool, Cookies, runQuery)
 import Auth (checkLogged)
-import Actions.Responses (infoResponse, errorResponse)
 
 import Model.Plan
 import Persistence.Plan (getPlanByUser)
@@ -16,11 +15,11 @@ handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do
   mPlan <- runQuery pool $ getPlanByUser user
   case mPlan of
-    Nothing -> errorResponse "Failed getting plan of a user. Please contact an administrator."
+    Nothing -> text "No opened plan"
     Just plan -> do
       ps <- params
       mapM_ (storeValue plan) ps
-      infoResponse "Data has been saved.")
+      text "Data has been saved.")
   where
     storeValue :: Plan -> Param -> Action
     storeValue plan (key, value) = do
@@ -30,6 +29,5 @@ handler pool cookies = checkLogged pool cookies (\user -> do
       else
         runQuery pool $ updateResult plan (key, Just value)
       return ()
-      --where
 
 

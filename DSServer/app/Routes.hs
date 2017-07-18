@@ -22,8 +22,8 @@ import qualified Actions.ResetPassword.Url
 import qualified Actions.ResetPassword.Handler
 import qualified Actions.Logout.Url
 import qualified Actions.Logout.Handler
-import qualified Actions.Save.Url
-import qualified Actions.Save.Handler
+import qualified API.Save.Url
+import qualified API.Save.Handler
 import qualified Actions.ManagePlans.Url
 import qualified Actions.ManagePlans.Handler
 import qualified Actions.EditProfile.Url
@@ -58,7 +58,7 @@ routes pool = do
   get  (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   post (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   get  (capture Actions.Logout.Url.url) (getCookies >>= Actions.Logout.Handler.handler pool)
-  post (capture Actions.Save.Url.url) (getCookies >>= Actions.Save.Handler.handler pool)
+  post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool)
   get  (capture Actions.ManagePlans.Url.url) (getCookies >>= Actions.ManagePlans.Handler.handler pool)
   get  (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)
   post (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)

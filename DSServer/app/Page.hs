@@ -54,6 +54,7 @@ render page pConfig = W.html $ renderHtml $
         H.div ! A.class_ "banner-bar" $ do
           renderBanner
           renderControlPanel pConfig
+          renderMessageBars
         H.div ! A.class_ "inside" $
           page
         H.div ! A.id "overlay" ! A.class_ "overlay" $ H.div "overlay"
@@ -117,6 +118,11 @@ renderControlPanel pConfig = case pc_mUser pConfig of
               H.img ! A.class_ "action-icon action-icon-disabled" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
         H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
           H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
+
+renderMessageBars :: Html
+renderMessageBars = do
+  H.div ! A.id "info-bar" ! A.class_ "bar-fixed message" $ mempty
+  H.div ! A.id "error-bar" ! A.class_ "bar-fixed error" $ mempty
 
 renderFooter :: Html
 renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $

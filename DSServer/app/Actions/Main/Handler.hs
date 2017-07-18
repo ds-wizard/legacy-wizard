@@ -12,10 +12,10 @@ import App (Action, PGPool, Cookies, getSession, runQuery)
 import Persistence.Session (getUserFromSession)
 import Persistence.Plan (getPlanByUser)
 import Page (render, PageConfig(..), defaultPageConfig)
-import qualified Actions.Save.Url as Actions.Save
+import qualified API.Save.Url as API.Save
 
 view :: Html
-view = H.form ! A.id "form" ! A.method "post" ! A.action (textValue $ T.pack Actions.Save.url) $ mempty
+view = H.form ! A.id "form" ! A.method "post" ! A.action (textValue $ T.pack API.Save.url) $ mempty
 
 handler :: PGPool -> Cookies -> Action
 handler pool cookies = let config = defaultPageConfig { pc_isMain = True } in

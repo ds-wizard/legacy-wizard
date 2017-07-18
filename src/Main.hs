@@ -6,8 +6,7 @@ import Prelude
 import Data.Maybe (isNothing, catMaybes, fromMaybe)
 import Text.Read (readMaybe)
 
-import Haste (JSString)
-import Haste.Ajax (ajaxRequest, Method(POST))
+import Haste.Ajax (ajaxRequest, Method(POST), noParams)
 import FormEngine.JQuery (ready, errorIO)
 import qualified Questionnaire
 import FormEngine.FormData (FormData)
@@ -22,7 +21,7 @@ main :: IO ()
 main = ready $ do
   Actions.doExports
   _ <- initOverlay
-  ajaxRequest POST "api/plan/getData" [("" :: JSString, "" :: JSString)] buildQuestionnaire
+  ajaxRequest POST "api/plan/getData" noParams buildQuestionnaire
     where
     buildQuestionnaire :: Maybe String -> IO ()
     buildQuestionnaire maybeDataString = do

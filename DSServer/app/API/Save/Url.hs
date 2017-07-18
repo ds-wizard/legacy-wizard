@@ -1,6 +1,6 @@
 {-# LANGUAGE CPP #-}
 
-module Actions.Save.Url (url) where
+module API.Save.Url (url) where
 
 url :: String
 url = "/save"

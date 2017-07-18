@@ -80,7 +80,6 @@ img#logo{
     right: 10px;
     margin-top: 10px;
     padding: 0 10px;
-    float: left;
     border: 1px solid @elixir-lblue;
     border-radius: 3px;
     background: @common-bg;
@@ -152,7 +151,9 @@ ul.nav > li.current{
 }
 
 .login-box {
-    float: right;
+    position: fixed;
+    top: 0px;
+    right: 10px;
 }
 
 div#footer{
@@ -450,6 +451,16 @@ div.simple-group > table td.info:before {
   padding: 5px 25px;
   margin: 0px 0px 20px 0px;
   font-style: italic;
+}
+
+.bar-fixed {
+    position: fixed;
+    top: 90px;
+    right: 10px;
+    padding: 5px;
+    font-style: italic;
+    border-radius: 3px;
+    display: none;
 }
 
 .message {
