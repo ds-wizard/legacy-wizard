@@ -96,7 +96,7 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.div ! A.class_ "banner-element" $ do
     H.h1 ! A.class_ "title" $ do
       _ <- "Data Stewardship Wizard"
-      H.span ! A.class_ "version" $ " v0.7, "
+      H.span ! A.class_ "version" $ " v0.8, "
       H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
     H.div ! A.class_ "subtitle" $ "Data Management Plans for FAIR Open Science"
 
@@ -109,15 +109,16 @@ renderControlPanel pConfig = case pc_mUser pConfig of
           Just plan -> do
             H.div ! A.class_ "control-panel-label" $ do
               _ <- "Plan: "
-              H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
+              --H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
+              H.toHtml $ p_name plan
             H.button ! A.class_ "action-button" ! A.onclick (textValue $ T.pack $ B.call0 B.SavePlan) $
               H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
           Nothing -> do
             H.div ! A.class_ "control-panel-label no-plan" $ "No plan opened"
             H.button ! A.class_ "action-button action-button-disabled" $
               H.img ! A.class_ "action-icon action-icon-disabled" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
-        H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
-          H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
+      --  H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
+      --    H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
 
 renderMessageBars :: Html
 renderMessageBars = do
