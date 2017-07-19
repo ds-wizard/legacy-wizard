@@ -379,7 +379,7 @@ input[type="submit"],
   border-radius: 20px;
   border-style: groove;
 }
-.info {
+.intro {
   padding: 10px 20px;
   font-size: 110%;
   border-width: 1px;
@@ -424,9 +424,13 @@ div.simple-group > table td.info:before {
   border-radius: 3px;
   display: none;
 }
-.message {
+.info {
   color: #008800;
   background-color: #bbffbb;
+}
+.warning {
+  color: #9E0A21;
+  background-color: #FFE0CC;
 }
 .error {
   color: #6A3829;

@@ -2,24 +2,27 @@
 
 module Form where
 
-import Prelude
-import Data.Monoid ((<>))
-import Data.Maybe (catMaybes)
 import Control.Monad (join)
+import Data.Maybe (isNothing)
+import Data.Maybe (catMaybes)
+import Data.Monoid ((<>))
 import Haste (JSString)
 import Haste.Ajax
+import Prelude
 
-import Model.Question
-import FormEngine.JQuery as JQ
-import FormEngine.FormItem as FI
+import FormEngine.FormContext
 import FormEngine.FormElement.FormElement as E
 import FormEngine.FormElement.Identifiers
 import FormEngine.FormElement.Rendering
 import FormEngine.FormElement.Tabs
-import FormEngine.FormContext
+import FormEngine.FormItem as FI
 import FormEngine.Functionality
+import FormEngine.JQuery as JQ
+import Model.Question
 import Overlay (overlayOn)
-import Texts (bookLabelTxt, bookAckTxt)
+import Texts (bookAckTxt, bookLabelTxt)
+import Actions (showWarning)
+import Cookies (getCookie)
 
 import Config.Config (staticURL)
 
@@ -43,15 +46,14 @@ generateForm tabs = do
               foldElements
                 (E.children tab)
                 formContext
-                ElemBehaviour
-                { focusAction = Nothing
-                , blurAction = Nothing
-                , detailsFunc =
-                  Just
-                    Functionality
-                    { funcImg = "<img alt='details' src='" <> staticURL <> "img/question.png'/>"
-                    , funcAction = showDetails
-                    }
+                emptyElemBehaviour
+                { clickAction = Just unloggedWarning
+                  , detailsFunc =
+                    Just
+                      Functionality
+                      { funcImg = "<img alt='details' src='" <> staticURL <> "img/question.png'/>"
+                      , funcAction = showDetails
+                      }
                 } >>=
               JQ.parent
               where
@@ -92,7 +94,8 @@ generateForm tabs = do
                               where
                                 detailsHtml =
                                   concat $
-                                  [bookLabel] <> catMaybes [maybeBookContents, join $ otherInfo <$> maybeQuestion] <> [bookAck]
+                                  [bookLabel] <> catMaybes [maybeBookContents, join $ otherInfo <$> maybeQuestion] <>
+                                  [bookAck]
                                   where
                                     bookLabel :: String
                                     bookLabel =
@@ -104,9 +107,15 @@ generateForm tabs = do
                                       case join $ bookRef <$> maybeQuestion of
                                         Nothing -> ""
                                         Just _ -> bookAckTxt
-
+                unloggedWarning :: FormElement -> FormContext -> IO ()
+                unloggedWarning _ _ = do
+                  session <- getCookie "sessionId"
+                  if isNothing session then
+                    showWarning "You will not be able to save your plan unless you login."
+                  else
+                    return ()
             makeDescSubPane :: JQuery -> IO JQuery
-            makeDescSubPane jq  =
+            makeDescSubPane jq =
               appendT "<div class='desc-subpane'>" jq >>= setAttrInside "id" (descSubpaneId tab) >>= inside >>=
               appendT "<p class='long-desc'>" >>=
               setAttrInside "id" (descSubpaneParagraphId tab) >>=
@@ -127,14 +136,8 @@ aboutTab :: FormElement
 aboutTab =
   ChapterElem
   { chfi =
-    Chapter
-    { chDescriptor =
-      defaultFIDescriptor
-      { iLabel = Just "About"
-      , iNumbering = Numbering [1000] 0
-      }
-    , chItems = []
-    }
+      Chapter
+      {chDescriptor = defaultFIDescriptor {iLabel = Just "About", iNumbering = Numbering [1000] 0}, chItems = []}
   , chElements = []
   , visited = False
   }

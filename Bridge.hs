@@ -19,6 +19,15 @@ data ClientAction
   | ShowMessage
   deriving (Show)
 
+infoBar :: String
+infoBar = "info-bar"
+
+warningBar :: String
+warningBar = "warning-bar"
+
+errorBar :: String
+errorBar = "error-bar"
+
 toFnName :: ClientAction -> String
 toFnName action = let s = show action in
   [toLower (head s)] <> tail s

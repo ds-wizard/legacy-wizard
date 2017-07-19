@@ -2,6 +2,9 @@
 
 module Actions
   ( doExports
+  , showInfo
+  , showWarning
+  , showError
   ) where
 
 import Prelude
@@ -24,13 +27,22 @@ doExport action = export (toJSString  $ B.toFnName action)
 savePlan :: IO ()
 savePlan = do
   form <- selectById "form"
-  ajaxSubmitForm form (showMessage . fromMaybe "")
+  ajaxSubmitForm form (showInfo . fromMaybe "")
 
-showMessage :: String -> IO ()
-showMessage msg = do
-  _ <- selectById "info-bar" >>= appearJq >>= setHtml msg
+showInfo :: String -> IO ()
+showInfo msg = selectById B.infoBar >>= showMessage msg
+
+showWarning :: String -> IO ()
+showWarning msg = selectById B.warningBar >>= showMessage msg
+
+showError :: String -> IO ()
+showError msg = selectById B.errorBar >>= showMessage msg
+
+showMessage :: String -> JQuery -> IO ()
+showMessage msg barJq = do
+  _ <- appearJq barJq >>= setHtml msg
   _ <- setTimer (Once 3000) (do
-    _ <- selectById "info-bar" >>= disappearJq >>= setHtml ""
+    _ <- disappearJq barJq >>= setHtml ""
     return ()
     )
   return ()

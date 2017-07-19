@@ -53,8 +53,8 @@ render page pConfig = W.html $ renderHtml $
         renderLogin (pc_mUser pConfig)
         H.div ! A.class_ "banner-bar" $ do
           renderBanner
-          renderControlPanel pConfig
-          renderMessageBars
+        renderControlPanel pConfig
+        renderMessageBars
         H.div ! A.class_ "inside" $
           page
         H.div ! A.id "overlay" ! A.class_ "overlay" $ H.div "overlay"
@@ -75,6 +75,7 @@ renderHead = H.head $ do
     H.link ! A.rel "stylesheet" ! A.href (textValue $ T.pack staticURL <> "css/normalize.min.css")
     H.link ! A.rel "stylesheet" ! A.href ( textValue $ T.pack staticURL <> "css/main.css")
     H.script ! A.src (textValue $ T.pack staticURL <> "js/vendor/jquery-3.1.1.min.js") $ mempty
+    H.script ! A.src (textValue $ T.pack staticURL <> "js/vendor/js.cookie-2.1.4.min.js") $ mempty
 
 renderLogin :: Maybe User -> Html
 renderLogin mUser = H.div ! A.class_ "login-box" $ do
@@ -109,21 +110,21 @@ renderControlPanel pConfig = case pc_mUser pConfig of
           Just plan -> do
             H.div ! A.class_ "control-panel-label" $ do
               _ <- "Plan: "
-              --H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
-              H.toHtml $ p_name plan
+              H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
             H.button ! A.class_ "action-button" ! A.onclick (textValue $ T.pack $ B.call0 B.SavePlan) $
               H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
           Nothing -> do
             H.div ! A.class_ "control-panel-label no-plan" $ "No plan opened"
             H.button ! A.class_ "action-button action-button-disabled" $
               H.img ! A.class_ "action-icon action-icon-disabled" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
-      --  H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
-      --    H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
+        H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
+          H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
 
 renderMessageBars :: Html
 renderMessageBars = do
-  H.div ! A.id "info-bar" ! A.class_ "bar-fixed message" $ mempty
-  H.div ! A.id "error-bar" ! A.class_ "bar-fixed error" $ mempty
+  H.div ! A.id (textValue $ T.pack B.infoBar)    ! A.class_ "bar-fixed info"    $ mempty
+  H.div ! A.id (textValue $ T.pack B.warningBar) ! A.class_ "bar-fixed warning" $ mempty
+  H.div ! A.id (textValue $ T.pack B.errorBar)   ! A.class_ "bar-fixed error"   $ mempty
 
 renderFooter :: Html
 renderFooter = H.div ! A.id "footer" ! A.class_ "stripe" $
