@@ -410,7 +410,7 @@ div.simple-group > table td.info:before {
   content: "Advice: ";
   font-style: italic;
 }
-.bar {
+post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool) get (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool) post (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool) get (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool) post (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool) post (capture API.Plan.GetData.Url.url) (getCookies >>= API.Plan.GetData.Handler.handler pool) post (capture API.Plan.SetName.Url.url) (getCookies >>= API.Plan.SetName.Handler.handler pool) .bar {
   padding: 5px 25px;
   margin: 0px 0px 20px 0px;
   font-style: italic;
@@ -419,9 +419,9 @@ div.simple-group > table td.info:before {
   position: fixed;
   top: 90px;
   right: 10px;
-  padding: 5px;
+  padding: 15px;
   font-style: italic;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 8px 8px 3px #888888;
   display: none;
 }
@@ -465,10 +465,12 @@ table.plans td.editing {
   border: none
    cursor: auto;
 }
-table.plans th.name {
+table.plans th.name,
+table.plans input {
   width: 300px;
 }
-table.plans th.description {
+table.plans th.description,
+table.plans textarea {
   width: 600px;
 }
 .table-action {

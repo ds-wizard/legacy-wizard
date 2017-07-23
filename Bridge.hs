@@ -18,6 +18,7 @@ data ClientAction
   | ManagePlans
   | ShowMessage
   | PlanNameEdit
+  | PlanDescriptionEdit
   deriving (Show)
 
 infoBar :: String

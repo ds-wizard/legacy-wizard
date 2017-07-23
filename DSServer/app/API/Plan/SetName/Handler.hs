@@ -14,7 +14,7 @@ handler pool cookies = checkLogged pool cookies (\_ -> do
   ps <- params
   case lookup "planId" ps of
     Nothing -> text "Plan name save failed: invalid planId"
-    Just planId -> case lookup "newName" ps of
+    Just planId -> case lookup "newValue" ps of
       Nothing -> text "Plan name save failed: invalid newName"
       Just planName -> do
         _ <- runQuery pool $ setPlanName (read $ TL.unpack planId) planName

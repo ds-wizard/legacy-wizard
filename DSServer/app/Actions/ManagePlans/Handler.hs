@@ -48,9 +48,9 @@ view user plans = do
           H.td
             ! A.class_ "editable"
             ! A.onclick (textValue $ T.pack $ B.call1 B.PlanNameEdit (show $ p_id plan))
-            -- ! A.onblur (textValue $ T.pack B.changePlanName ++ "?planId=" ++ show (p_id plan))
             $ H.toHtml $ p_name plan
           H.td ! A.class_ "editable"
+            ! A.onclick (textValue $ T.pack $ B.call1 B.PlanDescriptionEdit (show $ p_id plan))
             $ H.toHtml $ fromMaybe "" $ p_description plan
           H.td renderActions
         where
@@ -72,6 +72,3 @@ handler pool cookies = checkLogged pool cookies (\user -> do
   plans <- runQuery pool $ P.getPlansOfUser user
   Page.render (view user plans) Page.defaultPageConfig { Page.pc_mUser = Just user }
   )
-
-
-varchar

@@ -22,8 +22,6 @@ import qualified Actions.ResetPassword.Url
 import qualified Actions.ResetPassword.Handler
 import qualified Actions.Logout.Url
 import qualified Actions.Logout.Handler
-import qualified API.Save.Url
-import qualified API.Save.Handler
 import qualified Actions.ManagePlans.Url
 import qualified Actions.ManagePlans.Handler
 import qualified Actions.ManagePlans.Delete.Url
@@ -36,6 +34,8 @@ import qualified Actions.EditProfile.Url
 import qualified Actions.EditProfile.Handler
 import qualified Actions.ChangePassword.Url
 import qualified Actions.ChangePassword.Handler
+import qualified API.Save.Url
+import qualified API.Save.Handler
 import qualified API.Question.GetQuestion.Url
 import qualified API.Question.GetQuestion.Handler
 import qualified API.Book.GetContents.Url
@@ -44,18 +44,14 @@ import qualified API.Plan.GetData.Url
 import qualified API.Plan.GetData.Handler
 import qualified API.Plan.SetName.Url
 import qualified API.Plan.SetName.Handler
+import qualified API.Plan.SetDescription.Url
+import qualified API.Plan.SetDescription.Handler
 
 routes :: PGPool -> ScottyM ()
 routes pool = do
   middleware M.static
   middleware logStdoutDev
   get  (capture Actions.Main.Url.url) (getCookies >>= Actions.Main.Handler.handler pool)
-  get  (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
-  post (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
-  get  (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
-  post (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
-  post (capture API.Plan.GetData.Url.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
-  post (capture API.Plan.SetName.Url.url) (getCookies >>= API.Plan.SetName.Handler.handler pool)
   get  (capture Actions.Register.Url.url) (Actions.Register.Handler.handler pool)
   post (capture Actions.Register.Url.url) (Actions.Register.Handler.handler pool)
   get  (capture Actions.ConfirmRegistration.Url.url) (Actions.ConfirmRegistration.Handler.handler pool)
@@ -67,7 +63,6 @@ routes pool = do
   get  (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   post (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   get  (capture Actions.Logout.Url.url) (getCookies >>= Actions.Logout.Handler.handler pool)
-  post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool)
   get  (capture Actions.ManagePlans.Url.url) (getCookies >>= Actions.ManagePlans.Handler.handler pool)
   get  (capture Actions.ManagePlans.Delete.Url.url) (getCookies >>= Actions.ManagePlans.Delete.Handler.handler pool)
   get  (capture Actions.ManagePlans.Add.Url.url) (getCookies >>= Actions.ManagePlans.Add.Handler.handler pool)
@@ -76,3 +71,11 @@ routes pool = do
   post (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)
   get  (capture Actions.ChangePassword.Url.url) (getCookies >>= Actions.ChangePassword.Handler.handler pool)
   post (capture Actions.ChangePassword.Url.url) (getCookies >>= Actions.ChangePassword.Handler.handler pool)
+  post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool)
+  get  (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
+  post (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
+  get  (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
+  post (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
+  post (capture API.Plan.GetData.Url.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
+  post (capture API.Plan.SetName.Url.url) (getCookies >>= API.Plan.SetName.Handler.handler pool)
+  post (capture API.Plan.SetDescription.Url.url) (getCookies >>= API.Plan.SetDescription.Handler.handler pool)

@@ -110,10 +110,8 @@ generateForm tabs = do
                 unloggedWarning :: FormElement -> FormContext -> IO ()
                 unloggedWarning _ _ = do
                   session <- getCookie "sessionId"
-                  if isNothing session then
+                  when (isNothing session) $
                     showWarning documentJq "You will not be able to save your plan unless you login."
-                  else
-                    return ()
             makeDescSubPane :: JQuery -> IO JQuery
             makeDescSubPane jq =
               appendT "<div class='desc-subpane'>" jq >>= setAttrInside "id" (descSubpaneId tab) >>= inside >>=
