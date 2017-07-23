@@ -12,6 +12,7 @@ import qualified Control.Monad as M
 import qualified Database.PostgreSQL.Simple as PG
 
 import Model.Plan
+import Persistence.Plan (updateModified)
 import qualified Questionnaire as Q
 import FormEngine.FormData (FieldValue, getFieldInfos, getName)
 
@@ -34,6 +35,7 @@ updateResult :: Plan -> (Text, Maybe Text) -> PG.Connection -> IO Int
 updateResult plan (key, value) conn = do
   r <- PG.execute conn "UPDATE \"Result\" SET value = ?\
     \ WHERE plan_id = ? AND name = ?" (value, p_id plan, key)
+  _ <- updateModified plan conn
   return (fromIntegral r)
 
 insertResult :: Plan -> (Text, Maybe Text) -> PG.Connection -> IO Int
@@ -42,6 +44,7 @@ insertResult plan (key, value) conn = do
       mText = M.join $ lookup (getName key) fieldInfos
   r <- PG.query conn "INSERT INTO \"Result\" (plan_id, name, text, value) VALUES (?, ?, ?, ?) RETURNING id"
          (p_id plan, key, mText, value) :: IO [PG.Only Int]
+  _ <- updateModified plan conn
   let x =
         case r of
           (f:_) -> f

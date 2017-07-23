@@ -421,7 +421,7 @@ post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool) g
   right: 10px;
   padding: 15px;
   font-style: italic;
-  border-radius: 5px;
+  border-radius: 3px;
   box-shadow: 8px 8px 3px #888888;
   display: none;
 }
@@ -471,7 +471,7 @@ table.plans input {
 }
 table.plans th.description,
 table.plans textarea {
-  width: 600px;
+  width: 500px;
 }
 .table-action {
   margin-right: 10px;

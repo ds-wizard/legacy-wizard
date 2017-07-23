@@ -8,6 +8,8 @@ import Data.Maybe (fromMaybe)
 import Text.Blaze.Html5 (Html, (!), textValue)
 import qualified Text.Blaze.Html5 as H
 import qualified Text.Blaze.Html5.Attributes as A
+import Data.Time.Clock (UTCTime)
+import qualified Data.Time.Format as DTF
 
 import Config.Config (staticURL)
 import App (Action, PGPool, Cookies, runQuery)
@@ -24,6 +26,9 @@ import qualified Bridge as B
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
 
+formatTime :: UTCTime -> String
+formatTime = DTF.formatTime DTF.defaultTimeLocale "%F %T"
+
 view :: User -> [Plan] -> Html
 view user plans = do
   H.h2 "Your plans:"
@@ -32,6 +37,8 @@ view user plans = do
       H.tr $ do
         H.th ! A.class_ "name" $ "Name"
         H.th ! A.class_ "description" $ "Description"
+        H.th "Created"
+        H.th "Modified"
         H.th mempty
     H.tbody $ do
       renderTableRows
@@ -52,6 +59,8 @@ view user plans = do
           H.td ! A.class_ "editable"
             ! A.onclick (textValue $ T.pack $ B.call1 B.PlanDescriptionEdit (show $ p_id plan))
             $ H.toHtml $ fromMaybe "" $ p_description plan
+          H.td $ H.toHtml $ T.pack $ formatTime $ p_created plan
+          H.td $ H.toHtml $ T.pack $ formatTime $ p_modified plan
           H.td renderActions
         where
         renderActions = do

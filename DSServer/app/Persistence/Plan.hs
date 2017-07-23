@@ -4,6 +4,7 @@ module Persistence.Plan
   ( addPlan
   , getOpenPlanOfUser
   , getPlansOfUser
+  , updateModified
   , setPlanName
   , setPlanDescription
   , deletePlan
@@ -41,14 +42,19 @@ getOpenPlanOfUser user conn = do
 getPlansOfUser :: User -> PG.Connection -> IO [Plan]
 getPlansOfUser user conn = PG.query conn "SELECT * FROM \"Plan\" WHERE user_id = ? ORDER BY id" (PG.Only $ u_user_id user)
 
+updateModified :: Plan -> PG.Connection -> IO Int
+updateModified plan conn = do
+  r <- PG.execute conn "UPDATE \"Plan\" SET modified = now() WHERE id = ?" (PG.Only $ p_id plan)
+  return (fromIntegral r)
+
 setPlanName :: Int -> Text -> PG.Connection -> IO Int
 setPlanName planId newVal conn = do
-  r <- PG.execute conn "UPDATE \"Plan\" SET name = ? WHERE id = ?" (newVal, planId)
+  r <- PG.execute conn "UPDATE \"Plan\" SET name = ?, modified = now() WHERE id = ?" (newVal, planId)
   return (fromIntegral r)
 
 setPlanDescription :: Int -> Text -> PG.Connection -> IO Int
 setPlanDescription planId newVal conn = do
-  r <- PG.execute conn "UPDATE \"Plan\" SET description = ? WHERE id = ?" (newVal, planId)
+  r <- PG.execute conn "UPDATE \"Plan\" SET description = ?, modified = now() WHERE id = ?" (newVal, planId)
   return (fromIntegral r)
 
 deletePlan :: Int -> PG.Connection -> IO Int
