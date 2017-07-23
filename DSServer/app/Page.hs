@@ -98,7 +98,7 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.div ! A.class_ "banner-element" $ do
     H.h1 ! A.class_ "title" $ do
       _ <- "Data Stewardship Wizard"
-      H.span ! A.class_ "version" $ " v0.8, "
+      H.span ! A.class_ "version" $ " v0.9, "
       H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
     H.div ! A.class_ "subtitle" $ "Data Management Plans for FAIR Open Science"
 
