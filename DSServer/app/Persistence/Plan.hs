@@ -1,8 +1,11 @@
 {-# LANGUAGE OverloadedStrings #-}
 
 module Persistence.Plan
-  ( createPlan
-  , getPlanByUser
+  ( addPlan
+  , getOpenPlanOfUser
+  , getPlansOfUser
+  , setPlanName
+  , deletePlan
   ) where
 
 import Data.Text.Lazy (Text)
@@ -14,8 +17,8 @@ import Model.Plan
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Reduce duplication" :: String) #-}
 
-createPlan :: User -> Text -> Maybe Text -> PG.Connection -> IO Int
-createPlan user name mDescription conn = do
+addPlan :: User -> Text -> Maybe Text -> PG.Connection -> IO Int
+addPlan user name mDescription conn = do
   r <- PG.query conn "INSERT INTO \"Plan\" (user_id, name, description) VALUES (?, ?, ?) RETURNING id"
       (u_user_id user, name, mDescription) :: IO [PG.Only Int]
   let x =
@@ -25,11 +28,25 @@ createPlan user name mDescription conn = do
   let (PG.Only i) = x
   return i
 
-getPlanByUser :: User -> PG.Connection -> IO (Maybe Plan)
-getPlanByUser user conn = do
-  r <- PG.query conn "SELECT * FROM \"Plan\" WHERE id = ?" (PG.Only (u_open_plan_id user)) :: IO [Plan]
+getOpenPlanOfUser :: User -> PG.Connection -> IO (Maybe Plan)
+getOpenPlanOfUser user conn = do
+  r <- PG.query conn "SELECT * FROM \"Plan\" WHERE id = ?" (PG.Only $ u_open_plan_id user) :: IO [Plan]
   if null r
     then return Nothing
     else do
       let plan = head r
       return $ Just plan
+
+getPlansOfUser :: User -> PG.Connection -> IO [Plan]
+getPlansOfUser user conn = PG.query conn "SELECT * FROM \"Plan\" WHERE user_id = ?" (PG.Only $ u_user_id user)
+
+setPlanName :: Int -> Text -> PG.Connection -> IO Int
+setPlanName planId newName conn = do
+  r <- PG.execute conn "UPDATE \"Plan\" SET name = ? WHERE id = ?" (newName, planId)
+  return (fromIntegral r)
+
+deletePlan :: Int -> PG.Connection -> IO Int
+deletePlan planId conn = do
+  r <- PG.execute conn "DELETE FROM \"Plan\" WHERE id = ?" (PG.Only planId)
+  return (fromIntegral r)
+

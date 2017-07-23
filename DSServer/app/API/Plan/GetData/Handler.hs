@@ -7,13 +7,13 @@ import Web.Scotty (text)
 
 import App (Action, PGPool, Cookies, runQuery)
 import Auth (checkLogged)
-import Persistence.Plan (getPlanByUser)
+import Persistence.Plan (getOpenPlanOfUser)
 import Persistence.Result (getResultsForPlan)
 import FormEngine.FormData (values2Data)
 
 handler :: PGPool -> Cookies -> Action
 handler pool cookies = checkLogged pool cookies (\user -> do
-  mPlan <- runQuery pool $ getPlanByUser user
+  mPlan <- runQuery pool $ getOpenPlanOfUser user
   case mPlan of
     Nothing -> text ""
     Just plan -> do

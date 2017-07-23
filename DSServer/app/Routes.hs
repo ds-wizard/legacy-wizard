@@ -26,6 +26,12 @@ import qualified API.Save.Url
 import qualified API.Save.Handler
 import qualified Actions.ManagePlans.Url
 import qualified Actions.ManagePlans.Handler
+import qualified Actions.ManagePlans.Delete.Url
+import qualified Actions.ManagePlans.Delete.Handler
+import qualified Actions.ManagePlans.Add.Url
+import qualified Actions.ManagePlans.Add.Handler
+import qualified Actions.ManagePlans.Open.Url
+import qualified Actions.ManagePlans.Open.Handler
 import qualified Actions.EditProfile.Url
 import qualified Actions.EditProfile.Handler
 import qualified Actions.ChangePassword.Url
@@ -36,6 +42,8 @@ import qualified API.Book.GetContents.Url
 import qualified API.Book.GetContents.Handler
 import qualified API.Plan.GetData.Url
 import qualified API.Plan.GetData.Handler
+import qualified API.Plan.SetName.Url
+import qualified API.Plan.SetName.Handler
 
 routes :: PGPool -> ScottyM ()
 routes pool = do
@@ -47,6 +55,7 @@ routes pool = do
   get  (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
   post (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
   post (capture API.Plan.GetData.Url.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
+  post (capture API.Plan.SetName.Url.url) (getCookies >>= API.Plan.SetName.Handler.handler pool)
   get  (capture Actions.Register.Url.url) (Actions.Register.Handler.handler pool)
   post (capture Actions.Register.Url.url) (Actions.Register.Handler.handler pool)
   get  (capture Actions.ConfirmRegistration.Url.url) (Actions.ConfirmRegistration.Handler.handler pool)
@@ -60,6 +69,9 @@ routes pool = do
   get  (capture Actions.Logout.Url.url) (getCookies >>= Actions.Logout.Handler.handler pool)
   post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool)
   get  (capture Actions.ManagePlans.Url.url) (getCookies >>= Actions.ManagePlans.Handler.handler pool)
+  get  (capture Actions.ManagePlans.Delete.Url.url) (getCookies >>= Actions.ManagePlans.Delete.Handler.handler pool)
+  get  (capture Actions.ManagePlans.Add.Url.url) (getCookies >>= Actions.ManagePlans.Add.Handler.handler pool)
+  get  (capture Actions.ManagePlans.Open.Url.url) (getCookies >>= Actions.ManagePlans.Open.Handler.handler pool)
   get  (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)
   post (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)
   get  (capture Actions.ChangePassword.Url.url) (getCookies >>= Actions.ChangePassword.Handler.handler pool)

@@ -17,6 +17,7 @@ data ClientAction
   = SavePlan
   | ManagePlans
   | ShowMessage
+  | PlanNameEdit
   deriving (Show)
 
 infoBar :: String
@@ -33,7 +34,8 @@ toFnName action = let s = show action in
   [toLower (head s)] <> tail s
 
 call0 :: ClientAction -> JSString
-call0 action = toJSString $ "Haste['" ++ toFnName action ++ "']()"
+call0 action = toJSString $ "Haste['" ++ toFnName action ++ "']($(this))"
 
 call1 :: ClientAction -> String -> JSString
-call1 action param = toJSString $ "Haste['" ++ toFnName action ++ "'](" ++ param ++ ")"
+call1 action param = toJSString $ "Haste['" ++ toFnName action ++ "']($(this)," ++ param ++ ")"
+

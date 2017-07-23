@@ -2,9 +2,8 @@
 
 module Form where
 
-import Control.Monad (join)
-import Data.Maybe (isNothing)
-import Data.Maybe (catMaybes)
+import Control.Monad (join, when)
+import Data.Maybe (isNothing, catMaybes)
 import Data.Monoid ((<>))
 import Haste (JSString)
 import Haste.Ajax
@@ -28,11 +27,12 @@ import Config.Config (staticURL)
 
 generateForm :: [FormElement] -> IO ()
 generateForm tabs = do
-  formJq <- select "#form"
   let allTabs = aboutTab : tabs
-  _ <- renderTabGroup allTabs (aboutTabPaneJq : tabsContentsJq tabs) formJq
-  _ <- selectTab 0 allTabs
-  fireClicks
+  hasForm <- elemExists "#form"
+  when hasForm $ do
+    _ <- selectById "form" >>= renderTabGroup allTabs (aboutTabPaneJq : tabsContentsJq tabs)
+    _ <- selectTab 0 allTabs
+    fireClicks
   where
     tabsContentsJq :: [FormElement] -> [IO JQuery]
     tabsContentsJq = map makePaneJq
@@ -111,7 +111,7 @@ generateForm tabs = do
                 unloggedWarning _ _ = do
                   session <- getCookie "sessionId"
                   if isNothing session then
-                    showWarning "You will not be able to save your plan unless you login."
+                    showWarning documentJq "You will not be able to save your plan unless you login."
                   else
                     return ()
             makeDescSubPane :: JQuery -> IO JQuery

@@ -20,7 +20,7 @@ import qualified Model.User as U
 import qualified Persistence.User as U
 import qualified Model.ActionKey as AC
 import qualified Persistence.ActionKey as AC
-import Persistence.Plan (createPlan)
+import Persistence.Plan (addPlan)
 import Mailing
 import Actions.FormUtils (notEmpty, emailFormlet, passwordConfirmer, addError, errorTr)
 import qualified Page
@@ -96,7 +96,7 @@ handler pool = do
             Nothing -> errorResponse "Registration failed. Please contact the administrator."
             Just user -> do
               actionKeyKey <- runQuery pool $ AC.createActionKey user AC.ConfirmRegistration
-              planId <- runQuery pool $ createPlan user "Default" (Just "Automatically created plan")
+              planId <- runQuery pool $ addPlan user "Default" (Just "Automatically created plan")
               runQuery pool $ U.openPlan user planId
               liftIO $ mailRegistrationConfirmation user Actions.ConfirmRegistration.url actionKeyKey
               infoResponse $ toHtml $ "Registration successful. A confirmation email has been sent to " <> rr_email regReq <> "."

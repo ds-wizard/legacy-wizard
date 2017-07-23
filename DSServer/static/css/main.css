@@ -422,11 +422,12 @@ div.simple-group > table td.info:before {
   padding: 5px;
   font-style: italic;
   border-radius: 3px;
+  box-shadow: 8px 8px 3px #888888;
   display: none;
 }
 .info {
   color: #008800;
-  background-color: #bbffbb;
+  background-color: #e2ffd7;
 }
 .warning {
   color: #9E0A21;
@@ -444,4 +445,32 @@ li.digestive-functors-error {
   color: red;
   font-size: 90%;
   list-style: none;
+}
+table.plans tr {
+  border-bottom: 1px solid #e5e5e5;
+}
+table.plans tr.open {
+  background-color: #e2ffd7;
+}
+table.plans td,
+table.plans th {
+  padding: 0.4em;
+  text-align: left;
+}
+table.plans td.editable:hover {
+  border: 1px solid #047eaa;
+  cursor: pointer;
+}
+table.plans td.editing {
+  border: none
+   cursor: auto;
+}
+table.plans th.name {
+  width: 300px;
+}
+table.plans th.description {
+  width: 600px;
+}
+.table-action {
+  margin-right: 10px;
 }

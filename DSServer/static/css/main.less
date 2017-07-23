@@ -2,7 +2,9 @@
 @elixir-orange: #f47d20;
 @elixir-blue: #023452;
 @elixir-lblue: #047eaa;
+@elixir-lgray: #e5e5e5;
 //common
+@hlcolor: #e2ffd7;
 @common-bg: white;
 @common-fg: black;
 @command-fg: @elixir-black;
@@ -246,7 +248,7 @@ div#footer td img.logo{
 
 .multiple-section {
   float: left;
-  background-color: #e2ffd7;
+  background-color: @hlcolor;
 }
 
 .action-button-common {
@@ -460,12 +462,13 @@ div.simple-group > table td.info:before {
     padding: 5px;
     font-style: italic;
     border-radius: 3px;
+    box-shadow: 8px 8px 3px #888888;
     display: none;
 }
 
 .info {
   color: #008800;
-  background-color: #bbffbb;
+  background-color: @hlcolor;
 }
 
 .warning {
@@ -488,5 +491,42 @@ li.digestive-functors-error {
     color: red;
     font-size: 90%;
     list-style: none;
+}
+
+// Plans management
+
+table.plans tr {
+    border-bottom: 1px solid @elixir-lgray;
+}
+
+table.plans tr.open {
+    background-color: @hlcolor;
+}
+
+table.plans td, table.plans th {
+    padding: 0.4em;
+    text-align: left;
+}
+
+table.plans td.editable:hover {
+   border: 1px solid @elixir-lblue;
+   cursor: pointer;
+}
+
+table.plans td.editing {
+   border: none
+   cursor: auto;
+}
+
+table.plans th.name {
+    width: 300px;
+}
+
+table.plans th.description {
+    width: 600px;
+}
+
+.table-action {
+    margin-right: 10px;
 }
 

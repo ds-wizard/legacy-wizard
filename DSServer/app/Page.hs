@@ -18,10 +18,11 @@ import Text.Blaze.Html.Renderer.Text (renderHtml)
 import qualified Web.Scotty as W
 import App (Action)
 
-import Config.Config (rootURL, staticURL)
+import Config.Config (staticURL)
 import Model.User (User(..))
 import Model.Plan (Plan(..))
 
+import qualified Actions.Main.Url as Actions.Main
 import qualified Actions.Register.Url as Actions.Register
 import qualified Actions.Login.Url as Actions.Login
 import qualified Actions.Logout.Url as Actions.Logout
@@ -53,17 +54,17 @@ render page pConfig = W.html $ renderHtml $
         renderLogin (pc_mUser pConfig)
         H.div ! A.class_ "banner-bar" $ do
           renderBanner
-        renderControlPanel pConfig
+        if pc_isMain pConfig then renderControlPanel pConfig else mempty
         renderMessageBars
         H.div ! A.class_ "inside" $
           page
         H.div ! A.id "overlay" ! A.class_ "overlay" $ H.div "overlay"
         renderFooter
         renderAcknowledgement
-        if pc_isMain pConfig then
-          H.script ! A.src (textValue $ T.pack staticURL <> "js/main.js") $ mempty
-        else
-          mempty
+        --if pc_isMain pConfig then
+        H.script ! A.src (textValue $ T.pack staticURL <> "js/main.js") $ mempty
+        --else
+        --  mempty
         H.script ! A.src (textValue $ T.pack staticURL <> "js/analytics.js") $ mempty
 
 renderHead :: Html
@@ -92,7 +93,7 @@ renderLogin mUser = H.div ! A.class_ "login-box" $ do
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.div ! A.class_ "banner-element" $
-    H.a ! A.href (textValue $ T.pack rootURL) $
+    H.a ! A.href (textValue $ T.pack Actions.Main.url) $
       H.img ! A.class_ "dsplogo" ! A.src (textValue $ T.pack staticURL <> "img/DSP-logo.png") ! A.alt "DSP logo"
   H.div ! A.class_ "banner-element" $ do
     H.h1 ! A.class_ "title" $ do

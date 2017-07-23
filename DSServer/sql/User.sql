@@ -9,7 +9,7 @@ create table "User" (
 	name text,
         affiliation text,
 	registration_confirmed boolean DEFAULT 'f',
-        open_plan_id integer null references "Plan" (id)
+        open_plan_id integer null references "Plan" (id) on update cascade on delete cascade
 );
 alter table "User" owner to elixir;
 
