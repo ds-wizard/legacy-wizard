@@ -2,6 +2,7 @@ all: Main.hs ../Transform/dist/Questionnaire.hs
 	hastec Main.hs -o ../DSServer/static/js/main.js -Wall --debug
 
 production: Main.hs ../Transform/dist/Questionnaire.hs
+	make clean
 	hastec Main.hs -o ../DSServer/static/js/main.js -Wall --opt-all
 
 clean:
