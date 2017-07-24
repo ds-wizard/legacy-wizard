@@ -32,3 +32,4 @@ handler pool = do
               Nothing -> errorResponse "We are sorry, an internal error occured, please contact the administrator."
               Just user -> do
                 doLoginAction pool user $ redirect $ TL.pack Actions.ChangePassword.url
+

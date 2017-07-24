@@ -9,6 +9,8 @@ import qualified Database.PostgreSQL.Simple.FromField as PG
 import qualified Database.PostgreSQL.Simple.ToField as PG
 import qualified Data.Time.Clock as DTC
 
+import Debug.Trace (traceShow)
+
 #ifdef __HASTE__
 type Text = String
 #else
@@ -25,18 +27,19 @@ instance PG.FromField Action where
   fromField f bs =
     case bs of
       Nothing -> PG.returnError PG.UnexpectedNull f ""
-      Just val -> pure $ read $ BS.unpack val
+      Just val -> pure $ read (traceShow val (BS.unpack val))
 
 instance PG.ToField Action where
     toField val  = PG.Plain $ PG.inQuotes $ BS.stringUtf8 $ show val
 
 data ActionKey = ActionKey
-  { ac_user_id :: Int
+  { ac_id :: Int
+  , ac_user_id :: Int
   , ac_action :: Action
   , ac_key :: ActionKeyKey
   , ac_created :: DTC.UTCTime
   } deriving (Show)
 
 instance PG.FromRow ActionKey where
-  fromRow = ActionKey <$> PG.field <*> PG.field <*> PG.field <*> PG.field
+  fromRow = ActionKey <$> PG.field <*> PG.field <*> PG.field <*> PG.field <*> PG.field
 
