@@ -19,7 +19,7 @@ import FormEngine.Functionality
 import FormEngine.JQuery as JQ
 import Model.Question
 import Overlay (overlayOn)
-import Texts (bookAckTxt, bookLabelTxt)
+import Texts (bookLabelTxt)
 import Actions (showWarning)
 import Cookies (getCookie)
 
@@ -51,7 +51,7 @@ generateForm tabs = do
                   , detailsFunc =
                     Just
                       Functionality
-                      { funcImg = "<img alt='details' src='" <> staticURL <> "img/question.png'/>"
+                      { funcImg = "<img alt='details' src='" <> staticURL <> "img/book-icon.png'/>"
                       , funcAction = showDetails
                       }
                 } >>=
@@ -94,19 +94,13 @@ generateForm tabs = do
                               where
                                 detailsHtml =
                                   concat $
-                                  [bookLabel] <> catMaybes [maybeBookContents, join $ otherInfo <$> maybeQuestion] <>
-                                  [bookAck]
+                                  [bookLabel] <> catMaybes [maybeBookContents, join $ otherInfo <$> maybeQuestion]
                                   where
                                     bookLabel :: String
                                     bookLabel =
                                       case join $ bookRef <$> maybeQuestion of
                                         Nothing -> ""
                                         Just ref -> bookLabelTxt ref
-                                    bookAck :: String
-                                    bookAck =
-                                      case join $ bookRef <$> maybeQuestion of
-                                        Nothing -> ""
-                                        Just _ -> bookAckTxt
                 unloggedWarning :: FormElement -> FormContext -> IO ()
                 unloggedWarning _ _ = do
                   session <- getCookie "sessionId"

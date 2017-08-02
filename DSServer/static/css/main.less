@@ -347,6 +347,10 @@ div#footer td img.logo{
   position: fixed;
 }
 
+.functionality:hover {
+    cursor: pointer;
+}
+
 td, th {
     display: table-cell;
     vertical-align: top;
@@ -447,13 +451,6 @@ div.simple-group > table td.info:before {
   content: "Advice: ";
   font-style: italic;
 }
-  post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool)
-  get  (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
-  post (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
-  get  (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
-  post (capture API.Book.GetContents.Url.url) (API.Book.GetContents.Handler.handler pool)
-  post (capture API.Plan.GetData.Url.url) (getCookies >>= API.Plan.GetData.Handler.handler pool)
-  post (capture API.Plan.SetName.Url.url) (getCookies >>= API.Plan.SetName.Handler.handler pool)
 
 // Message bar
 .bar {
@@ -536,4 +533,39 @@ table.plans th.description, table.plans textarea {
 .table-action {
     margin-right: 10px;
 }
+
+// The Book
+
+.book-banner {
+    height: 70px;
+    border-bottom: 1px solid @elixir-lblue;
+}
+
+.book-clipart {
+    float: left;
+}
+
+.book-title {
+    float: left;
+    font-size: x-large;
+    padding-top: 0.5em;
+    padding-left: 15px;
+    color: @elixir-lblue;
+}
+
+.book-acknowledgement {
+    float: right;
+    font-size: small;
+}
+
+.book-permission {
+    float: left;
+    font-size: small;
+}
+
+.crc-logo {
+    float: left;
+    margin-left: 15px;
+}
+
 
