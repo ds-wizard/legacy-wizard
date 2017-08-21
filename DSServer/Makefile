@@ -11,3 +11,6 @@ clean:
 
 run: all
 	stack exec DSServer
+
+bridge: all
+	stack exec bridge

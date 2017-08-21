@@ -4,6 +4,7 @@ module Questionnaire
   ( formItems
   ) where
 
+import FormEngine.Types
 import FormEngine.FormItem
 
 formItems :: [FormItem]

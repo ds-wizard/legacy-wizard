@@ -1,13 +1,12 @@
-{-# LANGUAGE OverloadedStrings, CPP #-}
+{-# LANGUAGE CPP #-}
 
 module Model.Question where
-
 
 #ifdef __HASTE__
 type Text = String
 #else
 import Data.Text (Text)
-import Database.PostgreSQL.Simple.FromRow
+import Database.PostgreSQL.Simple.FromRow (FromRow, fromRow, field)
 #endif
 
 data Question = Question

@@ -21,9 +21,9 @@ ghc-options:
 - -rtsopts
 - -with-rtsopts=-N
 - -Wall
-- -Wincomplete-uni-patterns
-- -Wincomplete-record-updates
-- -Wmissing-import-lists
+  #- -Wincomplete-uni-patterns
+  #- -Wincomplete-record-updates
+  #- -Wmissing-import-lists
 dependencies:
 - base
 - utf8-string
@@ -49,7 +49,11 @@ dependencies:
 - postgresql-simple
 - resource-pool
 - raw-strings-qq
+- purescript-bridge
 executables:
   DSServer:
     main: Main.hs
+    source-dirs: app
+  bridge:
+    main: Main-Bridge.hs
     source-dirs: app
