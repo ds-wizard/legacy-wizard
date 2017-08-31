@@ -7,22 +7,23 @@ import Control.Monad (join)
 import qualified Data.Text.Lazy as TL
 import Data.Maybe (fromMaybe)
 import Web.Scotty (params, text)
---import qualified Database.PostgreSQL.Simple as PG
 
 import App (Action, PGPool, runQuery)
+import Auth (checkAdminAPI)
 import API.Utils (readInt)
 import Persistence.Question (getBookContents)
 
 handler :: PGPool -> Action
 handler pool = do
   ps <- params
-  case join $ readInt . toStrict <$> lookup "chid" ps of
-    Nothing -> text "Missing chid"
-    Just chid ->
-      case join $ readInt . toStrict <$> lookup "qid" ps of
-        Nothing -> text "Missing qid"
-        Just qid -> do
-          maybeText <- runQuery pool $ getBookContents chid qid
-          --maybeText <- liftIO $ withResource pool $ getBookContents chid qid
-          text $ TL.fromStrict $ fromMaybe "" maybeText
+  checkAdminAPI pool ps (\_ ->
+    case join $ readInt . toStrict <$> lookup "chid" ps of
+      Nothing -> text "Missing chid"
+      Just chid ->
+        case join $ readInt . toStrict <$> lookup "qid" ps of
+          Nothing -> text "Missing qid"
+          Just qid -> do
+            maybeText <- runQuery pool $ getBookContents chid qid
+            text $ TL.fromStrict $ fromMaybe "" maybeText
+    )
 
