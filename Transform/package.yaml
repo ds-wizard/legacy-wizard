@@ -15,9 +15,6 @@ ghc-options:
 - -rtsopts
 - -with-rtsopts=-N
 - -Wall
-- -Wincomplete-uni-patterns
-- -Wincomplete-record-updates
-- -Wmissing-import-lists
 dependencies:
 - base >=4.9 && <4.10
 - text

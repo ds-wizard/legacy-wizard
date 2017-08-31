@@ -21,9 +21,6 @@ ghc-options:
 - -rtsopts
 - -with-rtsopts=-N
 - -Wall
-- -Wincomplete-uni-patterns
-- -Wincomplete-record-updates
-- -Wmissing-import-lists
 dependencies:
 - base
 - utf8-string
