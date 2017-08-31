@@ -98,8 +98,8 @@ renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.div ! A.class_ "banner-element" $ do
     H.h1 ! A.class_ "title" $ do
       _ <- "Data Stewardship Wizard"
-      H.span ! A.class_ "version" $ " v0.9.1, "
-      H.span ! A.class_ "version" $ " KM: Jan 19, 2017"
+      H.span ! A.class_ "version" $ " v0.9.2, "
+      H.span ! A.class_ "version" $ " KM: 2017-08-21"
     H.div ! A.class_ "subtitle" $ "Data Management Plans for FAIR Open Science"
 
 renderControlPanel :: PageConfig -> Html
