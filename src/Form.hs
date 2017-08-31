@@ -3,7 +3,7 @@
 module Form where
 
 import Control.Monad (join, when)
-import Data.Maybe (isNothing, catMaybes)
+import Data.Maybe (fromMaybe, isNothing, catMaybes)
 import Data.Monoid ((<>))
 import Haste (JSString)
 import Haste.Ajax
@@ -25,14 +25,24 @@ import Cookies (getCookie)
 
 import Config.Config (staticURL)
 
+renderSpinner :: IO ()
+renderSpinner = do
+  _ <- selectById "form" >>= appendT "<div id='loader' class='loader'>Rendering the Knowledge model...</div>"
+  return ()
+
 generateForm :: [FormElement] -> IO ()
 generateForm tabs = do
   let allTabs = aboutTab : tabs
   hasForm <- elemExists "#form"
   when hasForm $ do
-    _ <- selectById "form" >>= renderTabGroup allTabs (aboutTabPaneJq : tabsContentsJq tabs)
+    _ <- selectById "form"
+      >>= disappearJq
+      >>= renderTabGroup allTabs (aboutTabPaneJq : tabsContentsJq tabs)
     _ <- selectTab 0 allTabs
     fireClicks
+    _ <- selectById "form" >>= appearJq
+    _ <- selectById "loader" >>= disappearJq
+    return ()
   where
     tabsContentsJq :: [FormElement] -> [IO JQuery]
     tabsContentsJq = map makePaneJq
@@ -81,11 +91,12 @@ generateForm tabs = do
                             [("chid" :: JSString, show chid), ("qid" :: JSString, show qid)]
                             getBookContents
                           where getBookContents :: Maybe String -> IO ()
-                                getBookContents maybeQuestionStr =
+                                getBookContents maybeQuestionStr = do
+                                  mSessionId <- getCookie "sessionId"
                                   ajaxRequest
                                     POST
                                     "api/getBookContents"
-                                    [("chid" :: JSString, show chid), ("qid" :: JSString, show qid)]
+                                    [("sessionid" :: JSString, fromMaybe "" mSessionId), ("chid", show chid), ("qid", show qid)]
                                     (displayDetails $ read <$> maybeQuestionStr)
                       where displayDetails :: Maybe Question -> Maybe String -> IO ()
                             displayDetails maybeQuestion maybeBookContents = do
@@ -94,7 +105,8 @@ generateForm tabs = do
                               where
                                 detailsHtml =
                                   concat $
-                                  [bookLabel] <> catMaybes [maybeBookContents, join $ otherInfo <$> maybeQuestion]
+                                  [bookLabel] <> catMaybes [maybeBookContents]
+                                  --[bookLabel] <> catMaybes [maybeBookContents, join $ otherInfo <$> maybeQuestion]
                                   where
                                     bookLabel :: String
                                     bookLabel =
@@ -103,8 +115,8 @@ generateForm tabs = do
                                         Just ref -> bookLabelTxt ref
                 unloggedWarning :: FormElement -> FormContext -> IO ()
                 unloggedWarning _ _ = do
-                  session <- getCookie "sessionId"
-                  when (isNothing session) $
+                  sessionId <- getCookie "sessionId"
+                  when (isNothing sessionId) $
                     showWarning documentJq "You will not be able to save your plan unless you login."
             makeDescSubPane :: JQuery -> IO JQuery
             makeDescSubPane jq =

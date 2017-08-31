@@ -11,16 +11,16 @@ import FormEngine.JQuery (ready, errorIO)
 import qualified Questionnaire
 import FormEngine.FormData (FormData)
 import FormEngine.FormElement.FormElement as Element
-import Form (generateForm)
+import Form (generateForm, renderSpinner)
 import Overlay (initOverlay)
 import qualified Actions
 
 --import Debug.Trace
-
 main :: IO ()
 main = ready $ do
   Actions.doExports
   _ <- initOverlay
+  renderSpinner
   ajaxRequest POST "api/plan/getData" noParams buildQuestionnaire
     where
     buildQuestionnaire :: Maybe String -> IO ()
