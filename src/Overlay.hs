@@ -32,7 +32,7 @@ setContents :: String -> JQuery -> IO JQuery
 setContents html jq = do
   box <- getBox jq
   _ <- if null html then
-    setText "No details available" box
+    setText "No details available yet..." box
   else
     setHtml html box
   return jq
