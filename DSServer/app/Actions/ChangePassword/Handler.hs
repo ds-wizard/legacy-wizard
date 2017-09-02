@@ -17,7 +17,7 @@ import App (Action, PGPool, Cookies, runQuery)
 import Auth (checkLogged)
 import Model.User
 import qualified Persistence.User as U
-import Actions.FormUtils (passwordConfirmer, errorTr)
+import Actions.FormUtils (MyView, passwordConfirmer, errorTr)
 import qualified Page
 import Actions.ChangePassword.Url (url)
 import Actions.Responses (infoResponse)
@@ -30,7 +30,7 @@ newtype ChangePasswordRequest = ChangePasswordRequest { chp_password :: Text } d
 changePasswordForm :: Monad m => D.Form Html m ChangePasswordRequest
 changePasswordForm = ChangePasswordRequest <$> "password" .: passwordConfirmer
 
-formView :: D.View Html -> Html
+formView :: MyView -> Html
 formView v = do
   H.h2 "Password change"
   DH.form v (T.pack url) $ do

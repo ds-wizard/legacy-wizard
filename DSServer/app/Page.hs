@@ -22,12 +22,12 @@ import Config.Config (staticURL)
 import Model.User (User(..))
 import Model.Plan (Plan(..))
 
-import qualified Actions.Main.Url as Actions.Main
-import qualified Actions.Register.Url as Actions.Register
-import qualified Actions.Login.Url as Actions.Login
-import qualified Actions.Logout.Url as Actions.Logout
-import qualified Actions.EditProfile.Url as Actions.EditProfile
-import qualified Actions.ManagePlans.Url as Actions.ManagePlans
+import qualified Actions.Main.Url as Main
+import qualified Actions.Register.Url as Register
+import qualified Actions.LoginScreen.Login.Url as Login
+import qualified Actions.Logout.Url as Logout
+import qualified Actions.EditProfile.Url as EditProfile
+import qualified Actions.ManagePlans.Url as ManagePlans
 
 import qualified Bridge as B
 
@@ -82,23 +82,23 @@ renderLogin :: Maybe User -> Html
 renderLogin mUser = H.div ! A.class_ "login-box" $ do
   case mUser of
     Just user -> do
-      H.span $ H.a ! A.href (textValue $ T.pack Actions.EditProfile.url) $ H.toHtml $ u_name user
+      H.span $ H.a ! A.href (textValue $ T.pack EditProfile.url) $ H.toHtml $ u_name user
       _ <- " | "
-      H.a ! A.href (textValue $ T.pack Actions.Logout.url) $ "Logout"
+      H.a ! A.href (textValue $ T.pack Logout.url) $ "Logout"
     Nothing -> do
-      H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "Login"
+      H.a ! A.href (textValue $ T.pack Login.url) $ "Login"
       _ <- " | "
-      H.a ! A.href (textValue $ T.pack Actions.Register.url) $ "Register"
+      H.a ! A.href (textValue $ T.pack Register.url) $ "Register"
 
 renderBanner :: Html
 renderBanner = H.div ! A.id "banner" ! A.class_ "banner" $ do
   H.div ! A.class_ "banner-element" $
-    H.a ! A.href (textValue $ T.pack Actions.Main.url) $
+    H.a ! A.href (textValue $ T.pack Main.url) $
       H.img ! A.class_ "dsplogo" ! A.src (textValue $ T.pack staticURL <> "img/DSP-logo.png") ! A.alt "DSP logo"
   H.div ! A.class_ "banner-element" $ do
     H.h1 ! A.class_ "title" $ do
       _ <- "Data Stewardship Wizard"
-      H.span ! A.class_ "version" $ " v0.9.2, "
+      H.span ! A.class_ "version" $ " v0.9.3, "
       H.span ! A.class_ "version" $ " KM: 2017-08-21"
     H.div ! A.class_ "subtitle" $ "Data Management Plans for FAIR Open Science"
 
@@ -111,14 +111,14 @@ renderControlPanel pConfig = case pc_mUser pConfig of
           Just plan -> do
             H.div ! A.class_ "control-panel-label" $ do
               _ <- "Plan: "
-              H.a ! A.href (textValue $ T.pack Actions.ManagePlans.url) $ H.toHtml $ p_name plan
+              H.a ! A.href (textValue $ T.pack ManagePlans.url) $ H.toHtml $ p_name plan
             H.button ! A.class_ "action-button" ! A.onclick (textValue $ T.pack $ B.call0 B.SavePlan) $
               H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
           Nothing -> do
             H.div ! A.class_ "control-panel-label no-plan" $ "No plan opened"
             H.button ! A.class_ "action-button action-button-disabled" $
               H.img ! A.class_ "action-icon action-icon-disabled" ! A.src (textValue $ T.pack staticURL <> "img/save.png") ! A.alt "Save the plan"
-        H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack Actions.ManagePlans.url) $
+        H.a ! A.class_ "action-button" ! A.href (textValue $ T.pack ManagePlans.url) $
           H.img ! A.class_ "action-icon" ! A.src (textValue $ T.pack staticURL <> "img/manage.png") ! A.alt "Manage plans"
 
 renderMessageBars :: Html

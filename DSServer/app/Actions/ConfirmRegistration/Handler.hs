@@ -15,8 +15,8 @@ import qualified Model.ActionKey as AC
 import qualified Persistence.ActionKey as AC
 
 import App (Action, PGPool, runQuery)
+import qualified Actions.LoginScreen.Login.Url as Login
 import Actions.Responses (infoResponse, errorResponse)
-import qualified Actions.Login.Url as Actions.Login
 
 {-# ANN module ("HLint: ignore Use camelCase" :: String) #-}
 {-# ANN module ("HLint: ignore Redundant do" :: String) #-}
@@ -32,4 +32,4 @@ handler pool = do
           Nothing -> errorResponse "Invalid registration key or the registration has been already confirmed."
           Just actionKey -> do
             runQuery pool $ U.confirmRegistration (AC.ac_user_id actionKey)
-            infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href (textValue $ T.pack Actions.Login.url) $ "log in") <> "."
+            infoResponse $ "Registration has been successfuly completed. You may now " <> (H.a ! A.href (textValue $ T.pack Login.url) $ "log in") <> "."

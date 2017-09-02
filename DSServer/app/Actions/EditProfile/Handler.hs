@@ -18,7 +18,7 @@ import App (Action, PGPool, Cookies, runQuery)
 import Auth (checkLogged)
 import Model.User
 import qualified Persistence.User as U
-import Actions.FormUtils (notEmpty, emailFormlet, addError, errorTr)
+import Actions.FormUtils (MyView, notEmpty, emailFormlet, addError, errorTr)
 import qualified Page
 import Actions.EditProfile.Url (url)
 import qualified Actions.ChangePassword.Url as Actions.ChangePassword
@@ -39,7 +39,7 @@ profileForm user =
               <*> "name" .: D.validate notEmpty (D.text $ Just $ TL.toStrict $ u_name user)
               <*> "affiliation" .: D.validate notEmpty (D.text $ Just $ TL.toStrict $ u_affiliation user)
 
-formView :: D.View Html -> Html
+formView :: MyView -> Html
 formView v = do
   H.h2 "Profile update"
   DH.form v (T.pack url) $ do

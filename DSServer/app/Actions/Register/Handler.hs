@@ -22,7 +22,7 @@ import qualified Model.ActionKey as AC
 import qualified Persistence.ActionKey as AC
 import Persistence.Plan (addPlan)
 import Mailing
-import Actions.FormUtils (notEmpty, emailFormlet, passwordConfirmer, addError, errorTr)
+import Actions.FormUtils (MyView, notEmpty, emailFormlet, passwordConfirmer, addError, errorTr)
 import qualified Page
 import Actions.Register.Url (url)
 import qualified Actions.ConfirmRegistration.Url as Actions.ConfirmRegistration
@@ -45,7 +45,7 @@ registrationForm =
                       <*> "name" .: D.validate notEmpty (D.text Nothing)
                       <*> "affiliation" .: D.validate notEmpty (D.text Nothing)
 
-formView :: D.View Html -> Html
+formView :: MyView -> Html
 formView v = do
   H.h2 "New User Registration"
   DH.form v (T.pack url) $ do

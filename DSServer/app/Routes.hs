@@ -12,12 +12,14 @@ import qualified Actions.Main.Url
 import qualified Actions.Main.Handler
 import qualified Actions.Register.Url
 import qualified Actions.Register.Handler
+import qualified Actions.LoginScreen.Login.Url
+import qualified Actions.LoginScreen.Login.Handler
+import qualified Actions.LoginScreen.RegistrationConfirmation.Url
+import qualified Actions.LoginScreen.RegistrationConfirmation.Handler
+import qualified Actions.LoginScreen.ForgottenPassword.Url
+import qualified Actions.LoginScreen.ForgottenPassword.Handler
 import qualified Actions.ConfirmRegistration.Url
 import qualified Actions.ConfirmRegistration.Handler
-import qualified Actions.Login.Url
-import qualified Actions.Login.Handler
-import qualified Actions.ForgottenPassword.Url
-import qualified Actions.ForgottenPassword.Handler
 import qualified Actions.ResetPassword.Url
 import qualified Actions.ResetPassword.Handler
 import qualified Actions.Logout.Url
@@ -54,12 +56,14 @@ routes pool = do
   get  (capture Actions.Main.Url.url) (getCookies >>= Actions.Main.Handler.handler pool)
   get  (capture Actions.Register.Url.url) (Actions.Register.Handler.handler pool)
   post (capture Actions.Register.Url.url) (Actions.Register.Handler.handler pool)
+  get  (capture Actions.LoginScreen.Login.Url.url) (Actions.LoginScreen.Login.Handler.handler pool)
+  post (capture Actions.LoginScreen.Login.Url.url) (Actions.LoginScreen.Login.Handler.handler pool)
+  get  (capture Actions.LoginScreen.RegistrationConfirmation.Url.url) (Actions.LoginScreen.RegistrationConfirmation.Handler.handler pool)
+  post (capture Actions.LoginScreen.RegistrationConfirmation.Url.url) (Actions.LoginScreen.RegistrationConfirmation.Handler.handler pool)
+  get  (capture Actions.LoginScreen.ForgottenPassword.Url.url) (Actions.LoginScreen.ForgottenPassword.Handler.handler pool)
+  post (capture Actions.LoginScreen.ForgottenPassword.Url.url) (Actions.LoginScreen.ForgottenPassword.Handler.handler pool)
   get  (capture Actions.ConfirmRegistration.Url.url) (Actions.ConfirmRegistration.Handler.handler pool)
   post (capture Actions.ConfirmRegistration.Url.url) (Actions.ConfirmRegistration.Handler.handler pool)
-  get  (capture Actions.Login.Url.url) (Actions.Login.Handler.handler pool)
-  post (capture Actions.Login.Url.url) (Actions.Login.Handler.handler pool)
-  get  (capture Actions.ForgottenPassword.Url.url) (Actions.ForgottenPassword.Handler.handler pool)
-  post (capture Actions.ForgottenPassword.Url.url) (Actions.ForgottenPassword.Handler.handler pool)
   get  (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   post (capture Actions.ResetPassword.Url.url) (Actions.ResetPassword.Handler.handler pool)
   get  (capture Actions.Logout.Url.url) (getCookies >>= Actions.Logout.Handler.handler pool)
