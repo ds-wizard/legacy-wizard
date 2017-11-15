@@ -33,6 +33,7 @@ data Question = Question
   { questID :: Int
   , questType :: !Text
   , questTitle :: !Text
+  , questShortUID :: Maybe Text
   , questText :: Maybe Text
   , questRefs :: Maybe [Reference]
   , questExps :: Maybe [Expert]
@@ -49,28 +50,48 @@ data Chapter = Chapter
 
 {- JSON parsing ------------------------------------------------}
 instance FromJSON Reference where
-  parseJSON (Object v) =
-    Reference <$> v .: "type" <*> v .:? "chapter" <*> v .:? "weblink" <*> v .:? "anchor" <*> v .:? "chapterid" <*>
+  parseJSON (Object v) = Reference <$>
+    v .: "type" <*>
+    v .:? "chapter" <*>
+    v .:? "weblink" <*>
+    v .:? "anchor" <*>
+    v .:? "chapterid" <*>
     v .:? "questionid" <*>
     v .:? "namespace"
   parseJSON x = typeMismatch "Reference" x
 
 instance FromJSON Expert where
-  parseJSON (Object v) = Expert <$> v .: "name" <*> v .:? "email" <*> v .:? "class"
+  parseJSON (Object v) = Expert <$>
+    v .: "name" <*>
+    v .:? "email" <*>
+    v .:? "class"
   parseJSON x = typeMismatch "Expert" x
 
 instance FromJSON Answer where
-  parseJSON (Object v) = Answer <$> v .: "id" <*> v .: "label" <*> v .:? "advice" <*> v .:? "followups"
+  parseJSON (Object v) = Answer <$>
+    v .: "id" <*>
+    v .: "label" <*>
+    v .:? "advice" <*>
+    v .:? "followups"
   parseJSON x = typeMismatch "Answer" x
 
 instance FromJSON Question where
-  parseJSON (Object v) =
-    Question <$> v .: "questionid" <*> v .: "type" <*> v .: "title" <*> v .:? "text" <*> v .:? "references" <*>
+  parseJSON (Object v) = Question <$>
+    v .: "questionid" <*>
+    v .: "type" <*>
+    v .: "title" <*>
+    v .:? "shortuid" <*>
+    v .:? "text" <*>
+    v .:? "references" <*>
     v .:? "experts" <*>
     v .:? "answers" <*>
     v .:? "followups"
   parseJSON x = typeMismatch "Question" x
 
 instance FromJSON Chapter where
-  parseJSON (Object v) = Chapter <$> v .: "title" <*> v .:? "text" <*> v .: "chapterid" <*> v .: "questions"
+  parseJSON (Object v) = Chapter <$>
+    v .: "title" <*>
+    v .:? "text" <*>
+    v .: "chapterid" <*>
+    v .: "questions"
   parseJSON x = typeMismatch "Chapter" x
