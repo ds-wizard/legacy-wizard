@@ -36,6 +36,8 @@ import qualified Actions.EditProfile.Url
 import qualified Actions.EditProfile.Handler
 import qualified Actions.ChangePassword.Url
 import qualified Actions.ChangePassword.Handler
+import qualified Actions.ResourcePage.Url
+import qualified Actions.ResourcePage.Handler
 import qualified API.Save.Url
 import qualified API.Save.Handler
 import qualified API.Question.GetQuestion.Url
@@ -75,6 +77,7 @@ routes pool = do
   post (capture Actions.EditProfile.Url.url) (getCookies >>= Actions.EditProfile.Handler.handler pool)
   get  (capture Actions.ChangePassword.Url.url) (getCookies >>= Actions.ChangePassword.Handler.handler pool)
   post (capture Actions.ChangePassword.Url.url) (getCookies >>= Actions.ChangePassword.Handler.handler pool)
+  get  (capture Actions.ResourcePage.Url.url) (Actions.ResourcePage.Handler.handler pool)
   post (capture API.Save.Url.url) (getCookies >>= API.Save.Handler.handler pool)
   get  (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
   post (capture API.Question.GetQuestion.Url.url) (API.Question.GetQuestion.Handler.handler pool)
