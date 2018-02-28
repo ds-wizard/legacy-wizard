@@ -11,3 +11,6 @@ clean:
 
 run: all
 	stack exec DSServer
+
+update:
+	stack config set resolver lts
