@@ -2,25 +2,27 @@
 
 module Actions.ResourcePage.Handler (handler) where
 
+import Data.Text (Text)
 import qualified Data.Text.Lazy as TL
 import Web.Scotty (param, params, redirect)
 
-import qualified Persistence.User as U
-import qualified Model.ActionKey as AC
-import qualified Persistence.ActionKey as AC
+import qualified Model.Book as B
+import qualified Persistence.Book as B
 import Text.Blaze.Html5 (Html, (!))
 import qualified Text.Blaze.Html5 as H
 
 import App (Action, PGPool, runQuery)
+import Actions.Responses (errorResponse)
 import qualified Page
 
-showResourcePage :: String -> Html
-showResourcePage x = do
-  H.h2 "Resource page"
-  H.p (H.string x)
+showResourcePage :: B.Book -> Html
+showResourcePage book = H.preEscapedText . B.b_contents $ book
 
 
 handler :: PGPool -> Action
 handler pool = do
   shortuid <- param "shortuid"
-  Page.render (showResourcePage shortuid) Page.defaultPageConfig
+  result <- runQuery pool $ B.getBookByShortUID shortuid
+  case result of
+    Nothing -> errorResponse "Resource not found!"
+    Just book -> Page.render (showResourcePage book) Page.defaultPageConfig

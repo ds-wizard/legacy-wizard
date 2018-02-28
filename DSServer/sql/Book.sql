@@ -5,7 +5,8 @@ drop table "Book" cascade;
 create table "Book" (
 	id serial primary key,
 	chapter text not null,
-	contents text not null
+	contents text not null,
+	shortuid text
 );
 alter table "Book" owner to elixir;
 
