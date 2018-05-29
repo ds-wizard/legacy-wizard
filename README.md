@@ -1,4 +1,7 @@
 # DS Wizard
+
+# This package is deprecated in the favour of new dsw-* packages
+
 **Data Stewardship Wizard** for browsing the questions from [DS Knowledge Model](https://github.com/DataStewardshipPortal/ds-km).
 
 * Runs at http://dmp.fairdata.solutions/
