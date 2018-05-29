@@ -151,7 +151,7 @@ aboutTabPaneJq =
   select
     "\
 \  <div>\
-\      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>. This is a proof-of-concept work not intended for serious use, yet.\
+\      Questionnaire generated from the precompiled JSON of <a href=\"https://github.com/CCMi-FIT/ds-km\" target=\"_blank\">Data Stewardship Knowledge Model</a>. This is a proof-of-concept work under active development. If you use it, please store the <code>v</code>ersion number and <code>KM</code> date (see top) together with your plan.\
 \    </p>\
 \    <p>\
 \      Please register to receive updates. The functionality coming soon:\
